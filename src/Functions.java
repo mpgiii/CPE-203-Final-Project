@@ -599,24 +599,24 @@ final class Functions
 //      return imageStore.images.getOrDefault(key, imageStore.defaultImages);
 //   }
 
-   public static void loadImages(Scanner in, ImageStore imageStore,
-      PApplet screen)
-   {
-      int lineNumber = 0;
-      while (in.hasNextLine())
-      {
-         try
-         {
-            processImageLine(imageStore.images, in.nextLine(), screen);
-         }
-         catch (NumberFormatException e)
-         {
-            System.out.println(String.format("Image format error on line %d",
-               lineNumber));
-         }
-         lineNumber++;
-      }
-   }
+//   public static void loadImages(Scanner in, ImageStore imageStore,
+//      PApplet screen)
+//   {
+//      int lineNumber = 0;
+//      while (in.hasNextLine())
+//      {
+//         try
+//         {
+//            processImageLine(imageStore.images, in.nextLine(), screen);
+//         }
+//         catch (NumberFormatException e)
+//         {
+//            System.out.println(String.format("Image format error on line %d",
+//               lineNumber));
+//         }
+//         lineNumber++;
+//      }
+//   }
 
    public static void processImageLine(Map<String, List<PImage>> images,
       String line, PApplet screen)

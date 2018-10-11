@@ -130,7 +130,7 @@ public final class VirtualWorld
       try
       {
          Scanner in = new Scanner(new File(filename));
-         Functions.loadImages(in, imageStore, screen);
+         VirtualWorld.loadImages(in, imageStore, screen);
       }
       catch (FileNotFoundException e)
       {
@@ -177,6 +177,25 @@ public final class VirtualWorld
                timeScale = Math.min(FASTEST_SCALE, timeScale);
                break;
          }
+      }
+   }
+
+   public static void loadImages(Scanner in, ImageStore imageStore,
+                                 PApplet screen)
+   {
+      int lineNumber = 0;
+      while (in.hasNextLine())
+      {
+         try
+         {
+            Functions.processImageLine(imageStore.images, in.nextLine(), screen);
+         }
+         catch (NumberFormatException e)
+         {
+            System.out.println(String.format("Image format error on line %d",
+                    lineNumber));
+         }
+         lineNumber++;
       }
    }
 
