@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -51,5 +48,32 @@ final class ImageStore
             }
         }
         img.updatePixels();
+    }
+
+    public void load(Scanner in, WorldModel world)
+    {
+        int lineNumber = 0;
+        while (in.hasNextLine())
+        {
+            try
+            {
+                if (!Functions.processLine(in.nextLine(), world, this))
+                {
+                    System.err.println(String.format("invalid entry on line %d",
+                            lineNumber));
+                }
+            }
+            catch (NumberFormatException e)
+            {
+                System.err.println(String.format("invalid entry on line %d",
+                        lineNumber));
+            }
+            catch (IllegalArgumentException e)
+            {
+                System.err.println(String.format("issue on line %d: %s",
+                        lineNumber, e.getMessage()));
+            }
+            lineNumber++;
+        }
     }
 }
