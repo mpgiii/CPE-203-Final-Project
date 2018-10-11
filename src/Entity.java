@@ -15,6 +15,20 @@ final class Entity
    public int actionPeriod;
    public int animationPeriod;
 
+    public static final String BLOB_KEY = "blob";
+    public static final String BLOB_ID_SUFFIX = " -- blob";
+    public static final int BLOB_PERIOD_SCALE = 4;
+    public static final int BLOB_ANIMATION_MIN = 50;
+    public static final int BLOB_ANIMATION_MAX = 150;
+
+    public static final String ORE_ID_PREFIX = "ore -- ";
+    public static final int ORE_CORRUPT_MIN = 20000;
+    public static final int ORE_CORRUPT_MAX = 30000;
+
+    public static final String QUAKE_KEY = "quake";
+
+    public static final String ORE_KEY = "ore";
+
    public Entity(EntityKind kind, String id, Point position,
       List<PImage> images, int resourceLimit, int resourceCount,
       int actionPeriod, int animationPeriod)
