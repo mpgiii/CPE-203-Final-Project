@@ -1,4 +1,6 @@
 import java.util.List;
+import java.util.Optional;
+
 import processing.core.PImage;
 
 final class Entity
@@ -57,5 +59,112 @@ final class Entity
                                               ImageStore imageStore)
     {
         return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
+    }
+
+
+    public void executeMinerFullActivity(WorldModel world,
+                                                ImageStore imageStore, EventScheduler scheduler)
+    {
+        Optional<Entity> fullTarget = findNearest(world, position,
+                EntityKind.BLACKSMITH);
+
+        if (fullTarget.isPresent() &&
+                moveToFull(this, world, fullTarget.get(), scheduler))
+        {
+            transformFull(this, world, scheduler, imageStore);
+        }
+        else
+        {
+            scheduler.scheduleEvent(this,
+                    this.createActivityAction(world, imageStore),
+                    this.actionPeriod);
+        }
+    }
+
+    public void executeMinerNotFullActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
+    {
+        Optional<Entity> notFullTarget = findNearest(world, position,
+                EntityKind.ORE);
+
+        if (!notFullTarget.isPresent() ||
+                !moveToNotFull(this, world, notFullTarget.get(), scheduler) ||
+                !transformNotFull(this, world, scheduler, imageStore))
+        {
+            scheduler.scheduleEvent(this,
+                    this.createActivityAction(world, imageStore),
+                    this.actionPeriod);
+        }
+    }
+
+    public void executeOreActivity(WorldModel world,
+                                          ImageStore imageStore, EventScheduler scheduler)
+    {
+        Point pos = position;  // store current position before removing
+
+        removeEntity(world, this);
+        unscheduleAllEvents(scheduler, this);
+
+        Entity blob = createOreBlob(id + BLOB_ID_SUFFIX,
+                pos, actionPeriod / BLOB_PERIOD_SCALE,
+                BLOB_ANIMATION_MIN +
+                        rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN),
+                getImageList(imageStore, BLOB_KEY));
+
+        addEntity(world, blob);
+        scheduleActions(blob, scheduler, world, imageStore);
+    }
+
+    public void executeOreBlobActivity(WorldModel world,
+                                              ImageStore imageStore, EventScheduler scheduler)
+    {
+        Optional<Entity> blobTarget = findNearest(world,
+                position, EntityKind.VEIN);
+        long nextPeriod = actionPeriod;
+
+        if (blobTarget.isPresent())
+        {
+            Point tgtPos = blobTarget.get().position;
+
+            if (moveToOreBlob(this, world, blobTarget.get(), scheduler))
+            {
+                Entity quake = createQuake(tgtPos,
+                        getImageList(imageStore, QUAKE_KEY));
+
+                addEntity(world, quake);
+                nextPeriod += this.actionPeriod;
+                scheduleActions(quake, scheduler, world, imageStore);
+            }
+        }
+
+        scheduler.scheduleEvent(this,
+                this.createActivityAction(world, imageStore),
+                nextPeriod);
+    }
+
+    public void executeQuakeActivity(WorldModel world,
+                                            ImageStore imageStore, EventScheduler scheduler)
+    {
+        unscheduleAllEvents(scheduler, this);
+        removeEntity(world, this);
+    }
+
+    public void executeVeinActivity(WorldModel world,
+                                           ImageStore imageStore, EventScheduler scheduler)
+    {
+        Optional<Point> openPt = findOpenAround(world, position);
+
+        if (openPt.isPresent())
+        {
+            Entity ore = createOre(ORE_ID_PREFIX + id,
+                    openPt.get(), ORE_CORRUPT_MIN +
+                            rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
+                    getImageList(imageStore, ORE_KEY));
+            addEntity(world, ore);
+            scheduleActions(ore, scheduler, world, imageStore);
+        }
+
+        scheduler.scheduleEvent(this,
+                createActivityAction(world, imageStore),
+                actionPeriod);
     }
 }
