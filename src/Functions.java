@@ -680,11 +680,11 @@ final class Functions
 //      viewport.row = row;
 //   }
 
-   public static boolean contains(Viewport viewport, Point p)
-   {
-      return p.y >= viewport.row && p.y < viewport.row + viewport.numRows &&
-         p.x >= viewport.col && p.x < viewport.col + viewport.numCols;
-   }
+//   public static boolean contains(Viewport viewport, Point p)
+//   {
+//      return p.y >= viewport.row && p.y < viewport.row + viewport.numRows &&
+//         p.x >= viewport.col && p.x < viewport.col + viewport.numCols;
+//   }
 
    public static void load(Scanner in, WorldModel world, ImageStore imageStore)
    {
@@ -1061,7 +1061,7 @@ final class Functions
       {
          Point pos = entity.position;
 
-         if (contains(view.viewport, pos))
+         if (view.viewport.contains(pos))
          {
             Point viewPoint = worldToViewport(view.viewport, pos.x, pos.y);
             view.screen.image(getCurrentImage(entity),

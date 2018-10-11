@@ -16,4 +16,10 @@ final class Viewport
       this.col = col;
       this.row = row;
    }
+
+   public static boolean contains(Point p)
+   {
+      return p.y >= this.row && p.y < this.row + this.numRows &&
+              p.x >= this.col && p.x < this.col + this.numCols;
+   }
 }
