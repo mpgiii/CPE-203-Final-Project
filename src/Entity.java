@@ -165,7 +165,7 @@ final class Entity
     public void executeVeinActivity(WorldModel world,
                                            ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Point> openPt = Functions.findOpenAround(world, position);
+        Optional<Point> openPt = world.findOpenAround(position);
 
         if (openPt.isPresent())
         {

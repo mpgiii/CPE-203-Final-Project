@@ -20,7 +20,7 @@ final class Functions
 //   public static final String ORE_ID_PREFIX = "ore -- ";
 //   public static final int ORE_CORRUPT_MIN = 20000;
 //   public static final int ORE_CORRUPT_MAX = 30000;
-   public static final int ORE_REACH = 1;
+//   public static final int ORE_REACH = 1;
 
 //   public static final String QUAKE_KEY = "quake";
    public static final String QUAKE_ID = "quake";
@@ -522,23 +522,23 @@ final class Functions
 //         (p1.y == p2.y && Math.abs(p1.x - p2.x) == 1);
 //   }
 
-   public static Optional<Point> findOpenAround(WorldModel world, Point pos)
-   {
-      for (int dy = -ORE_REACH; dy <= ORE_REACH; dy++)
-      {
-         for (int dx = -ORE_REACH; dx <= ORE_REACH; dx++)
-         {
-            Point newPt = new Point(pos.x + dx, pos.y + dy);
-            if (withinBounds(world, newPt) &&
-               !isOccupied(world, newPt))
-            {
-               return Optional.of(newPt);
-            }
-         }
-      }
-
-      return Optional.empty();
-   }
+//   public static Optional<Point> findOpenAround(WorldModel world, Point pos)
+//   {
+//      for (int dy = -ORE_REACH; dy <= ORE_REACH; dy++)
+//      {
+//         for (int dx = -ORE_REACH; dx <= ORE_REACH; dx++)
+//         {
+//            Point newPt = new Point(pos.x + dx, pos.y + dy);
+//            if (withinBounds(world, newPt) &&
+//               !isOccupied(world, newPt))
+//            {
+//               return Optional.of(newPt);
+//            }
+//         }
+//      }
+//
+//      return Optional.empty();
+//   }
 
 //   public static void scheduleEvent(EventScheduler scheduler,
 //      Entity entity, Action action, long afterPeriod)
