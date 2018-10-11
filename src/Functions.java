@@ -352,121 +352,121 @@ final class Functions
       }
    }
 
-   public static boolean transformNotFull(Entity entity, WorldModel world,
-      EventScheduler scheduler, ImageStore imageStore)
-   {
-      if (entity.resourceCount >= entity.resourceLimit)
-      {
-         Entity miner = createMinerFull(entity.id, entity.resourceLimit,
-            entity.position, entity.actionPeriod, entity.animationPeriod,
-            entity.images);
-
-         removeEntity(world, entity);
-         unscheduleAllEvents(scheduler, entity);
-
-         addEntity(world, miner);
-         scheduleActions(miner, scheduler, world, imageStore);
-
-         return true;
-      }
-
-      return false;
-   }
-
-   public static void transformFull(Entity entity, WorldModel world,
-      EventScheduler scheduler, ImageStore imageStore)
-   {
-      Entity miner = createMinerNotFull(entity.id, entity.resourceLimit,
-         entity.position, entity.actionPeriod, entity.animationPeriod,
-         entity.images);
-
-      removeEntity(world, entity);
-      unscheduleAllEvents(scheduler, entity);
-
-      addEntity(world, miner);
-      scheduleActions(miner, scheduler, world, imageStore);
-   }
-
-   public static boolean moveToNotFull(Entity miner, WorldModel world,
-      Entity target, EventScheduler scheduler)
-   {
-      if (adjacent(miner.position, target.position))
-      {
-         miner.resourceCount += 1;
-         removeEntity(world, target);
-         unscheduleAllEvents(scheduler, target);
-
-         return true;
-      }
-      else
-      {
-         Point nextPos = nextPositionMiner(miner, world, target.position);
-
-         if (!miner.position.equals(nextPos))
-         {
-            Optional<Entity> occupant = getOccupant(world, nextPos);
-            if (occupant.isPresent())
-            {
-               unscheduleAllEvents(scheduler, occupant.get());
-            }
-
-            moveEntity(world, miner, nextPos);
-         }
-         return false;
-      }
-   }
-
-   public static boolean moveToFull(Entity miner, WorldModel world,
-      Entity target, EventScheduler scheduler)
-   {
-      if (adjacent(miner.position, target.position))
-      {
-         return true;
-      }
-      else
-      {
-         Point nextPos = nextPositionMiner(miner, world, target.position);
-
-         if (!miner.position.equals(nextPos))
-         {
-            Optional<Entity> occupant = getOccupant(world, nextPos);
-            if (occupant.isPresent())
-            {
-               unscheduleAllEvents(scheduler, occupant.get());
-            }
-
-            moveEntity(world, miner, nextPos);
-         }
-         return false;
-      }
-   }
-
-   public static boolean moveToOreBlob(Entity blob, WorldModel world,
-      Entity target, EventScheduler scheduler)
-   {
-      if (adjacent(blob.position, target.position))
-      {
-         removeEntity(world, target);
-         unscheduleAllEvents(scheduler, target);
-         return true;
-      }
-      else
-      {
-         Point nextPos = nextPositionOreBlob(blob, world, target.position);
-
-         if (!blob.position.equals(nextPos))
-         {
-            Optional<Entity> occupant = getOccupant(world, nextPos);
-            if (occupant.isPresent())
-            {
-               unscheduleAllEvents(scheduler, occupant.get());
-            }
-
-            moveEntity(world, blob, nextPos);
-         }
-         return false;
-      }
-   }
+//   public static boolean transformNotFull(Entity entity, WorldModel world,
+//      EventScheduler scheduler, ImageStore imageStore)
+//   {
+//      if (entity.resourceCount >= entity.resourceLimit)
+//      {
+//         Entity miner = createMinerFull(entity.id, entity.resourceLimit,
+//            entity.position, entity.actionPeriod, entity.animationPeriod,
+//            entity.images);
+//
+//         removeEntity(world, entity);
+//         unscheduleAllEvents(scheduler, entity);
+//
+//         addEntity(world, miner);
+//         scheduleActions(miner, scheduler, world, imageStore);
+//
+//         return true;
+//      }
+//
+//      return false;
+//   }
+//
+//   public static void transformFull(Entity entity, WorldModel world,
+//      EventScheduler scheduler, ImageStore imageStore)
+//   {
+//      Entity miner = createMinerNotFull(entity.id, entity.resourceLimit,
+//         entity.position, entity.actionPeriod, entity.animationPeriod,
+//         entity.images);
+//
+//      removeEntity(world, entity);
+//      unscheduleAllEvents(scheduler, entity);
+//
+//      addEntity(world, miner);
+//      scheduleActions(miner, scheduler, world, imageStore);
+//   }
+//
+//   public static boolean moveToNotFull(Entity miner, WorldModel world,
+//      Entity target, EventScheduler scheduler)
+//   {
+//      if (adjacent(miner.position, target.position))
+//      {
+//         miner.resourceCount += 1;
+//         removeEntity(world, target);
+//         unscheduleAllEvents(scheduler, target);
+//
+//         return true;
+//      }
+//      else
+//      {
+//         Point nextPos = nextPositionMiner(miner, world, target.position);
+//
+//         if (!miner.position.equals(nextPos))
+//         {
+//            Optional<Entity> occupant = getOccupant(world, nextPos);
+//            if (occupant.isPresent())
+//            {
+//               unscheduleAllEvents(scheduler, occupant.get());
+//            }
+//
+//            moveEntity(world, miner, nextPos);
+//         }
+//         return false;
+//      }
+//   }
+//
+//   public static boolean moveToFull(Entity miner, WorldModel world,
+//      Entity target, EventScheduler scheduler)
+//   {
+//      if (adjacent(miner.position, target.position))
+//      {
+//         return true;
+//      }
+//      else
+//      {
+//         Point nextPos = nextPositionMiner(miner, world, target.position);
+//
+//         if (!miner.position.equals(nextPos))
+//         {
+//            Optional<Entity> occupant = getOccupant(world, nextPos);
+//            if (occupant.isPresent())
+//            {
+//               unscheduleAllEvents(scheduler, occupant.get());
+//            }
+//
+//            moveEntity(world, miner, nextPos);
+//         }
+//         return false;
+//      }
+//   }
+//
+//   public static boolean moveToOreBlob(Entity blob, WorldModel world,
+//      Entity target, EventScheduler scheduler)
+//   {
+//      if (adjacent(blob.position, target.position))
+//      {
+//         removeEntity(world, target);
+//         unscheduleAllEvents(scheduler, target);
+//         return true;
+//      }
+//      else
+//      {
+//         Point nextPos = nextPositionOreBlob(blob, world, target.position);
+//
+//         if (!blob.position.equals(nextPos))
+//         {
+//            Optional<Entity> occupant = getOccupant(world, nextPos);
+//            if (occupant.isPresent())
+//            {
+//               unscheduleAllEvents(scheduler, occupant.get());
+//            }
+//
+//            moveEntity(world, blob, nextPos);
+//         }
+//         return false;
+//      }
+//   }
 
    public static Point nextPositionMiner(Entity entity, WorldModel world,
       Point destPos)
