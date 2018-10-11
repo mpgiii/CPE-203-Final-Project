@@ -861,32 +861,32 @@ final class Functions
 //         getOccupancyCell(world, pos) != null;
 //   }
 
-   public static Optional<Entity> nearestEntity(List<Entity> entities,
-      Point pos)
-   {
-      if (entities.isEmpty())
-      {
-         return Optional.empty();
-      }
-      else
-      {
-         Entity nearest = entities.get(0);
-         int nearestDistance = distanceSquared(nearest.position, pos);
-
-         for (Entity other : entities)
-         {
-            int otherDistance = distanceSquared(other.position, pos);
-
-            if (otherDistance < nearestDistance)
-            {
-               nearest = other;
-               nearestDistance = otherDistance;
-            }
-         }
-
-         return Optional.of(nearest);
-      }
-   }
+//   public static Optional<Entity> nearestEntity(List<Entity> entities,
+//      Point pos)
+//   {
+//      if (entities.isEmpty())
+//      {
+//         return Optional.empty();
+//      }
+//      else
+//      {
+//         Entity nearest = entities.get(0);
+//         int nearestDistance = distanceSquared(nearest.position, pos);
+//
+//         for (Entity other : entities)
+//         {
+//            int otherDistance = distanceSquared(other.position, pos);
+//
+//            if (otherDistance < nearestDistance)
+//            {
+//               nearest = other;
+//               nearestDistance = otherDistance;
+//            }
+//         }
+//
+//         return Optional.of(nearest);
+//      }
+//   }
 
    public static int distanceSquared(Point p1, Point p2)
    {
@@ -908,7 +908,7 @@ final class Functions
          }
       }
 
-      return nearestEntity(ofType, pos);
+      return pos.nearestEntity(ofType);
    }
 
    /*
