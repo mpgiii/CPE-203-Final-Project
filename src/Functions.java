@@ -205,7 +205,7 @@ final class Functions
       else
       {
          scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
+            entity.createActivityAction(world, imageStore),
             entity.actionPeriod);
       }
    }
@@ -221,7 +221,7 @@ final class Functions
          !transformNotFull(entity, world, scheduler, imageStore))
       {
          scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
+            entity.createActivityAction(world, imageStore),
             entity.actionPeriod);
       }
    }
@@ -267,7 +267,7 @@ final class Functions
       }
 
       scheduler.scheduleEvent(entity,
-         createActivityAction(entity, world, imageStore),
+         entity.createActivityAction(world, imageStore),
          nextPeriod);
    }
 
@@ -294,7 +294,7 @@ final class Functions
       }
 
       scheduler.scheduleEvent(entity,
-         createActivityAction(entity, world, imageStore),
+         entity.createActivityAction(world, imageStore),
          entity.actionPeriod);
    }
 
@@ -305,46 +305,46 @@ final class Functions
       {
       case MINER_FULL:
          scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
+            entity.createActivityAction(world, imageStore),
             entity.actionPeriod);
-         scheduler.scheduleEvent(entity, createAnimationAction(entity, 0),
+         scheduler.scheduleEvent(entity, entity.createAnimationAction(0),
             entity.getAnimationPeriod());
          break;
 
       case MINER_NOT_FULL:
          scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
+            entity.createActivityAction(world, imageStore),
             entity.actionPeriod);
          scheduler.scheduleEvent(entity,
-            createAnimationAction(entity, 0), entity.getAnimationPeriod());
+            entity.createAnimationAction(0), entity.getAnimationPeriod());
          break;
 
       case ORE:
          scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
+            entity.createActivityAction(world, imageStore),
             entity.actionPeriod);
          break;
 
       case ORE_BLOB:
          scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
+            entity.createActivityAction(world, imageStore),
             entity.actionPeriod);
          scheduler.scheduleEvent(entity,
-            createAnimationAction(entity, 0), entity.getAnimationPeriod());
+            entity.createAnimationAction(0), entity.getAnimationPeriod());
          break;
 
       case QUAKE:
          scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
+            entity.createActivityAction(world, imageStore),
             entity.actionPeriod);
          scheduler.scheduleEvent(entity,
-            createAnimationAction(entity, QUAKE_ANIMATION_REPEAT_COUNT),
+            entity.createAnimationAction(QUAKE_ANIMATION_REPEAT_COUNT),
             entity.getAnimationPeriod());
          break;
 
       case VEIN:
          scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
+            entity.createActivityAction(world, imageStore),
             entity.actionPeriod);
          break;
 
@@ -1076,16 +1076,16 @@ final class Functions
       drawEntities(view);
    }
 
-   public static Action createAnimationAction(Entity entity, int repeatCount)
-   {
-      return new Action(ActionKind.ANIMATION, entity, null, null, repeatCount);
-   }
-
-   public static Action createActivityAction(Entity entity, WorldModel world,
-      ImageStore imageStore)
-   {
-      return new Action(ActionKind.ACTIVITY, entity, world, imageStore, 0);
-   }
+//   public static Action createAnimationAction(Entity entity, int repeatCount)
+//   {
+//      return new Action(ActionKind.ANIMATION, entity, null, null, repeatCount);
+//   }
+//
+//   public static Action createActivityAction(Entity entity, WorldModel world,
+//      ImageStore imageStore)
+//   {
+//      return new Action(ActionKind.ACTIVITY, entity, world, imageStore, 0);
+//   }
 
    public static Entity createBlacksmith(String id, Point position,
       List<PImage> images)
