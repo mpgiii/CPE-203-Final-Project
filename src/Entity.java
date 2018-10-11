@@ -305,13 +305,13 @@ final class Entity
         Point newPos = new Point(position.x + horiz,
                 position.y);
 
-        if (horiz == 0 || Functions.isOccupied(world, newPos))
+        if (horiz == 0 || world.isOccupied(newPos))
         {
             int vert = Integer.signum(destPos.y - position.y);
             newPos = new Point(position.x,
                     position.y + vert);
 
-            if (vert == 0 || Functions.isOccupied(world, newPos))
+            if (vert == 0 || world.isOccupied(newPos))
             {
                 newPos = position;
             }

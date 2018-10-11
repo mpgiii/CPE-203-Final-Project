@@ -37,45 +37,45 @@ final class Functions
    public static final int PROPERTY_KEY = 0;
 
    public static final String BGND_KEY = "background";
-   public static final int BGND_NUM_PROPERTIES = 4;
-   public static final int BGND_ID = 1;
-   public static final int BGND_COL = 2;
-   public static final int BGND_ROW = 3;
+//   public static final int BGND_NUM_PROPERTIES = 4;
+//   public static final int BGND_ID = 1;
+//   public static final int BGND_COL = 2;
+//   public static final int BGND_ROW = 3;
 
    public static final String MINER_KEY = "miner";
-   public static final int MINER_NUM_PROPERTIES = 7;
-   public static final int MINER_ID = 1;
-   public static final int MINER_COL = 2;
-   public static final int MINER_ROW = 3;
-   public static final int MINER_LIMIT = 4;
-   public static final int MINER_ACTION_PERIOD = 5;
-   public static final int MINER_ANIMATION_PERIOD = 6;
+//   public static final int MINER_NUM_PROPERTIES = 7;
+//   public static final int MINER_ID = 1;
+//   public static final int MINER_COL = 2;
+//   public static final int MINER_ROW = 3;
+//   public static final int MINER_LIMIT = 4;
+//   public static final int MINER_ACTION_PERIOD = 5;
+//   public static final int MINER_ANIMATION_PERIOD = 6;
 
    public static final String OBSTACLE_KEY = "obstacle";
-   public static final int OBSTACLE_NUM_PROPERTIES = 4;
-   public static final int OBSTACLE_ID = 1;
-   public static final int OBSTACLE_COL = 2;
-   public static final int OBSTACLE_ROW = 3;
+//   public static final int OBSTACLE_NUM_PROPERTIES = 4;
+//   public static final int OBSTACLE_ID = 1;
+//   public static final int OBSTACLE_COL = 2;
+//   public static final int OBSTACLE_ROW = 3;
 
    public static final String ORE_KEY = "ore";
-   public static final int ORE_NUM_PROPERTIES = 5;
-   public static final int ORE_ID = 1;
-   public static final int ORE_COL = 2;
-   public static final int ORE_ROW = 3;
-   public static final int ORE_ACTION_PERIOD = 4;
+//   public static final int ORE_NUM_PROPERTIES = 5;
+//   public static final int ORE_ID = 1;
+//   public static final int ORE_COL = 2;
+//   public static final int ORE_ROW = 3;
+//   public static final int ORE_ACTION_PERIOD = 4;
 
    public static final String SMITH_KEY = "blacksmith";
-   public static final int SMITH_NUM_PROPERTIES = 4;
-   public static final int SMITH_ID = 1;
-   public static final int SMITH_COL = 2;
-   public static final int SMITH_ROW = 3;
+//   public static final int SMITH_NUM_PROPERTIES = 4;
+//   public static final int SMITH_ID = 1;
+//   public static final int SMITH_COL = 2;
+//   public static final int SMITH_ROW = 3;
 
    public static final String VEIN_KEY = "vein";
-   public static final int VEIN_NUM_PROPERTIES = 5;
-   public static final int VEIN_ID = 1;
-   public static final int VEIN_COL = 2;
-   public static final int VEIN_ROW = 3;
-   public static final int VEIN_ACTION_PERIOD = 4;
+//   public static final int VEIN_NUM_PROPERTIES = 5;
+//   public static final int VEIN_ID = 1;
+//   public static final int VEIN_COL = 2;
+//   public static final int VEIN_ROW = 3;
+//   public static final int VEIN_ACTION_PERIOD = 4;
 
 
    public static PImage getCurrentImage(Object entity)
@@ -722,144 +722,144 @@ final class Functions
          switch (properties[PROPERTY_KEY])
          {
          case BGND_KEY:
-            return parseBackground(properties, world, imageStore);
+            return world.parseBackground(properties, imageStore);
          case MINER_KEY:
-            return parseMiner(properties, world, imageStore);
+            return world.parseMiner(properties, imageStore);
          case OBSTACLE_KEY:
-            return parseObstacle(properties, world, imageStore);
+            return world.parseObstacle(properties, imageStore);
          case ORE_KEY:
-            return parseOre(properties, world, imageStore);
+            return world.parseOre(properties, imageStore);
          case SMITH_KEY:
-            return parseSmith(properties, world, imageStore);
+            return world.parseSmith(properties, imageStore);
          case VEIN_KEY:
-            return parseVein(properties, world, imageStore);
+            return world.parseVein(properties, imageStore);
          }
       }
 
       return false;
    }
 
-   public static boolean parseBackground(String [] properties,
-      WorldModel world, ImageStore imageStore)
-   {
-      if (properties.length == BGND_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[BGND_COL]),
-            Integer.parseInt(properties[BGND_ROW]));
-         String id = properties[BGND_ID];
-         setBackground(world, pt,
-            new Background(id, imageStore.getImageList(id)));
-      }
-
-      return properties.length == BGND_NUM_PROPERTIES;
-   }
-
-   public static boolean parseMiner(String [] properties, WorldModel world,
-      ImageStore imageStore)
-   {
-      if (properties.length == MINER_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
-            Integer.parseInt(properties[MINER_ROW]));
-         Entity entity = createMinerNotFull(properties[MINER_ID],
-            Integer.parseInt(properties[MINER_LIMIT]),
-            pt,
-            Integer.parseInt(properties[MINER_ACTION_PERIOD]),
-            Integer.parseInt(properties[MINER_ANIMATION_PERIOD]),
-            imageStore.getImageList(MINER_KEY));
-         tryAddEntity(world, entity);
-      }
-
-      return properties.length == MINER_NUM_PROPERTIES;
-   }
-
-   public static boolean parseObstacle(String [] properties, WorldModel world,
-      ImageStore imageStore)
-   {
-      if (properties.length == OBSTACLE_NUM_PROPERTIES)
-      {
-         Point pt = new Point(
-            Integer.parseInt(properties[OBSTACLE_COL]),
-            Integer.parseInt(properties[OBSTACLE_ROW]));
-         Entity entity = createObstacle(properties[OBSTACLE_ID],
-            pt, imageStore.getImageList(OBSTACLE_KEY));
-         tryAddEntity(world, entity);
-      }
-
-      return properties.length == OBSTACLE_NUM_PROPERTIES;
-   }
-
-   public static boolean parseOre(String [] properties, WorldModel world,
-      ImageStore imageStore)
-   {
-      if (properties.length == ORE_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[ORE_COL]),
-            Integer.parseInt(properties[ORE_ROW]));
-         Entity entity = createOre(properties[ORE_ID],
-            pt, Integer.parseInt(properties[ORE_ACTION_PERIOD]),
-            imageStore.getImageList(ORE_KEY));
-         tryAddEntity(world, entity);
-      }
-
-      return properties.length == ORE_NUM_PROPERTIES;
-   }
-
-   public static boolean parseSmith(String [] properties, WorldModel world,
-      ImageStore imageStore)
-   {
-      if (properties.length == SMITH_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
-            Integer.parseInt(properties[SMITH_ROW]));
-         Entity entity = createBlacksmith(properties[SMITH_ID],
-            pt, imageStore.getImageList(SMITH_KEY));
-         tryAddEntity(world, entity);
-      }
-
-      return properties.length == SMITH_NUM_PROPERTIES;
-   }
-
-   public static boolean parseVein(String [] properties, WorldModel world,
-      ImageStore imageStore)
-   {
-      if (properties.length == VEIN_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[VEIN_COL]),
-            Integer.parseInt(properties[VEIN_ROW]));
-         Entity entity = createVein(properties[VEIN_ID],
-            pt,
-            Integer.parseInt(properties[VEIN_ACTION_PERIOD]),
-            imageStore.getImageList(VEIN_KEY));
-         tryAddEntity(world, entity);
-      }
-
-      return properties.length == VEIN_NUM_PROPERTIES;
-   }
-
-   public static void tryAddEntity(WorldModel world, Entity entity)
-   {
-      if (isOccupied(world, entity.position))
-      {
-         // arguably the wrong type of exception, but we are not
-         // defining our own exceptions yet
-         throw new IllegalArgumentException("position occupied");
-      }
-
-      addEntity(world, entity);
-   }
-
-   public static boolean withinBounds(WorldModel world, Point pos)
-   {
-      return pos.y >= 0 && pos.y < world.numRows &&
-         pos.x >= 0 && pos.x < world.numCols;
-   }
-
-   public static boolean isOccupied(WorldModel world, Point pos)
-   {
-      return withinBounds(world, pos) &&
-         getOccupancyCell(world, pos) != null;
-   }
+//   public static boolean parseBackground(String [] properties,
+//      WorldModel world, ImageStore imageStore)
+//   {
+//      if (properties.length == BGND_NUM_PROPERTIES)
+//      {
+//         Point pt = new Point(Integer.parseInt(properties[BGND_COL]),
+//            Integer.parseInt(properties[BGND_ROW]));
+//         String id = properties[BGND_ID];
+//         setBackground(world, pt,
+//            new Background(id, imageStore.getImageList(id)));
+//      }
+//
+//      return properties.length == BGND_NUM_PROPERTIES;
+//   }
+//
+//   public static boolean parseMiner(String [] properties, WorldModel world,
+//      ImageStore imageStore)
+//   {
+//      if (properties.length == MINER_NUM_PROPERTIES)
+//      {
+//         Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
+//            Integer.parseInt(properties[MINER_ROW]));
+//         Entity entity = createMinerNotFull(properties[MINER_ID],
+//            Integer.parseInt(properties[MINER_LIMIT]),
+//            pt,
+//            Integer.parseInt(properties[MINER_ACTION_PERIOD]),
+//            Integer.parseInt(properties[MINER_ANIMATION_PERIOD]),
+//            imageStore.getImageList(MINER_KEY));
+//         tryAddEntity(world, entity);
+//      }
+//
+//      return properties.length == MINER_NUM_PROPERTIES;
+//   }
+//
+//   public static boolean parseObstacle(String [] properties, WorldModel world,
+//      ImageStore imageStore)
+//   {
+//      if (properties.length == OBSTACLE_NUM_PROPERTIES)
+//      {
+//         Point pt = new Point(
+//            Integer.parseInt(properties[OBSTACLE_COL]),
+//            Integer.parseInt(properties[OBSTACLE_ROW]));
+//         Entity entity = createObstacle(properties[OBSTACLE_ID],
+//            pt, imageStore.getImageList(OBSTACLE_KEY));
+//         tryAddEntity(world, entity);
+//      }
+//
+//      return properties.length == OBSTACLE_NUM_PROPERTIES;
+//   }
+//
+//   public static boolean parseOre(String [] properties, WorldModel world,
+//      ImageStore imageStore)
+//   {
+//      if (properties.length == ORE_NUM_PROPERTIES)
+//      {
+//         Point pt = new Point(Integer.parseInt(properties[ORE_COL]),
+//            Integer.parseInt(properties[ORE_ROW]));
+//         Entity entity = createOre(properties[ORE_ID],
+//            pt, Integer.parseInt(properties[ORE_ACTION_PERIOD]),
+//            imageStore.getImageList(ORE_KEY));
+//         tryAddEntity(world, entity);
+//      }
+//
+//      return properties.length == ORE_NUM_PROPERTIES;
+//   }
+//
+//   public static boolean parseSmith(String [] properties, WorldModel world,
+//      ImageStore imageStore)
+//   {
+//      if (properties.length == SMITH_NUM_PROPERTIES)
+//      {
+//         Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
+//            Integer.parseInt(properties[SMITH_ROW]));
+//         Entity entity = createBlacksmith(properties[SMITH_ID],
+//            pt, imageStore.getImageList(SMITH_KEY));
+//         tryAddEntity(world, entity);
+//      }
+//
+//      return properties.length == SMITH_NUM_PROPERTIES;
+//   }
+//
+//   public static boolean parseVein(String [] properties, WorldModel world,
+//      ImageStore imageStore)
+//   {
+//      if (properties.length == VEIN_NUM_PROPERTIES)
+//      {
+//         Point pt = new Point(Integer.parseInt(properties[VEIN_COL]),
+//            Integer.parseInt(properties[VEIN_ROW]));
+//         Entity entity = createVein(properties[VEIN_ID],
+//            pt,
+//            Integer.parseInt(properties[VEIN_ACTION_PERIOD]),
+//            imageStore.getImageList(VEIN_KEY));
+//         tryAddEntity(world, entity);
+//      }
+//
+//      return properties.length == VEIN_NUM_PROPERTIES;
+//   }
+//
+//   public static void tryAddEntity(WorldModel world, Entity entity)
+//   {
+//      if (isOccupied(world, entity.position))
+//      {
+//         // arguably the wrong type of exception, but we are not
+//         // defining our own exceptions yet
+//         throw new IllegalArgumentException("position occupied");
+//      }
+//
+//      addEntity(world, entity);
+//   }
+//
+//   public static boolean withinBounds(WorldModel world, Point pos)
+//   {
+//      return pos.y >= 0 && pos.y < world.numRows &&
+//         pos.x >= 0 && pos.x < world.numCols;
+//   }
+//
+//   public static boolean isOccupied(WorldModel world, Point pos)
+//   {
+//      return withinBounds(world, pos) &&
+//         getOccupancyCell(world, pos) != null;
+//   }
 
    public static Optional<Entity> nearestEntity(List<Entity> entities,
       Point pos)
@@ -917,7 +917,7 @@ final class Functions
    */
    public static void addEntity(WorldModel world, Entity entity)
    {
-      if (withinBounds(world, entity.position))
+      if (world.withinBounds(entity.position))
       {
          setOccupancyCell(world, entity.position, entity);
          world.entities.add(entity);
@@ -927,7 +927,7 @@ final class Functions
    public static void moveEntity(WorldModel world, Entity entity, Point pos)
    {
       Point oldPos = entity.position;
-      if (withinBounds(world, pos) && !pos.equals(oldPos))
+      if (world.withinBounds(pos) && !pos.equals(oldPos))
       {
          setOccupancyCell(world, oldPos, null);
          removeEntityAt(world, pos);
@@ -943,7 +943,7 @@ final class Functions
 
    public static void removeEntityAt(WorldModel world, Point pos)
    {
-      if (withinBounds(world, pos)
+      if (world.withinBounds(pos)
          && getOccupancyCell(world, pos) != null)
       {
          Entity entity = getOccupancyCell(world, pos);
@@ -959,7 +959,7 @@ final class Functions
    public static Optional<PImage> getBackgroundImage(WorldModel world,
       Point pos)
    {
-      if (withinBounds(world, pos))
+      if (world.withinBounds(pos))
       {
          return Optional.of(getCurrentImage(getBackgroundCell(world, pos)));
       }
@@ -972,7 +972,7 @@ final class Functions
    public static void setBackground(WorldModel world, Point pos,
       Background background)
    {
-      if (withinBounds(world, pos))
+      if (world.withinBounds(pos))
       {
          setBackgroundCell(world, pos, background);
       }
@@ -980,7 +980,7 @@ final class Functions
 
    public static Optional<Entity> getOccupant(WorldModel world, Point pos)
    {
-      if (isOccupied(world, pos))
+      if (world.isOccupied(pos))
       {
          return Optional.of(getOccupancyCell(world, pos));
       }
