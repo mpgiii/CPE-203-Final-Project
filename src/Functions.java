@@ -28,7 +28,7 @@ final class Functions
    public static final int QUAKE_ANIMATION_PERIOD = 100;
 //   public static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
 
-   public static final int COLOR_MASK = 0xffffff;
+//   public static final int COLOR_MASK = 0xffffff;
    public static final int KEYED_IMAGE_MIN = 5;
    private static final int KEYED_RED_IDX = 2;
    private static final int KEYED_GREEN_IDX = 3;
@@ -628,7 +628,7 @@ final class Functions
          PImage img = screen.loadImage(attrs[1]);
          if (img != null && img.width != -1)
          {
-            List<PImage> imgs = getImages(images, key);
+            List<PImage> imgs = ImageStore.getImages(images, key);
             imgs.add(img);
 
             if (attrs.length >= KEYED_IMAGE_MIN)
@@ -636,49 +636,49 @@ final class Functions
                int r = Integer.parseInt(attrs[KEYED_RED_IDX]);
                int g = Integer.parseInt(attrs[KEYED_GREEN_IDX]);
                int b = Integer.parseInt(attrs[KEYED_BLUE_IDX]);
-               setAlpha(img, screen.color(r, g, b), 0);
+               ImageStore.setAlpha(img, screen.color(r, g, b), 0);
             }
          }
       }
    }
 
-   public static List<PImage> getImages(Map<String, List<PImage>> images,
-      String key)
-   {
-      List<PImage> imgs = images.get(key);
-      if (imgs == null)
-      {
-         imgs = new LinkedList<>();
-         images.put(key, imgs);
-      }
-      return imgs;
-   }
+//   public static List<PImage> getImages(Map<String, List<PImage>> images,
+//      String key)
+//   {
+//      List<PImage> imgs = images.get(key);
+//      if (imgs == null)
+//      {
+//         imgs = new LinkedList<>();
+//         images.put(key, imgs);
+//      }
+//      return imgs;
+//   }
 
    /*
      Called with color for which alpha should be set and alpha value.
      setAlpha(img, color(255, 255, 255), 0));
    */
-   public static void setAlpha(PImage img, int maskColor, int alpha)
-   {
-      int alphaValue = alpha << 24;
-      int nonAlpha = maskColor & COLOR_MASK;
-      img.format = PApplet.ARGB;
-      img.loadPixels();
-      for (int i = 0; i < img.pixels.length; i++)
-      {
-         if ((img.pixels[i] & COLOR_MASK) == nonAlpha)
-         {
-            img.pixels[i] = alphaValue | nonAlpha;
-         }
-      }
-      img.updatePixels();
-   }
+//   public static void setAlpha(PImage img, int maskColor, int alpha)
+//   {
+//      int alphaValue = alpha << 24;
+//      int nonAlpha = maskColor & COLOR_MASK;
+//      img.format = PApplet.ARGB;
+//      img.loadPixels();
+//      for (int i = 0; i < img.pixels.length; i++)
+//      {
+//         if ((img.pixels[i] & COLOR_MASK) == nonAlpha)
+//         {
+//            img.pixels[i] = alphaValue | nonAlpha;
+//         }
+//      }
+//      img.updatePixels();
+//   }
 
-   public static void shift(Viewport viewport, int col, int row)
-   {
-      viewport.col = col;
-      viewport.row = row;
-   }
+//   public static void shift(Viewport viewport, int col, int row)
+//   {
+//      viewport.col = col;
+//      viewport.row = row;
+//   }
 
    public static boolean contains(Viewport viewport, Point p)
    {
@@ -1034,7 +1034,7 @@ final class Functions
       int newRow = clamp(view.viewport.row + rowDelta, 0,
          view.world.numRows - view.viewport.numRows);
 
-      shift(view.viewport, newCol, newRow);
+      view.viewport.shift(newCol, newRow);
    }
 
    public static void drawBackground(WorldView view)
