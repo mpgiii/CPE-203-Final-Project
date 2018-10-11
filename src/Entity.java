@@ -125,7 +125,7 @@ final class Entity
                 Functions.getImageList(imageStore, BLOB_KEY));
 
         Functions.addEntity(world, blob);
-        Functions.scheduleActions(blob, scheduler, world, imageStore);
+        scheduler.scheduleActions(blob, world, imageStore);
     }
 
     public void executeOreBlobActivity(WorldModel world,
@@ -146,7 +146,7 @@ final class Entity
 
                 Functions.addEntity(world, quake);
                 nextPeriod += this.actionPeriod;
-                Functions.scheduleActions(quake, scheduler, world, imageStore);
+                scheduler.scheduleActions(quake, world, imageStore);
             }
         }
 
@@ -174,7 +174,7 @@ final class Entity
                             Functions.rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
                     Functions.getImageList(imageStore, ORE_KEY));
             Functions.addEntity(world, ore);
-            Functions.scheduleActions(ore, scheduler, world, imageStore);
+            scheduler.scheduleActions(ore, world, imageStore);
         }
 
         scheduler.scheduleEvent(this,
@@ -195,7 +195,7 @@ final class Entity
             Functions.unscheduleAllEvents(scheduler, this);
 
             Functions.addEntity(world, miner);
-            Functions.scheduleActions(miner, scheduler, world, imageStore);
+            scheduler.scheduleActions(miner, world, imageStore);
 
             return true;
         }
@@ -214,7 +214,7 @@ final class Entity
         Functions.unscheduleAllEvents(scheduler, this);
 
         Functions.addEntity(world, miner);
-        Functions.scheduleActions(miner, scheduler, world, imageStore);
+        scheduler.scheduleActions(miner, world, imageStore);
     }
 
     public boolean moveToNotFull(WorldModel world,

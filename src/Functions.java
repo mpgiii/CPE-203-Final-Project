@@ -26,7 +26,7 @@ final class Functions
    public static final String QUAKE_ID = "quake";
    public static final int QUAKE_ACTION_PERIOD = 1100;
    public static final int QUAKE_ANIMATION_PERIOD = 100;
-   public static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
+//   public static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
 
    public static final int COLOR_MASK = 0xffffff;
    public static final int KEYED_IMAGE_MIN = 5;
@@ -298,59 +298,59 @@ final class Functions
 //         entity.actionPeriod);
 //   }
 
-   public static void scheduleActions(Entity entity, EventScheduler scheduler,
-      WorldModel world, ImageStore imageStore)
-   {
-      switch (entity.kind)
-      {
-      case MINER_FULL:
-         scheduler.scheduleEvent(entity,
-            entity.createActivityAction(world, imageStore),
-            entity.actionPeriod);
-         scheduler.scheduleEvent(entity, entity.createAnimationAction(0),
-            entity.getAnimationPeriod());
-         break;
-
-      case MINER_NOT_FULL:
-         scheduler.scheduleEvent(entity,
-            entity.createActivityAction(world, imageStore),
-            entity.actionPeriod);
-         scheduler.scheduleEvent(entity,
-            entity.createAnimationAction(0), entity.getAnimationPeriod());
-         break;
-
-      case ORE:
-         scheduler.scheduleEvent(entity,
-            entity.createActivityAction(world, imageStore),
-            entity.actionPeriod);
-         break;
-
-      case ORE_BLOB:
-         scheduler.scheduleEvent(entity,
-            entity.createActivityAction(world, imageStore),
-            entity.actionPeriod);
-         scheduler.scheduleEvent(entity,
-            entity.createAnimationAction(0), entity.getAnimationPeriod());
-         break;
-
-      case QUAKE:
-         scheduler.scheduleEvent(entity,
-            entity.createActivityAction(world, imageStore),
-            entity.actionPeriod);
-         scheduler.scheduleEvent(entity,
-            entity.createAnimationAction(QUAKE_ANIMATION_REPEAT_COUNT),
-            entity.getAnimationPeriod());
-         break;
-
-      case VEIN:
-         scheduler.scheduleEvent(entity,
-            entity.createActivityAction(world, imageStore),
-            entity.actionPeriod);
-         break;
-
-      default:
-      }
-   }
+//   public static void scheduleActions(Entity entity, EventScheduler scheduler,
+//      WorldModel world, ImageStore imageStore)
+//   {
+//      switch (entity.kind)
+//      {
+//      case MINER_FULL:
+//         scheduler.scheduleEvent(entity,
+//            entity.createActivityAction(world, imageStore),
+//            entity.actionPeriod);
+//         scheduler.scheduleEvent(entity, entity.createAnimationAction(0),
+//            entity.getAnimationPeriod());
+//         break;
+//
+//      case MINER_NOT_FULL:
+//         scheduler.scheduleEvent(entity,
+//            entity.createActivityAction(world, imageStore),
+//            entity.actionPeriod);
+//         scheduler.scheduleEvent(entity,
+//            entity.createAnimationAction(0), entity.getAnimationPeriod());
+//         break;
+//
+//      case ORE:
+//         scheduler.scheduleEvent(entity,
+//            entity.createActivityAction(world, imageStore),
+//            entity.actionPeriod);
+//         break;
+//
+//      case ORE_BLOB:
+//         scheduler.scheduleEvent(entity,
+//            entity.createActivityAction(world, imageStore),
+//            entity.actionPeriod);
+//         scheduler.scheduleEvent(entity,
+//            entity.createAnimationAction(0), entity.getAnimationPeriod());
+//         break;
+//
+//      case QUAKE:
+//         scheduler.scheduleEvent(entity,
+//            entity.createActivityAction(world, imageStore),
+//            entity.actionPeriod);
+//         scheduler.scheduleEvent(entity,
+//            entity.createAnimationAction(QUAKE_ANIMATION_REPEAT_COUNT),
+//            entity.getAnimationPeriod());
+//         break;
+//
+//      case VEIN:
+//         scheduler.scheduleEvent(entity,
+//            entity.createActivityAction(world, imageStore),
+//            entity.actionPeriod);
+//         break;
+//
+//      default:
+//      }
+//   }
 
 //   public static boolean transformNotFull(Entity entity, WorldModel world,
 //      EventScheduler scheduler, ImageStore imageStore)
