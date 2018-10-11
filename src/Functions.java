@@ -120,7 +120,7 @@ final class Functions
    }
 */
 
-   public static void executeAction(Action action, EventScheduler scheduler)
+/*   public static void executeAction(Action action, EventScheduler scheduler)
    {
       switch (action.kind)
       {
@@ -189,6 +189,7 @@ final class Functions
             action.entity.kind));
       }
    }
+*/
 
    public static void executeMinerFullActivity(Entity entity, WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
@@ -589,7 +590,7 @@ final class Functions
          
          removePendingEvent(scheduler, next);
          
-         executeAction(next.action, scheduler);
+         next.action.executeAction(scheduler);
       }
    }
 
