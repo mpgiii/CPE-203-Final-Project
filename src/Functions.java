@@ -97,7 +97,7 @@ final class Functions
       }
    }
 
-   public static int getAnimationPeriod(Entity entity)
+/*   public static int getAnimationPeriod(Entity entity)
    {
       switch (entity.kind)
       {
@@ -112,11 +112,13 @@ final class Functions
             entity.kind));
       }
    }
+*/
 
-   public static void nextImage(Entity entity)
+/*   public static void nextImage(Entity entity)
    {
       entity.imageIndex = (entity.imageIndex + 1) % entity.images.size();
    }
+*/
 
    public static void executeAction(Action action, EventScheduler scheduler)
    {
@@ -135,14 +137,14 @@ final class Functions
    public static void executeAnimationAction(Action action,
       EventScheduler scheduler)
    {
-      nextImage(action.entity);
+      action.entity.nextImage();
 
       if (action.repeatCount != 1)
       {
          scheduleEvent(scheduler, action.entity,
             createAnimationAction(action.entity,
                Math.max(action.repeatCount - 1, 0)),
-            getAnimationPeriod(action.entity));
+            action.entity.getAnimationPeriod());
       }
    }
 
@@ -305,7 +307,7 @@ final class Functions
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
          scheduleEvent(scheduler, entity, createAnimationAction(entity, 0),
-            getAnimationPeriod(entity));
+            entity.getAnimationPeriod());
          break;
 
       case MINER_NOT_FULL:
@@ -313,7 +315,7 @@ final class Functions
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
          scheduleEvent(scheduler, entity,
-            createAnimationAction(entity, 0), getAnimationPeriod(entity));
+            createAnimationAction(entity, 0), entity.getAnimationPeriod());
          break;
 
       case ORE:
@@ -327,7 +329,7 @@ final class Functions
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
          scheduleEvent(scheduler, entity,
-            createAnimationAction(entity, 0), getAnimationPeriod(entity));
+            createAnimationAction(entity, 0), entity.getAnimationPeriod());
          break;
 
       case QUAKE:
@@ -336,7 +338,7 @@ final class Functions
             entity.actionPeriod);
          scheduleEvent(scheduler, entity,
             createAnimationAction(entity, QUAKE_ANIMATION_REPEAT_COUNT),
-            getAnimationPeriod(entity));
+            entity.getAnimationPeriod());
          break;
 
       case VEIN:

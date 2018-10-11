@@ -27,4 +27,24 @@ final class Entity
       this.actionPeriod = actionPeriod;
       this.animationPeriod = animationPeriod;
    }
+    public int getAnimationPeriod()
+    {
+        switch (kind)
+        {
+            case MINER_FULL:
+            case MINER_NOT_FULL:
+            case ORE_BLOB:
+            case QUAKE:
+                return animationPeriod;
+            default:
+                throw new UnsupportedOperationException(
+                        String.format("getAnimationPeriod not supported for %s",
+                                kind));
+        }
+    }
+
+    public void nextImage()
+    {
+        imageIndex = (imageIndex + 1) % images.size();
+    }
 }
