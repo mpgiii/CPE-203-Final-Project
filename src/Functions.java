@@ -204,7 +204,7 @@ final class Functions
       }
       else
       {
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
       }
@@ -220,7 +220,7 @@ final class Functions
          !moveToNotFull(entity, world, notFullTarget.get(), scheduler) ||
          !transformNotFull(entity, world, scheduler, imageStore))
       {
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
       }
@@ -266,7 +266,7 @@ final class Functions
          }
       }
 
-      scheduleEvent(scheduler, entity,
+      scheduler.scheduleEvent(entity,
          createActivityAction(entity, world, imageStore),
          nextPeriod);
    }
@@ -293,7 +293,7 @@ final class Functions
          scheduleActions(ore, scheduler, world, imageStore);
       }
 
-      scheduleEvent(scheduler, entity,
+      scheduler.scheduleEvent(entity,
          createActivityAction(entity, world, imageStore),
          entity.actionPeriod);
    }
@@ -304,46 +304,46 @@ final class Functions
       switch (entity.kind)
       {
       case MINER_FULL:
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
-         scheduleEvent(scheduler, entity, createAnimationAction(entity, 0),
+         scheduler.scheduleEvent(entity, createAnimationAction(entity, 0),
             entity.getAnimationPeriod());
          break;
 
       case MINER_NOT_FULL:
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createAnimationAction(entity, 0), entity.getAnimationPeriod());
          break;
 
       case ORE:
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
          break;
 
       case ORE_BLOB:
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createAnimationAction(entity, 0), entity.getAnimationPeriod());
          break;
 
       case QUAKE:
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createAnimationAction(entity, QUAKE_ANIMATION_REPEAT_COUNT),
             entity.getAnimationPeriod());
          break;
 
       case VEIN:
-         scheduleEvent(scheduler, entity,
+         scheduler.scheduleEvent(entity,
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
          break;
@@ -540,21 +540,21 @@ final class Functions
       return Optional.empty();
    }
 
-   public static void scheduleEvent(EventScheduler scheduler,
-      Entity entity, Action action, long afterPeriod)
-   {
-      long time = System.currentTimeMillis() +
-         (long)(afterPeriod * scheduler.timeScale);
-      Event event = new Event(action, time, entity);
-
-      scheduler.eventQueue.add(event);
-
-      // update list of pending events for the given entity
-      List<Event> pending = scheduler.pendingEvents.getOrDefault(entity,
-         new LinkedList<>());
-      pending.add(event);
-      scheduler.pendingEvents.put(entity, pending);
-   }
+//   public static void scheduleEvent(EventScheduler scheduler,
+//      Entity entity, Action action, long afterPeriod)
+//   {
+//      long time = System.currentTimeMillis() +
+//         (long)(afterPeriod * scheduler.timeScale);
+//      Event event = new Event(action, time, entity);
+//
+//      scheduler.eventQueue.add(event);
+//
+//      // update list of pending events for the given entity
+//      List<Event> pending = scheduler.pendingEvents.getOrDefault(entity,
+//         new LinkedList<>());
+//      pending.add(event);
+//      scheduler.pendingEvents.put(entity, pending);
+//   }
 
    public static void unscheduleAllEvents(EventScheduler scheduler,
       Entity entity)
