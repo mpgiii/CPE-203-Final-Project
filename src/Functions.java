@@ -468,53 +468,53 @@ final class Functions
 //      }
 //   }
 
-   public static Point nextPositionMiner(Entity entity, WorldModel world,
-      Point destPos)
-   {
-      int horiz = Integer.signum(destPos.x - entity.position.x);
-      Point newPos = new Point(entity.position.x + horiz,
-         entity.position.y);
-
-      if (horiz == 0 || isOccupied(world, newPos))
-      {
-         int vert = Integer.signum(destPos.y - entity.position.y);
-         newPos = new Point(entity.position.x,
-            entity.position.y + vert);
-
-         if (vert == 0 || isOccupied(world, newPos))
-         {
-            newPos = entity.position;
-         }
-      }
-
-      return newPos;
-   }
-
-   public static Point nextPositionOreBlob(Entity entity, WorldModel world,
-      Point destPos)
-   {
-      int horiz = Integer.signum(destPos.x - entity.position.x);
-      Point newPos = new Point(entity.position.x + horiz,
-         entity.position.y);
-
-      Optional<Entity> occupant = getOccupant(world, newPos);
-
-      if (horiz == 0 ||
-         (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
-      {
-         int vert = Integer.signum(destPos.y - entity.position.y);
-         newPos = new Point(entity.position.x, entity.position.y + vert);
-         occupant = getOccupant(world, newPos);
-
-         if (vert == 0 ||
-            (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
-         {
-            newPos = entity.position;
-         }
-      }
-
-      return newPos;
-   }
+//   public static Point nextPositionMiner(Entity entity, WorldModel world,
+//      Point destPos)
+//   {
+//      int horiz = Integer.signum(destPos.x - entity.position.x);
+//      Point newPos = new Point(entity.position.x + horiz,
+//         entity.position.y);
+//
+//      if (horiz == 0 || isOccupied(world, newPos))
+//      {
+//         int vert = Integer.signum(destPos.y - entity.position.y);
+//         newPos = new Point(entity.position.x,
+//            entity.position.y + vert);
+//
+//         if (vert == 0 || isOccupied(world, newPos))
+//         {
+//            newPos = entity.position;
+//         }
+//      }
+//
+//      return newPos;
+//   }
+//
+//   public static Point nextPositionOreBlob(Entity entity, WorldModel world,
+//      Point destPos)
+//   {
+//      int horiz = Integer.signum(destPos.x - entity.position.x);
+//      Point newPos = new Point(entity.position.x + horiz,
+//         entity.position.y);
+//
+//      Optional<Entity> occupant = getOccupant(world, newPos);
+//
+//      if (horiz == 0 ||
+//         (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
+//      {
+//         int vert = Integer.signum(destPos.y - entity.position.y);
+//         newPos = new Point(entity.position.x, entity.position.y + vert);
+//         occupant = getOccupant(world, newPos);
+//
+//         if (vert == 0 ||
+//            (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
+//         {
+//            newPos = entity.position;
+//         }
+//      }
+//
+//      return newPos;
+//   }
 
    public static boolean adjacent(Point p1, Point p2)
    {

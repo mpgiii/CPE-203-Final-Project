@@ -230,7 +230,7 @@ final class Entity
         }
         else
         {
-            Point nextPos = Functions.nextPositionMiner(this, world, target.position);
+            Point nextPos = this.nextPositionMiner(world, target.position);
 
             if (!this.position.equals(nextPos))
             {
@@ -255,7 +255,7 @@ final class Entity
         }
         else
         {
-            Point nextPos = Functions.nextPositionMiner(this, world, target.position);
+            Point nextPos = this.nextPositionMiner(world, target.position);
 
             if (!this.position.equals(nextPos))
             {
@@ -282,7 +282,7 @@ final class Entity
         }
         else
         {
-            Point nextPos = Functions.nextPositionOreBlob(this, world, target.position);
+            Point nextPos = this.nextPositionOreBlob(world, target.position);
 
             if (!this.position.equals(nextPos))
             {
@@ -296,6 +296,54 @@ final class Entity
             }
             return false;
         }
+    }
+
+    public Point nextPositionMiner(WorldModel world,
+                                          Point destPos)
+    {
+        int horiz = Integer.signum(destPos.x - position.x);
+        Point newPos = new Point(position.x + horiz,
+                position.y);
+
+        if (horiz == 0 || Functions.isOccupied(world, newPos))
+        {
+            int vert = Integer.signum(destPos.y - position.y);
+            newPos = new Point(position.x,
+                    position.y + vert);
+
+            if (vert == 0 || Functions.isOccupied(world, newPos))
+            {
+                newPos = position;
+            }
+        }
+
+        return newPos;
+    }
+
+    public Point nextPositionOreBlob(WorldModel world,
+                                            Point destPos)
+    {
+        int horiz = Integer.signum(destPos.x - position.x);
+        Point newPos = new Point(position.x + horiz,
+                position.y);
+
+        Optional<Entity> occupant = Functions.getOccupant(world, newPos);
+
+        if (horiz == 0 ||
+                (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
+        {
+            int vert = Integer.signum(destPos.y - position.y);
+            newPos = new Point(position.x, position.y + vert);
+            occupant = Functions.getOccupant(world, newPos);
+
+            if (vert == 0 ||
+                    (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
+            {
+                newPos = position;
+            }
+        }
+
+        return newPos;
     }
 
 }
