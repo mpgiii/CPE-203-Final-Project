@@ -220,7 +220,7 @@ final class Entity
     public boolean moveToNotFull(WorldModel world,
                                         Entity target, EventScheduler scheduler)
     {
-        if (Functions.adjacent(this.position, target.position))
+        if (this.position.adjacent(target.position))
         {
             this.resourceCount += 1;
             Functions.removeEntity(world, target);
@@ -249,7 +249,7 @@ final class Entity
     public boolean moveToFull(WorldModel world,
                                      Entity target, EventScheduler scheduler)
     {
-        if (Functions.adjacent(this.position, target.position))
+        if (this.position.adjacent(target.position))
         {
             return true;
         }
@@ -274,7 +274,7 @@ final class Entity
     public boolean moveToOreBlob(WorldModel world,
                                         Entity target, EventScheduler scheduler)
     {
-        if (Functions.adjacent(this.position, target.position))
+        if (this.position.adjacent(target.position))
         {
             Functions.removeEntity(world, target);
             Functions.unscheduleAllEvents(scheduler, target);
