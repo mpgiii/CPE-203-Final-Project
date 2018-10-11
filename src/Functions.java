@@ -556,43 +556,43 @@ final class Functions
 //      scheduler.pendingEvents.put(entity, pending);
 //   }
 
-   public static void unscheduleAllEvents(EventScheduler scheduler,
-      Entity entity)
-   {
-      List<Event> pending = scheduler.pendingEvents.remove(entity);
-
-      if (pending != null)
-      {
-         for (Event event : pending)
-         {
-            scheduler.eventQueue.remove(event);
-         }
-      }
-   }
-
-   public static void removePendingEvent(EventScheduler scheduler,
-      Event event)
-   {
-      List<Event> pending = scheduler.pendingEvents.get(event.entity);
-
-      if (pending != null)
-      {
-         pending.remove(event);
-      }
-   }
-
-   public static void updateOnTime(EventScheduler scheduler, long time)
-   {
-      while (!scheduler.eventQueue.isEmpty() &&
-         scheduler.eventQueue.peek().time < time)
-      {
-         Event next = scheduler.eventQueue.poll();
-         
-         removePendingEvent(scheduler, next);
-         
-         next.action.executeAction(scheduler);
-      }
-   }
+//   public static void unscheduleAllEvents(EventScheduler scheduler,
+//      Entity entity)
+//   {
+//      List<Event> pending = scheduler.pendingEvents.remove(entity);
+//
+//      if (pending != null)
+//      {
+//         for (Event event : pending)
+//         {
+//            scheduler.eventQueue.remove(event);
+//         }
+//      }
+//   }
+//
+//   public static void removePendingEvent(EventScheduler scheduler,
+//      Event event)
+//   {
+//      List<Event> pending = scheduler.pendingEvents.get(event.entity);
+//
+//      if (pending != null)
+//      {
+//         pending.remove(event);
+//      }
+//   }
+//
+//   public static void updateOnTime(EventScheduler scheduler, long time)
+//   {
+//      while (!scheduler.eventQueue.isEmpty() &&
+//         scheduler.eventQueue.peek().time < time)
+//      {
+//         Event next = scheduler.eventQueue.poll();
+//
+//         removePendingEvent(scheduler, next);
+//
+//         next.action.executeAction(scheduler);
+//      }
+//   }
 
    public static List<PImage> getImageList(ImageStore imageStore, String key)
    {

@@ -82,4 +82,40 @@ final class EventScheduler
             default:
         }
     }
+
+    public void unscheduleAllEvents(Entity entity)
+    {
+        List<Event> pending = pendingEvents.remove(entity);
+
+        if (pending != null)
+        {
+            for (Event event : pending)
+            {
+                eventQueue.remove(event);
+            }
+        }
+    }
+
+    public void removePendingEvent(Event event)
+    {
+        List<Event> pending = pendingEvents.get(event.entity);
+
+        if (pending != null)
+        {
+            pending.remove(event);
+        }
+    }
+
+    public void updateOnTime(long time)
+    {
+        while (!eventQueue.isEmpty() &&
+                eventQueue.peek().time < time)
+        {
+            Event next = eventQueue.poll();
+
+            removePendingEvent(next);
+
+            next.action.executeAction(this);
+        }
+    }
 }
