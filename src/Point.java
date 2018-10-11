@@ -47,11 +47,11 @@ final class Point
         else
         {
             Entity nearest = entities.get(0);
-            int nearestDistance = Functions.distanceSquared(nearest.position, this);
+            int nearestDistance = distanceSquared(nearest.position);
 
             for (Entity other : entities)
             {
-                int otherDistance = Functions.distanceSquared(other.position, this);
+                int otherDistance = distanceSquared(other.position);
 
                 if (otherDistance < nearestDistance)
                 {
@@ -62,5 +62,13 @@ final class Point
 
             return Optional.of(nearest);
         }
+    }
+
+    public static int distanceSquared(Point other)
+    {
+        int deltaX = this.x - other.x;
+        int deltaY = this.y - other.y;
+
+        return deltaX * deltaX + deltaY * deltaY;
     }
 }

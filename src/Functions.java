@@ -888,13 +888,13 @@ final class Functions
 //      }
 //   }
 
-   public static int distanceSquared(Point p1, Point p2)
-   {
-      int deltaX = p1.x - p2.x;
-      int deltaY = p1.y - p2.y;
-
-      return deltaX * deltaX + deltaY * deltaY;
-   }
+//   public static int distanceSquared(Point p1, Point p2)
+//   {
+//      int deltaX = p1.x - p2.x;
+//      int deltaY = p1.y - p2.y;
+//
+//      return deltaX * deltaX + deltaY * deltaY;
+//   }
 
    public static Optional<Entity> findNearest(WorldModel world, Point pos,
       EntityKind kind)
