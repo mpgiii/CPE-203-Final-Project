@@ -1,10 +1,14 @@
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import processing.core.PImage;
 
 final class Entity
 {
+
+    public static final Random rand = new Random();
+
    public EntityKind kind;
    public String id;
    public Point position;
@@ -121,7 +125,7 @@ final class Entity
         Entity blob = WorldModel.createOreBlob(id + BLOB_ID_SUFFIX,
                 pos, actionPeriod / BLOB_PERIOD_SCALE,
                 BLOB_ANIMATION_MIN +
-                        Functions.rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN),
+                        rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN),
                 imageStore.getImageList(BLOB_KEY));
 
         Functions.addEntity(world, blob);
@@ -171,7 +175,7 @@ final class Entity
         {
             Entity ore = WorldModel.createOre(ORE_ID_PREFIX + id,
                     openPt.get(), ORE_CORRUPT_MIN +
-                            Functions.rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
+                            rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
                     imageStore.getImageList(ORE_KEY));
             Functions.addEntity(world, ore);
             scheduler.scheduleActions(ore, world, imageStore);
@@ -360,6 +364,11 @@ final class Entity
     {
         return new Entity(EntityKind.MINER_NOT_FULL, id, position, images,
                 resourceLimit, 0, actionPeriod, animationPeriod);
+    }
+
+    public PImage getCurrentImage()
+    {
+        return (images.get(imageIndex));
     }
 
 }

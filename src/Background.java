@@ -12,4 +12,9 @@ final class Background
       this.id = id;
       this.images = images;
    }
+
+   public PImage getCurrentImage()
+   {
+         return (images.get(imageIndex));
+   }
 }
