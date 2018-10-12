@@ -915,14 +915,14 @@ final class Functions
       Assumes that there is no entity currently occupying the
       intended destination cell.
    */
-   public static void addEntity(WorldModel world, Entity entity)
-   {
-      if (world.withinBounds(entity.position))
-      {
-         world.setOccupancyCell(entity.position, entity);
-         world.entities.add(entity);
-      }
-   }
+//   public static void addEntity(WorldModel world, Entity entity)
+//   {
+//      if (world.withinBounds(entity.position))
+//      {
+//         world.setOccupancyCell(entity.position, entity);
+//         world.entities.add(entity);
+//      }
+//   }
 
 //   public static void moveEntity(WorldModel world, Entity entity, Point pos)
 //   {
