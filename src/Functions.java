@@ -1012,15 +1012,15 @@ final class Functions
 //      world.background[pos.y][pos.x] = background;
 //   }
 
-   public static Point viewportToWorld(Viewport viewport, int col, int row)
-   {
-      return new Point(col + viewport.col, row + viewport.row);
-   }
-
-   public static Point worldToViewport(Viewport viewport, int col, int row)
-   {
-      return new Point(col - viewport.col, row - viewport.row);
-   }
+//   public static Point viewportToWorld(Viewport viewport, int col, int row)
+//   {
+//      return new Point(col + viewport.col, row + viewport.row);
+//   }
+//
+//   public static Point worldToViewport(Viewport viewport, int col, int row)
+//   {
+//      return new Point(col - viewport.col, row - viewport.row);
+//   }
 
    public static int clamp(int value, int low, int high)
    {
@@ -1043,7 +1043,7 @@ final class Functions
       {
          for (int col = 0; col < view.viewport.numCols; col++)
          {
-            Point worldPoint = viewportToWorld(view.viewport, col, row);
+            Point worldPoint = view.viewport.viewportToWorld(col, row);
             Optional<PImage> image = view.world.getBackgroundImage(worldPoint);
             if (image.isPresent())
             {
@@ -1062,7 +1062,7 @@ final class Functions
 
          if (view.viewport.contains(pos))
          {
-            Point viewPoint = worldToViewport(view.viewport, pos.x, pos.y);
+            Point viewPoint = view.viewport.worldToViewport(pos.x, pos.y);
             view.screen.image(getCurrentImage(entity),
                viewPoint.x * view.tileWidth, viewPoint.y * view.tileHeight);
          }
