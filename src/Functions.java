@@ -1022,16 +1022,16 @@ final class Functions
 //      return new Point(col - viewport.col, row - viewport.row);
 //   }
 
-   public static int clamp(int value, int low, int high)
-   {
-      return Math.min(high, Math.max(value, low));
-   }
+//   public static int clamp(int value, int low, int high)
+//   {
+//      return Math.min(high, Math.max(value, low));
+//   }
 
    public static void shiftView(WorldView view, int colDelta, int rowDelta)
    {
-      int newCol = clamp(view.viewport.col + colDelta, 0,
+      int newCol = WorldView.clamp(view.viewport.col + colDelta, 0,
          view.world.numCols - view.viewport.numCols);
-      int newRow = clamp(view.viewport.row + rowDelta, 0,
+      int newRow = WorldView.clamp(view.viewport.row + rowDelta, 0,
          view.world.numRows - view.viewport.numRows);
 
       view.viewport.shift(newCol, newRow);

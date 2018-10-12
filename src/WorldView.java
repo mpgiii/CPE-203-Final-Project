@@ -17,4 +17,10 @@ final class WorldView
       this.tileHeight = tileHeight;
       this.viewport = new Viewport(numRows, numCols);
    }
+
+   public static int clamp(int value, int low, int high)
+   {
+      return Math.min(high, Math.max(value, low));
+   }
+
 }
