@@ -1,9 +1,6 @@
 import processing.core.PImage;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 final class WorldModel
 {
@@ -41,6 +38,10 @@ final class WorldModel
    public static final int ORE_COL = 2;
    public static final int ORE_ROW = 3;
    public static final int ORE_ACTION_PERIOD = 4;
+
+    public static final String QUAKE_ID = "quake";
+    public static final int QUAKE_ACTION_PERIOD = 1100;
+    public static final int QUAKE_ANIMATION_PERIOD = 100;
 
    public static final String SMITH_KEY = "blacksmith";
    public static final int SMITH_NUM_PROPERTIES = 4;
@@ -109,7 +110,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
                  Integer.parseInt(properties[MINER_ROW]));
-         Entity entity = Functions.createMinerNotFull(properties[MINER_ID],
+         Entity entity = Entity.createMinerNotFull(properties[MINER_ID],
                  Integer.parseInt(properties[MINER_LIMIT]),
                  pt,
                  Integer.parseInt(properties[MINER_ACTION_PERIOD]),
@@ -129,7 +130,7 @@ final class WorldModel
          Point pt = new Point(
                  Integer.parseInt(properties[OBSTACLE_COL]),
                  Integer.parseInt(properties[OBSTACLE_ROW]));
-         Entity entity = Functions.createObstacle(properties[OBSTACLE_ID],
+         Entity entity = createObstacle(properties[OBSTACLE_ID],
                  pt, imageStore.getImageList(OBSTACLE_KEY));
          tryAddEntity(entity);
       }
@@ -144,7 +145,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[ORE_COL]),
                  Integer.parseInt(properties[ORE_ROW]));
-         Entity entity = Functions.createOre(properties[ORE_ID],
+         Entity entity = createOre(properties[ORE_ID],
                  pt, Integer.parseInt(properties[ORE_ACTION_PERIOD]),
                  imageStore.getImageList(ORE_KEY));
          tryAddEntity(entity);
@@ -160,7 +161,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
                  Integer.parseInt(properties[SMITH_ROW]));
-         Entity entity = Functions.createBlacksmith(properties[SMITH_ID],
+         Entity entity = createBlacksmith(properties[SMITH_ID],
                  pt, imageStore.getImageList(SMITH_KEY));
          tryAddEntity(entity);
       }
@@ -175,7 +176,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[VEIN_COL]),
                  Integer.parseInt(properties[VEIN_ROW]));
-         Entity entity = Functions.createVein(properties[VEIN_ID],
+         Entity entity = createVein(properties[VEIN_ID],
                  pt,
                  Integer.parseInt(properties[VEIN_ACTION_PERIOD]),
                  imageStore.getImageList(VEIN_KEY));
@@ -293,5 +294,46 @@ final class WorldModel
                                          Background background)
     {
         this.background[pos.y][pos.x] = background;
+    }
+
+    public static Entity createBlacksmith(String id, Point position,
+                                          List<PImage> images)
+    {
+        return new Entity(EntityKind.BLACKSMITH, id, position, images,
+                0, 0, 0, 0);
+    }
+
+    public static Entity createObstacle(String id, Point position,
+                                        List<PImage> images)
+    {
+        return new Entity(EntityKind.OBSTACLE, id, position, images,
+                0, 0, 0, 0);
+    }
+
+    public static Entity createOre(String id, Point position, int actionPeriod,
+                                   List<PImage> images)
+    {
+        return new Entity(EntityKind.ORE, id, position, images, 0, 0,
+                actionPeriod, 0);
+    }
+
+    public static Entity createOreBlob(String id, Point position,
+                                       int actionPeriod, int animationPeriod, List<PImage> images)
+    {
+        return new Entity(EntityKind.ORE_BLOB, id, position, images,
+                0, 0, actionPeriod, animationPeriod);
+    }
+
+    public static Entity createQuake(Point position, List<PImage> images)
+    {
+        return new Entity(EntityKind.QUAKE, QUAKE_ID, position, images,
+                0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
+    }
+
+    public static Entity createVein(String id, Point position, int actionPeriod,
+                                    List<PImage> images)
+    {
+        return new Entity(EntityKind.VEIN, id, position, images, 0, 0,
+                actionPeriod, 0);
     }
 }

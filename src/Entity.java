@@ -118,7 +118,7 @@ final class Entity
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
 
-        Entity blob = Functions.createOreBlob(id + BLOB_ID_SUFFIX,
+        Entity blob = WorldModel.createOreBlob(id + BLOB_ID_SUFFIX,
                 pos, actionPeriod / BLOB_PERIOD_SCALE,
                 BLOB_ANIMATION_MIN +
                         Functions.rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN),
@@ -141,7 +141,7 @@ final class Entity
 
             if (this.moveToOreBlob(world, blobTarget.get(), scheduler))
             {
-                Entity quake = Functions.createQuake(tgtPos,
+                Entity quake = WorldModel.createQuake(tgtPos,
                         imageStore.getImageList(QUAKE_KEY));
 
                 Functions.addEntity(world, quake);
@@ -169,7 +169,7 @@ final class Entity
 
         if (openPt.isPresent())
         {
-            Entity ore = Functions.createOre(ORE_ID_PREFIX + id,
+            Entity ore = WorldModel.createOre(ORE_ID_PREFIX + id,
                     openPt.get(), ORE_CORRUPT_MIN +
                             Functions.rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
                     imageStore.getImageList(ORE_KEY));
@@ -187,7 +187,7 @@ final class Entity
     {
         if (resourceCount >= resourceLimit)
         {
-            Entity miner = Functions.createMinerFull(id, resourceLimit,
+            Entity miner = createMinerFull(id, resourceLimit,
                     position, actionPeriod, animationPeriod,
                     images);
 
@@ -206,7 +206,7 @@ final class Entity
     public void transformFull(WorldModel world,
                                      EventScheduler scheduler, ImageStore imageStore)
     {
-        Entity miner = Functions.createMinerNotFull(id, resourceLimit,
+        Entity miner = createMinerNotFull(id, resourceLimit,
                 position, actionPeriod, animationPeriod,
                 images);
 
@@ -344,6 +344,22 @@ final class Entity
         }
 
         return newPos;
+    }
+
+    public static Entity createMinerFull(String id, int resourceLimit,
+                                         Point position, int actionPeriod, int animationPeriod,
+                                         List<PImage> images)
+    {
+        return new Entity(EntityKind.MINER_FULL, id, position, images,
+                resourceLimit, resourceLimit, actionPeriod, animationPeriod);
+    }
+
+    public static Entity createMinerNotFull(String id, int resourceLimit,
+                                            Point position, int actionPeriod, int animationPeriod,
+                                            List<PImage> images)
+    {
+        return new Entity(EntityKind.MINER_NOT_FULL, id, position, images,
+                resourceLimit, 0, actionPeriod, animationPeriod);
     }
 
 }
