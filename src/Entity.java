@@ -115,7 +115,7 @@ final class Entity
     {
         Point pos = position;  // store current position before removing
 
-        Functions.removeEntity(world, this);
+        world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
 
         Entity blob = Functions.createOreBlob(id + BLOB_ID_SUFFIX,
@@ -159,7 +159,7 @@ final class Entity
                                             ImageStore imageStore, EventScheduler scheduler)
     {
         scheduler.unscheduleAllEvents(this);
-        Functions.removeEntity(world, this);
+        world.removeEntity(this);
     }
 
     public void executeVeinActivity(WorldModel world,
@@ -191,7 +191,7 @@ final class Entity
                     position, actionPeriod, animationPeriod,
                     images);
 
-            Functions.removeEntity(world, this);
+            world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
 
             Functions.addEntity(world, miner);
@@ -210,7 +210,7 @@ final class Entity
                 position, actionPeriod, animationPeriod,
                 images);
 
-        Functions.removeEntity(world, this);
+        world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
 
         Functions.addEntity(world, miner);
@@ -223,7 +223,7 @@ final class Entity
         if (this.position.adjacent(target.position))
         {
             this.resourceCount += 1;
-            Functions.removeEntity(world, target);
+            world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
 
             return true;
@@ -234,13 +234,13 @@ final class Entity
 
             if (!this.position.equals(nextPos))
             {
-                Optional<Entity> occupant = Functions.getOccupant(world, nextPos);
+                Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent())
                 {
                     scheduler.unscheduleAllEvents(occupant.get());
                 }
 
-                Functions.moveEntity(world, this, nextPos);
+                world.moveEntity(this, nextPos);
             }
             return false;
         }
@@ -259,13 +259,13 @@ final class Entity
 
             if (!this.position.equals(nextPos))
             {
-                Optional<Entity> occupant = Functions.getOccupant(world, nextPos);
+                Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent())
                 {
                     scheduler.unscheduleAllEvents(occupant.get());
                 }
 
-                Functions.moveEntity(world, this, nextPos);
+                world.moveEntity(this, nextPos);
             }
             return false;
         }
@@ -276,7 +276,7 @@ final class Entity
     {
         if (this.position.adjacent(target.position))
         {
-            Functions.removeEntity(world, target);
+            world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
             return true;
         }
@@ -286,13 +286,13 @@ final class Entity
 
             if (!this.position.equals(nextPos))
             {
-                Optional<Entity> occupant = Functions.getOccupant(world, nextPos);
+                Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent())
                 {
                     scheduler.unscheduleAllEvents(occupant.get());
                 }
 
-                Functions.moveEntity(world, this, nextPos);
+                world.moveEntity(this, nextPos);
             }
             return false;
         }
@@ -327,14 +327,14 @@ final class Entity
         Point newPos = new Point(position.x + horiz,
                 position.y);
 
-        Optional<Entity> occupant = Functions.getOccupant(world, newPos);
+        Optional<Entity> occupant = world.getOccupant(newPos);
 
         if (horiz == 0 ||
                 (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
         {
             int vert = Integer.signum(destPos.y - position.y);
             newPos = new Point(position.x, position.y + vert);
-            occupant = Functions.getOccupant(world, newPos);
+            occupant = world.getOccupant(newPos);
 
             if (vert == 0 ||
                     (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))

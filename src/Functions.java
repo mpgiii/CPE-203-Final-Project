@@ -919,98 +919,98 @@ final class Functions
    {
       if (world.withinBounds(entity.position))
       {
-         setOccupancyCell(world, entity.position, entity);
+         world.setOccupancyCell(entity.position, entity);
          world.entities.add(entity);
       }
    }
 
-   public static void moveEntity(WorldModel world, Entity entity, Point pos)
-   {
-      Point oldPos = entity.position;
-      if (world.withinBounds(pos) && !pos.equals(oldPos))
-      {
-         setOccupancyCell(world, oldPos, null);
-         removeEntityAt(world, pos);
-         setOccupancyCell(world, pos, entity);
-         entity.position = pos;
-      }
-   }
-
-   public static void removeEntity(WorldModel world, Entity entity)
-   {
-      removeEntityAt(world, entity.position);
-   }
-
-   public static void removeEntityAt(WorldModel world, Point pos)
-   {
-      if (world.withinBounds(pos)
-         && getOccupancyCell(world, pos) != null)
-      {
-         Entity entity = getOccupancyCell(world, pos);
-
-         /* this moves the entity just outside of the grid for
-            debugging purposes */
-         entity.position = new Point(-1, -1);
-         world.entities.remove(entity);
-         setOccupancyCell(world, pos, null);
-      }
-   }
-
-   public static Optional<PImage> getBackgroundImage(WorldModel world,
-      Point pos)
-   {
-      if (world.withinBounds(pos))
-      {
-         return Optional.of(getCurrentImage(getBackgroundCell(world, pos)));
-      }
-      else
-      {
-         return Optional.empty();
-      }
-   }
-
-   public static void setBackground(WorldModel world, Point pos,
-      Background background)
-   {
-      if (world.withinBounds(pos))
-      {
-         setBackgroundCell(world, pos, background);
-      }
-   }
-
-   public static Optional<Entity> getOccupant(WorldModel world, Point pos)
-   {
-      if (world.isOccupied(pos))
-      {
-         return Optional.of(getOccupancyCell(world, pos));
-      }
-      else
-      {
-         return Optional.empty();
-      }
-   }
-
-   public static Entity getOccupancyCell(WorldModel world, Point pos)
-   {
-      return world.occupancy[pos.y][pos.x];
-   }
-
-   public static void setOccupancyCell(WorldModel world, Point pos,
-      Entity entity)
-   {
-      world.occupancy[pos.y][pos.x] = entity;
-   }
-
-   public static Background getBackgroundCell(WorldModel world, Point pos)
-   {
-      return world.background[pos.y][pos.x];
-   }
-
-   public static void setBackgroundCell(WorldModel world, Point pos,
-      Background background)
-   {
-      world.background[pos.y][pos.x] = background;
-   }
+//   public static void moveEntity(WorldModel world, Entity entity, Point pos)
+//   {
+//      Point oldPos = entity.position;
+//      if (world.withinBounds(pos) && !pos.equals(oldPos))
+//      {
+//         setOccupancyCell(world, oldPos, null);
+//         removeEntityAt(world, pos);
+//         setOccupancyCell(world, pos, entity);
+//         entity.position = pos;
+//      }
+//   }
+//
+//   public static void removeEntity(WorldModel world, Entity entity)
+//   {
+//      removeEntityAt(world, entity.position);
+//   }
+//
+//   public static void removeEntityAt(WorldModel world, Point pos)
+//   {
+//      if (world.withinBounds(pos)
+//         && getOccupancyCell(world, pos) != null)
+//      {
+//         Entity entity = getOccupancyCell(world, pos);
+//
+//         /* this moves the entity just outside of the grid for
+//            debugging purposes */
+//         entity.position = new Point(-1, -1);
+//         world.entities.remove(entity);
+//         setOccupancyCell(world, pos, null);
+//      }
+//   }
+//
+//   public static Optional<PImage> getBackgroundImage(WorldModel world,
+//      Point pos)
+//   {
+//      if (world.withinBounds(pos))
+//      {
+//         return Optional.of(getCurrentImage(getBackgroundCell(world, pos)));
+//      }
+//      else
+//      {
+//         return Optional.empty();
+//      }
+//   }
+//
+//   public static void setBackground(WorldModel world, Point pos,
+//      Background background)
+//   {
+//      if (world.withinBounds(pos))
+//      {
+//         setBackgroundCell(world, pos, background);
+//      }
+//   }
+//
+//   public static Optional<Entity> getOccupant(WorldModel world, Point pos)
+//   {
+//      if (world.isOccupied(pos))
+//      {
+//         return Optional.of(getOccupancyCell(world, pos));
+//      }
+//      else
+//      {
+//         return Optional.empty();
+//      }
+//   }
+//
+//   public static Entity getOccupancyCell(WorldModel world, Point pos)
+//   {
+//      return world.occupancy[pos.y][pos.x];
+//   }
+//
+//   public static void setOccupancyCell(WorldModel world, Point pos,
+//      Entity entity)
+//   {
+//      world.occupancy[pos.y][pos.x] = entity;
+//   }
+//
+//   public static Background getBackgroundCell(WorldModel world, Point pos)
+//   {
+//      return world.background[pos.y][pos.x];
+//   }
+//
+//   public static void setBackgroundCell(WorldModel world, Point pos,
+//      Background background)
+//   {
+//      world.background[pos.y][pos.x] = background;
+//   }
 
    public static Point viewportToWorld(Viewport viewport, int col, int row)
    {
@@ -1044,8 +1044,7 @@ final class Functions
          for (int col = 0; col < view.viewport.numCols; col++)
          {
             Point worldPoint = viewportToWorld(view.viewport, col, row);
-            Optional<PImage> image = getBackgroundImage(view.world,
-               worldPoint);
+            Optional<PImage> image = view.world.getBackgroundImage(worldPoint);
             if (image.isPresent())
             {
                view.screen.image(image.get(), col * view.tileWidth,
