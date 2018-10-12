@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -83,7 +84,7 @@ final class Entity
     public void executeMinerFullActivity(WorldModel world,
                                                 ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Entity> fullTarget = Functions.findNearest(world, position,
+        Optional<Entity> fullTarget = findNearest(world, position,
                 EntityKind.BLACKSMITH);
 
         if (fullTarget.isPresent() &&
@@ -101,7 +102,7 @@ final class Entity
 
     public void executeMinerNotFullActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Entity> notFullTarget = Functions.findNearest(world, position,
+        Optional<Entity> notFullTarget = findNearest(world, position,
                 EntityKind.ORE);
 
         if (!notFullTarget.isPresent() ||
@@ -128,14 +129,14 @@ final class Entity
                         rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN),
                 imageStore.getImageList(BLOB_KEY));
 
-        Functions.addEntity(world, blob);
+        blob.addEntity(world);
         scheduler.scheduleActions(blob, world, imageStore);
     }
 
     public void executeOreBlobActivity(WorldModel world,
                                               ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Entity> blobTarget = Functions.findNearest(world,
+        Optional<Entity> blobTarget = findNearest(world,
                 position, EntityKind.VEIN);
         long nextPeriod = actionPeriod;
 
@@ -148,7 +149,7 @@ final class Entity
                 Entity quake = WorldModel.createQuake(tgtPos,
                         imageStore.getImageList(QUAKE_KEY));
 
-                Functions.addEntity(world, quake);
+                quake.addEntity(world);
                 nextPeriod += this.actionPeriod;
                 scheduler.scheduleActions(quake, world, imageStore);
             }
@@ -177,7 +178,7 @@ final class Entity
                     openPt.get(), ORE_CORRUPT_MIN +
                             rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
                     imageStore.getImageList(ORE_KEY));
-            Functions.addEntity(world, ore);
+            ore.addEntity(world);
             scheduler.scheduleActions(ore, world, imageStore);
         }
 
@@ -198,7 +199,7 @@ final class Entity
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
 
-            Functions.addEntity(world, miner);
+            miner.addEntity(world);
             scheduler.scheduleActions(miner, world, imageStore);
 
             return true;
@@ -217,7 +218,7 @@ final class Entity
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
 
-        Functions.addEntity(world, miner);
+        miner.addEntity(world);
         scheduler.scheduleActions(miner, world, imageStore);
     }
 
@@ -369,6 +370,30 @@ final class Entity
     public PImage getCurrentImage()
     {
         return (images.get(imageIndex));
+    }
+
+    public static Optional<Entity> findNearest(WorldModel world, Point pos,
+                                               EntityKind kind)
+    {
+        List<Entity> ofType = new LinkedList<>();
+        for (Entity entity : world.entities)
+        {
+            if (entity.kind == kind)
+            {
+                ofType.add(entity);
+            }
+        }
+
+        return pos.nearestEntity(ofType);
+    }
+
+    public void addEntity(WorldModel world)
+    {
+        if (world.withinBounds(this.position))
+        {
+            world.setOccupancyCell(this.position, this);
+            world.entities.add(this);
+        }
     }
 
 }

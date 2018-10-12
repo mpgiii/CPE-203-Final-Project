@@ -34,15 +34,15 @@ final class Functions
 //   private static final int KEYED_GREEN_IDX = 3;
 //   private static final int KEYED_BLUE_IDX = 4;
 
-   public static final int PROPERTY_KEY = 0;
-
-   public static final String BGND_KEY = "background";
+//   public static final int PROPERTY_KEY = 0;
+//
+//   public static final String BGND_KEY = "background";
 //   public static final int BGND_NUM_PROPERTIES = 4;
 //   public static final int BGND_ID = 1;
 //   public static final int BGND_COL = 2;
 //   public static final int BGND_ROW = 3;
 
-   public static final String MINER_KEY = "miner";
+//   public static final String MINER_KEY = "miner";
 //   public static final int MINER_NUM_PROPERTIES = 7;
 //   public static final int MINER_ID = 1;
 //   public static final int MINER_COL = 2;
@@ -51,26 +51,26 @@ final class Functions
 //   public static final int MINER_ACTION_PERIOD = 5;
 //   public static final int MINER_ANIMATION_PERIOD = 6;
 
-   public static final String OBSTACLE_KEY = "obstacle";
+//   public static final String OBSTACLE_KEY = "obstacle";
 //   public static final int OBSTACLE_NUM_PROPERTIES = 4;
 //   public static final int OBSTACLE_ID = 1;
 //   public static final int OBSTACLE_COL = 2;
 //   public static final int OBSTACLE_ROW = 3;
 
-   public static final String ORE_KEY = "ore";
+//   public static final String ORE_KEY = "ore";
 //   public static final int ORE_NUM_PROPERTIES = 5;
 //   public static final int ORE_ID = 1;
 //   public static final int ORE_COL = 2;
 //   public static final int ORE_ROW = 3;
 //   public static final int ORE_ACTION_PERIOD = 4;
 
-   public static final String SMITH_KEY = "blacksmith";
+//   public static final String SMITH_KEY = "blacksmith";
 //   public static final int SMITH_NUM_PROPERTIES = 4;
 //   public static final int SMITH_ID = 1;
 //   public static final int SMITH_COL = 2;
 //   public static final int SMITH_ROW = 3;
 
-   public static final String VEIN_KEY = "vein";
+//   public static final String VEIN_KEY = "vein";
 //   public static final int VEIN_NUM_PROPERTIES = 5;
 //   public static final int VEIN_ID = 1;
 //   public static final int VEIN_COL = 2;
@@ -713,31 +713,31 @@ final class Functions
 //      }
 //   }
 
-   public static boolean processLine(String line, WorldModel world,
-      ImageStore imageStore)
-   {
-      String[] properties = line.split("\\s");
-      if (properties.length > 0)
-      {
-         switch (properties[PROPERTY_KEY])
-         {
-         case BGND_KEY:
-            return world.parseBackground(properties, imageStore);
-         case MINER_KEY:
-            return world.parseMiner(properties, imageStore);
-         case OBSTACLE_KEY:
-            return world.parseObstacle(properties, imageStore);
-         case ORE_KEY:
-            return world.parseOre(properties, imageStore);
-         case SMITH_KEY:
-            return world.parseSmith(properties, imageStore);
-         case VEIN_KEY:
-            return world.parseVein(properties, imageStore);
-         }
-      }
-
-      return false;
-   }
+//   public static boolean processLine(String line, WorldModel world,
+//      ImageStore imageStore)
+//   {
+//      String[] properties = line.split("\\s");
+//      if (properties.length > 0)
+//      {
+//         switch (properties[PROPERTY_KEY])
+//         {
+//         case BGND_KEY:
+//            return world.parseBackground(properties, imageStore);
+//         case MINER_KEY:
+//            return world.parseMiner(properties, imageStore);
+//         case OBSTACLE_KEY:
+//            return world.parseObstacle(properties, imageStore);
+//         case ORE_KEY:
+//            return world.parseOre(properties, imageStore);
+//         case SMITH_KEY:
+//            return world.parseSmith(properties, imageStore);
+//         case VEIN_KEY:
+//            return world.parseVein(properties, imageStore);
+//         }
+//      }
+//
+//      return false;
+//   }
 
 //   public static boolean parseBackground(String [] properties,
 //      WorldModel world, ImageStore imageStore)
@@ -896,20 +896,20 @@ final class Functions
 //      return deltaX * deltaX + deltaY * deltaY;
 //   }
 
-   public static Optional<Entity> findNearest(WorldModel world, Point pos,
-      EntityKind kind)
-   {
-      List<Entity> ofType = new LinkedList<>();
-      for (Entity entity : world.entities)
-      {
-         if (entity.kind == kind)
-         {
-            ofType.add(entity);
-         }
-      }
-
-      return pos.nearestEntity(ofType);
-   }
+//   public static Optional<Entity> findNearest(WorldModel world, Point pos,
+//      EntityKind kind)
+//   {
+//      List<Entity> ofType = new LinkedList<>();
+//      for (Entity entity : world.entities)
+//      {
+//         if (entity.kind == kind)
+//         {
+//            ofType.add(entity);
+//         }
+//      }
+//
+//      return pos.nearestEntity(ofType);
+//   }
 
    /*
       Assumes that there is no entity currently occupying the

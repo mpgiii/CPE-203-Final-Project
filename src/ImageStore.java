@@ -10,6 +10,15 @@ final class ImageStore
 
     public static final int COLOR_MASK = 0xffffff;
 
+    public static final int PROPERTY_KEY = 0;
+    public static final String BGND_KEY = "background";
+    public static final String MINER_KEY = "miner";
+    public static final String OBSTACLE_KEY = "obstacle";
+    public static final String ORE_KEY = "ore";
+    public static final String SMITH_KEY = "blacksmith";
+    public static final String VEIN_KEY = "vein";
+
+
    public ImageStore(PImage defaultImage)
    {
       this.images = new HashMap<>();
@@ -57,7 +66,7 @@ final class ImageStore
         {
             try
             {
-                if (!Functions.processLine(in.nextLine(), world, this))
+                if (!processLine(in.nextLine(), world))
                 {
                     System.err.println(String.format("invalid entry on line %d",
                             lineNumber));
@@ -75,5 +84,30 @@ final class ImageStore
             }
             lineNumber++;
         }
+    }
+
+    public boolean processLine(String line, WorldModel world)
+    {
+        String[] properties = line.split("\\s");
+        if (properties.length > 0)
+        {
+            switch (properties[PROPERTY_KEY])
+            {
+                case BGND_KEY:
+                    return world.parseBackground(properties, this);
+                case MINER_KEY:
+                    return world.parseMiner(properties, this);
+                case OBSTACLE_KEY:
+                    return world.parseObstacle(properties, this);
+                case ORE_KEY:
+                    return world.parseOre(properties, this);
+                case SMITH_KEY:
+                    return world.parseSmith(properties, this);
+                case VEIN_KEY:
+                    return world.parseVein(properties, this);
+            }
+        }
+
+        return false;
     }
 }

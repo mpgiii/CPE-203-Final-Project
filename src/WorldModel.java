@@ -195,7 +195,7 @@ final class WorldModel
          throw new IllegalArgumentException("position occupied");
       }
 
-      Functions.addEntity(this, entity);
+      this.addEntity(entity);
    }
 
    public boolean withinBounds(Point pos)
@@ -335,5 +335,14 @@ final class WorldModel
     {
         return new Entity(EntityKind.VEIN, id, position, images, 0, 0,
                 actionPeriod, 0);
+    }
+
+    public void addEntity(Entity entity)
+    {
+        if (this.withinBounds(entity.position))
+        {
+            this.setOccupancyCell(entity.position, entity);
+            this.entities.add(entity);
+        }
     }
 }
