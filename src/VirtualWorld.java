@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import processing.core.*;
 
@@ -32,6 +34,11 @@ public final class VirtualWorld
    public static final double FAST_SCALE = 0.5;
    public static final double FASTER_SCALE = 0.25;
    public static final double FASTEST_SCALE = 0.10;
+
+   public static final int KEYED_IMAGE_MIN = 5;
+   private static final int KEYED_RED_IDX = 2;
+   private static final int KEYED_GREEN_IDX = 3;
+   private static final int KEYED_BLUE_IDX = 4;
 
    public static double timeScale = 1.0;
 
@@ -188,7 +195,7 @@ public final class VirtualWorld
       {
          try
          {
-            Functions.processImageLine(imageStore.images, in.nextLine(), screen);
+            processImageLine(imageStore.images, in.nextLine(), screen);
          }
          catch (NumberFormatException e)
          {
@@ -203,5 +210,29 @@ public final class VirtualWorld
    {
       parseCommandLine(args);
       PApplet.main(VirtualWorld.class);
+   }
+
+   public static void processImageLine(Map<String, List<PImage>> images,
+                                       String line, PApplet screen)
+   {
+      String[] attrs = line.split("\\s");
+      if (attrs.length >= 2)
+      {
+         String key = attrs[0];
+         PImage img = screen.loadImage(attrs[1]);
+         if (img != null && img.width != -1)
+         {
+            List<PImage> imgs = ImageStore.getImages(images, key);
+            imgs.add(img);
+
+            if (attrs.length >= KEYED_IMAGE_MIN)
+            {
+               int r = Integer.parseInt(attrs[KEYED_RED_IDX]);
+               int g = Integer.parseInt(attrs[KEYED_GREEN_IDX]);
+               int b = Integer.parseInt(attrs[KEYED_BLUE_IDX]);
+               ImageStore.setAlpha(img, screen.color(r, g, b), 0);
+            }
+         }
+      }
    }
 }
