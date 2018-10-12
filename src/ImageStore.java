@@ -5,18 +5,18 @@ import processing.core.PImage;
 
 final class ImageStore
 {
-   public Map<String, List<PImage>> images;
-   public List<PImage> defaultImages;
+    private Map<String, List<PImage>> images;
+    private List<PImage> defaultImages;
 
-    public static final int COLOR_MASK = 0xffffff;
+    private static final int COLOR_MASK = 0xffffff;
 
-    public static final int PROPERTY_KEY = 0;
-    public static final String BGND_KEY = "background";
-    public static final String MINER_KEY = "miner";
-    public static final String OBSTACLE_KEY = "obstacle";
-    public static final String ORE_KEY = "ore";
-    public static final String SMITH_KEY = "blacksmith";
-    public static final String VEIN_KEY = "vein";
+    private static final int PROPERTY_KEY = 0;
+    private static final String BGND_KEY = "background";
+    private static final String MINER_KEY = "miner";
+    private static final String OBSTACLE_KEY = "obstacle";
+    private static final String ORE_KEY = "ore";
+    private static final String SMITH_KEY = "blacksmith";
+    private static final String VEIN_KEY = "vein";
 
 
    public ImageStore(PImage defaultImage)
@@ -86,7 +86,7 @@ final class ImageStore
         }
     }
 
-    public boolean processLine(String line, WorldModel world)
+    private boolean processLine(String line, WorldModel world)
     {
         String[] properties = line.split("\\s");
         if (properties.length > 0)
@@ -109,5 +109,9 @@ final class ImageStore
         }
 
         return false;
+    }
+
+    public Map<String, List<PImage>> getImageMap() {
+       return images;
     }
 }

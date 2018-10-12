@@ -2,11 +2,11 @@ import java.util.*;
 
 final class EventScheduler
 {
-   public PriorityQueue<Event> eventQueue;
-   public Map<Entity, List<Event>> pendingEvents;
-   public double timeScale;
+    private PriorityQueue<Event> eventQueue;
+    private Map<Entity, List<Event>> pendingEvents;
+    private double timeScale;
 
-    public static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
+    private static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
 
    public EventScheduler(double timeScale)
    {
@@ -32,12 +32,12 @@ final class EventScheduler
     public void scheduleActions(Entity entity,
                                        WorldModel world, ImageStore imageStore)
     {
-        switch (entity.kind)
+        switch (entity.getKind())
         {
             case MINER_FULL:
                 this.scheduleEvent(entity,
                         entity.createActivityAction(world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 this.scheduleEvent(entity, entity.createAnimationAction(0),
                         entity.getAnimationPeriod());
                 break;
@@ -45,7 +45,7 @@ final class EventScheduler
             case MINER_NOT_FULL:
                 this.scheduleEvent(entity,
                         entity.createActivityAction(world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 this.scheduleEvent(entity,
                         entity.createAnimationAction(0), entity.getAnimationPeriod());
                 break;
@@ -53,13 +53,13 @@ final class EventScheduler
             case ORE:
                 this.scheduleEvent(entity,
                         entity.createActivityAction(world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 break;
 
             case ORE_BLOB:
                 this.scheduleEvent(entity,
                         entity.createActivityAction(world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 this.scheduleEvent(entity,
                         entity.createAnimationAction(0), entity.getAnimationPeriod());
                 break;
@@ -67,7 +67,7 @@ final class EventScheduler
             case QUAKE:
                 this.scheduleEvent(entity,
                         entity.createActivityAction(world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 this.scheduleEvent(entity,
                         entity.createAnimationAction(QUAKE_ANIMATION_REPEAT_COUNT),
                         entity.getAnimationPeriod());
@@ -76,7 +76,7 @@ final class EventScheduler
             case VEIN:
                 this.scheduleEvent(entity,
                         entity.createActivityAction(world, imageStore),
-                        entity.actionPeriod);
+                        entity.getActionPeriod());
                 break;
 
             default:
@@ -96,9 +96,9 @@ final class EventScheduler
         }
     }
 
-    public void removePendingEvent(Event event)
+    private void removePendingEvent(Event event)
     {
-        List<Event> pending = pendingEvents.get(event.entity);
+        List<Event> pending = pendingEvents.get(event.getEntity());
 
         if (pending != null)
         {
@@ -109,13 +109,13 @@ final class EventScheduler
     public void updateOnTime(long time)
     {
         while (!eventQueue.isEmpty() &&
-                eventQueue.peek().time < time)
+                eventQueue.peek().getTime() < time)
         {
             Event next = eventQueue.poll();
 
             removePendingEvent(next);
 
-            next.action.executeAction(this);
+            next.getAction().executeAction(this);
         }
     }
 }

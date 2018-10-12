@@ -8,31 +8,31 @@ import processing.core.PImage;
 final class Entity
 {
 
-    public static final Random rand = new Random();
+    private static final Random rand = new Random();
 
-   public EntityKind kind;
-   public String id;
-   public Point position;
-   public List<PImage> images;
-   public int imageIndex;
-   public int resourceLimit;
-   public int resourceCount;
-   public int actionPeriod;
-   public int animationPeriod;
+    private EntityKind kind;
+    private String id;
+    private Point position;
+    private List<PImage> images;
+    private int imageIndex;
+    private int resourceLimit;
+    private int resourceCount;
+    private int actionPeriod;
+    private int animationPeriod;
 
-    public static final String BLOB_KEY = "blob";
-    public static final String BLOB_ID_SUFFIX = " -- blob";
-    public static final int BLOB_PERIOD_SCALE = 4;
-    public static final int BLOB_ANIMATION_MIN = 50;
-    public static final int BLOB_ANIMATION_MAX = 150;
+    private static final String BLOB_KEY = "blob";
+    private static final String BLOB_ID_SUFFIX = " -- blob";
+    private static final int BLOB_PERIOD_SCALE = 4;
+    private static final int BLOB_ANIMATION_MIN = 50;
+    private static final int BLOB_ANIMATION_MAX = 150;
 
-    public static final String ORE_ID_PREFIX = "ore -- ";
-    public static final int ORE_CORRUPT_MIN = 20000;
-    public static final int ORE_CORRUPT_MAX = 30000;
+    private static final String ORE_ID_PREFIX = "ore -- ";
+    private static final int ORE_CORRUPT_MIN = 20000;
+    private static final int ORE_CORRUPT_MAX = 30000;
 
-    public static final String QUAKE_KEY = "quake";
+    private static final String QUAKE_KEY = "quake";
 
-    public static final String ORE_KEY = "ore";
+    private static final String ORE_KEY = "ore";
 
    public Entity(EntityKind kind, String id, Point position,
       List<PImage> images, int resourceLimit, int resourceCount,
@@ -306,15 +306,15 @@ final class Entity
     public Point nextPositionMiner(WorldModel world,
                                           Point destPos)
     {
-        int horiz = Integer.signum(destPos.x - position.x);
-        Point newPos = new Point(position.x + horiz,
-                position.y);
+        int horiz = Integer.signum(destPos.getX() - position.getX());
+        Point newPos = new Point(position.getX() + horiz,
+                position.getY());
 
         if (horiz == 0 || world.isOccupied(newPos))
         {
-            int vert = Integer.signum(destPos.y - position.y);
-            newPos = new Point(position.x,
-                    position.y + vert);
+            int vert = Integer.signum(destPos.getY() - position.getY());
+            newPos = new Point(position.getX(),
+                    position.getY() + vert);
 
             if (vert == 0 || world.isOccupied(newPos))
             {
@@ -328,17 +328,17 @@ final class Entity
     public Point nextPositionOreBlob(WorldModel world,
                                             Point destPos)
     {
-        int horiz = Integer.signum(destPos.x - position.x);
-        Point newPos = new Point(position.x + horiz,
-                position.y);
+        int horiz = Integer.signum(destPos.getX() - position.getX());
+        Point newPos = new Point(position.getX() + horiz,
+                position.getY());
 
         Optional<Entity> occupant = world.getOccupant(newPos);
 
         if (horiz == 0 ||
                 (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
         {
-            int vert = Integer.signum(destPos.y - position.y);
-            newPos = new Point(position.x, position.y + vert);
+            int vert = Integer.signum(destPos.getY() - position.getY());
+            newPos = new Point(position.getX(), position.getY() + vert);
             occupant = world.getOccupant(newPos);
 
             if (vert == 0 ||
@@ -376,7 +376,7 @@ final class Entity
                                                EntityKind kind)
     {
         List<Entity> ofType = new LinkedList<>();
-        for (Entity entity : world.entities)
+        for (Entity entity : world.getEntities())
         {
             if (entity.kind == kind)
             {
@@ -392,8 +392,27 @@ final class Entity
         if (world.withinBounds(this.position))
         {
             world.setOccupancyCell(this.position, this);
-            world.entities.add(this);
+            world.addEntities(this);
         }
+    }
+
+    public EntityKind getKind() {
+       return kind;
+    }
+    public String getId() {
+       return id;
+    }
+    public Point getPosition() {
+       return position;
+    }
+    public void setPosition(Point p) {
+       position = p;
+    }
+    public List<PImage> getImages() {
+       return images;
+    }
+    public int getActionPeriod() {
+       return actionPeriod;
     }
 
 }

@@ -3,8 +3,8 @@ import java.util.Optional;
 
 final class Point
 {
-   public final int x;
-   public final int y;
+   private final int x;
+   private final int y;
 
    public Point(int x, int y)
    {
@@ -47,11 +47,11 @@ final class Point
         else
         {
             Entity nearest = entities.get(0);
-            int nearestDistance = distanceSquared(nearest.position);
+            int nearestDistance = distanceSquared(nearest.getPosition());
 
             for (Entity other : entities)
             {
-                int otherDistance = distanceSquared(other.position);
+                int otherDistance = distanceSquared(other.getPosition());
 
                 if (otherDistance < nearestDistance)
                 {
@@ -64,11 +64,19 @@ final class Point
         }
     }
 
-    public int distanceSquared(Point other)
+    private int distanceSquared(Point other)
     {
         int deltaX = this.x - other.x;
         int deltaY = this.y - other.y;
 
         return deltaX * deltaX + deltaY * deltaY;
+    }
+
+    public int getX() {
+       return x;
+    }
+
+    public int getY() {
+       return y;
     }
 }

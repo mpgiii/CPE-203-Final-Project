@@ -4,57 +4,57 @@ import java.util.*;
 
 final class WorldModel
 {
-   public int numRows;
-   public int numCols;
-   public Background background[][];
-   public Entity occupancy[][];
-   public Set<Entity> entities;
+   private int numRows;
+    private int numCols;
+    private Background background[][];
+    private Entity occupancy[][];
+    private Set<Entity> entities;
 
-   public static final int ORE_REACH = 1;
+    private static final int ORE_REACH = 1;
 
-   public static final int BGND_NUM_PROPERTIES = 4;
-   public static final int BGND_ID = 1;
-   public static final int BGND_COL = 2;
-   public static final int BGND_ROW = 3;
+    private static final int BGND_NUM_PROPERTIES = 4;
+    private static final int BGND_ID = 1;
+    private static final int BGND_COL = 2;
+    private static final int BGND_ROW = 3;
 
-   public static final String MINER_KEY = "miner";
-   public static final int MINER_NUM_PROPERTIES = 7;
-   public static final int MINER_ID = 1;
-   public static final int MINER_COL = 2;
-   public static final int MINER_ROW = 3;
-   public static final int MINER_LIMIT = 4;
-   public static final int MINER_ACTION_PERIOD = 5;
-   public static final int MINER_ANIMATION_PERIOD = 6;
+    private static final String MINER_KEY = "miner";
+    private static final int MINER_NUM_PROPERTIES = 7;
+    private static final int MINER_ID = 1;
+    private static final int MINER_COL = 2;
+    private static final int MINER_ROW = 3;
+    private static final int MINER_LIMIT = 4;
+    private static final int MINER_ACTION_PERIOD = 5;
+    private static final int MINER_ANIMATION_PERIOD = 6;
 
-   public static final String OBSTACLE_KEY = "obstacle";
-   public static final int OBSTACLE_NUM_PROPERTIES = 4;
-   public static final int OBSTACLE_ID = 1;
-   public static final int OBSTACLE_COL = 2;
-   public static final int OBSTACLE_ROW = 3;
+    private static final String OBSTACLE_KEY = "obstacle";
+    private static final int OBSTACLE_NUM_PROPERTIES = 4;
+    private static final int OBSTACLE_ID = 1;
+    private static final int OBSTACLE_COL = 2;
+    private static final int OBSTACLE_ROW = 3;
 
-   public static final String ORE_KEY = "ore";
-   public static final int ORE_NUM_PROPERTIES = 5;
-   public static final int ORE_ID = 1;
-   public static final int ORE_COL = 2;
-   public static final int ORE_ROW = 3;
-   public static final int ORE_ACTION_PERIOD = 4;
+    private static final String ORE_KEY = "ore";
+    private static final int ORE_NUM_PROPERTIES = 5;
+    private static final int ORE_ID = 1;
+    private static final int ORE_COL = 2;
+    private static final int ORE_ROW = 3;
+    private static final int ORE_ACTION_PERIOD = 4;
 
-    public static final String QUAKE_ID = "quake";
-    public static final int QUAKE_ACTION_PERIOD = 1100;
-    public static final int QUAKE_ANIMATION_PERIOD = 100;
+    private static final String QUAKE_ID = "quake";
+    private static final int QUAKE_ACTION_PERIOD = 1100;
+    private static final int QUAKE_ANIMATION_PERIOD = 100;
 
-   public static final String SMITH_KEY = "blacksmith";
-   public static final int SMITH_NUM_PROPERTIES = 4;
-   public static final int SMITH_ID = 1;
-   public static final int SMITH_COL = 2;
-   public static final int SMITH_ROW = 3;
+    private static final String SMITH_KEY = "blacksmith";
+    private static final int SMITH_NUM_PROPERTIES = 4;
+    private static final int SMITH_ID = 1;
+    private static final int SMITH_COL = 2;
+    private static final int SMITH_ROW = 3;
 
-   public static final String VEIN_KEY = "vein";
-   public static final int VEIN_NUM_PROPERTIES = 5;
-   public static final int VEIN_ID = 1;
-   public static final int VEIN_COL = 2;
-   public static final int VEIN_ROW = 3;
-   public static final int VEIN_ACTION_PERIOD = 4;
+    private static final String VEIN_KEY = "vein";
+    private static final int VEIN_NUM_PROPERTIES = 5;
+    private static final int VEIN_ID = 1;
+    private static final int VEIN_COL = 2;
+    private static final int VEIN_ROW = 3;
+    private static final int VEIN_ACTION_PERIOD = 4;
 
    public WorldModel(int numRows, int numCols, Background defaultBackground)
    {
@@ -76,7 +76,7 @@ final class WorldModel
       {
          for (int dx = -ORE_REACH; dx <= ORE_REACH; dx++)
          {
-            Point newPt = new Point(pos.x + dx, pos.y + dy);
+            Point newPt = new Point(pos.getX() + dx, pos.getY() + dy);
             if (this.withinBounds(newPt) &&
                     !this.isOccupied(newPt))
             {
@@ -186,9 +186,9 @@ final class WorldModel
       return properties.length == VEIN_NUM_PROPERTIES;
    }
 
-   public void tryAddEntity(Entity entity)
+   private void tryAddEntity(Entity entity)
    {
-      if (this.isOccupied(entity.position))
+      if (this.isOccupied(entity.getPosition()))
       {
          // arguably the wrong type of exception, but we are not
          // defining our own exceptions yet
@@ -200,8 +200,8 @@ final class WorldModel
 
    public boolean withinBounds(Point pos)
    {
-      return pos.y >= 0 && pos.y < this.numRows &&
-              pos.x >= 0 && pos.x < this.numCols;
+      return pos.getY() >= 0 && pos.getY() < this.numRows &&
+              pos.getX() >= 0 && pos.getX() < this.numCols;
    }
 
    public boolean isOccupied(Point pos)
@@ -212,19 +212,19 @@ final class WorldModel
 
     public void moveEntity(Entity entity, Point pos)
     {
-        Point oldPos = entity.position;
+        Point oldPos = entity.getPosition();
         if (this.withinBounds(pos) && !pos.equals(oldPos))
         {
             this.setOccupancyCell(oldPos, null);
             this.removeEntityAt(pos);
             this.setOccupancyCell(pos, entity);
-            entity.position = pos;
+            entity.setPosition(pos);
         }
     }
 
     public void removeEntity(Entity entity)
     {
-        this.removeEntityAt(entity.position);
+        this.removeEntityAt(entity.getPosition());
     }
 
     public void removeEntityAt(Point pos)
@@ -236,7 +236,7 @@ final class WorldModel
 
          /* this moves the entity just outside of the grid for
             debugging purposes */
-            entity.position = new Point(-1, -1);
+            entity.setPosition(new Point(-1, -1));
             this.entities.remove(entity);
             this.setOccupancyCell(pos, null);
         }
@@ -254,7 +254,7 @@ final class WorldModel
         }
     }
 
-    public void setBackground(Point pos,
+    private void setBackground(Point pos,
                                      Background background)
     {
         if (this.withinBounds(pos))
@@ -275,35 +275,35 @@ final class WorldModel
         }
     }
 
-    public Entity getOccupancyCell(Point pos)
+    private Entity getOccupancyCell(Point pos)
     {
-        return this.occupancy[pos.y][pos.x];
+        return this.occupancy[pos.getY()][pos.getX()];
     }
 
     public void setOccupancyCell(Point pos, Entity entity)
     {
-        this.occupancy[pos.y][pos.x] = entity;
+        this.occupancy[pos.getY()][pos.getX()] = entity;
     }
 
-    public Background getBackgroundCell(Point pos)
+    private Background getBackgroundCell(Point pos)
     {
-        return this.background[pos.y][pos.x];
+        return this.background[pos.getY()][pos.getX()];
     }
 
-    public void setBackgroundCell(Point pos,
+    private void setBackgroundCell(Point pos,
                                          Background background)
     {
-        this.background[pos.y][pos.x] = background;
+        this.background[pos.getY()][pos.getX()] = background;
     }
 
-    public static Entity createBlacksmith(String id, Point position,
+    private static Entity createBlacksmith(String id, Point position,
                                           List<PImage> images)
     {
         return new Entity(EntityKind.BLACKSMITH, id, position, images,
                 0, 0, 0, 0);
     }
 
-    public static Entity createObstacle(String id, Point position,
+    private static Entity createObstacle(String id, Point position,
                                         List<PImage> images)
     {
         return new Entity(EntityKind.OBSTACLE, id, position, images,
@@ -330,19 +330,35 @@ final class WorldModel
                 0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
     }
 
-    public static Entity createVein(String id, Point position, int actionPeriod,
+    private static Entity createVein(String id, Point position, int actionPeriod,
                                     List<PImage> images)
     {
         return new Entity(EntityKind.VEIN, id, position, images, 0, 0,
                 actionPeriod, 0);
     }
 
-    public void addEntity(Entity entity)
+    private void addEntity(Entity entity)
     {
-        if (this.withinBounds(entity.position))
+        if (this.withinBounds(entity.getPosition()))
         {
-            this.setOccupancyCell(entity.position, entity);
+            this.setOccupancyCell(entity.getPosition(), entity);
             this.entities.add(entity);
         }
+    }
+
+    public Set<Entity> getEntities() {
+       return this.entities;
+    }
+
+    public int getNumRows() {
+       return this.numRows;
+    }
+
+    public int getNumCols() {
+       return this.numCols;
+    }
+
+    public void addEntities(Entity entity) {
+       this.entities.add(entity);
     }
 }
