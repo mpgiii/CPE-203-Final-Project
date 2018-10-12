@@ -1027,53 +1027,53 @@ final class Functions
 //      return Math.min(high, Math.max(value, low));
 //   }
 
-   public static void shiftView(WorldView view, int colDelta, int rowDelta)
-   {
-      int newCol = WorldView.clamp(view.viewport.col + colDelta, 0,
-         view.world.numCols - view.viewport.numCols);
-      int newRow = WorldView.clamp(view.viewport.row + rowDelta, 0,
-         view.world.numRows - view.viewport.numRows);
-
-      view.viewport.shift(newCol, newRow);
-   }
-
-   public static void drawBackground(WorldView view)
-   {
-      for (int row = 0; row < view.viewport.numRows; row++)
-      {
-         for (int col = 0; col < view.viewport.numCols; col++)
-         {
-            Point worldPoint = view.viewport.viewportToWorld(col, row);
-            Optional<PImage> image = view.world.getBackgroundImage(worldPoint);
-            if (image.isPresent())
-            {
-               view.screen.image(image.get(), col * view.tileWidth,
-                  row * view.tileHeight);
-            }
-         }
-      }
-   }
-
-   public static void drawEntities(WorldView view)
-   {
-      for (Entity entity : view.world.entities)
-      {
-         Point pos = entity.position;
-
-         if (view.viewport.contains(pos))
-         {
-            Point viewPoint = view.viewport.worldToViewport(pos.x, pos.y);
-            view.screen.image(getCurrentImage(entity),
-               viewPoint.x * view.tileWidth, viewPoint.y * view.tileHeight);
-         }
-      }
-   }
-
-   public static void drawViewport(WorldView view)
-   {
-      drawBackground(view);
-      drawEntities(view);
-   }
+//   public static void shiftView(WorldView view, int colDelta, int rowDelta)
+//   {
+//      int newCol = WorldView.clamp(view.viewport.col + colDelta, 0,
+//         view.world.numCols - view.viewport.numCols);
+//      int newRow = WorldView.clamp(view.viewport.row + rowDelta, 0,
+//         view.world.numRows - view.viewport.numRows);
+//
+//      view.viewport.shift(newCol, newRow);
+//   }
+//
+//   public static void drawBackground(WorldView view)
+//   {
+//      for (int row = 0; row < view.viewport.numRows; row++)
+//      {
+//         for (int col = 0; col < view.viewport.numCols; col++)
+//         {
+//            Point worldPoint = view.viewport.viewportToWorld(col, row);
+//            Optional<PImage> image = view.world.getBackgroundImage(worldPoint);
+//            if (image.isPresent())
+//            {
+//               view.screen.image(image.get(), col * view.tileWidth,
+//                  row * view.tileHeight);
+//            }
+//         }
+//      }
+//   }
+//
+//   public static void drawEntities(WorldView view)
+//   {
+//      for (Entity entity : view.world.entities)
+//      {
+//         Point pos = entity.position;
+//
+//         if (view.viewport.contains(pos))
+//         {
+//            Point viewPoint = view.viewport.worldToViewport(pos.x, pos.y);
+//            view.screen.image(getCurrentImage(entity),
+//               viewPoint.x * view.tileWidth, viewPoint.y * view.tileHeight);
+//         }
+//      }
+//   }
+//
+//   public static void drawViewport(WorldView view)
+//   {
+//      drawBackground(view);
+//      drawEntities(view);
+//   }
 
 //   public static Action createAnimationAction(Entity entity, int repeatCount)
 //   {
