@@ -42,7 +42,6 @@ public class MinerFull implements Entity
         imageIndex = (imageIndex + 1) % images.size();
     }
 
-
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
         Optional<Entity> fullTarget = world.findNearest(position,
