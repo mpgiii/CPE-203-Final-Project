@@ -39,17 +39,6 @@ public class Ore_Blob implements Entity{
         imageIndex = (imageIndex + 1) % images.size();
     }
 
-    public Action createAnimationAction(int repeatCount)
-    {
-        return new Action(ActionKind.ANIMATION, this, null, null, repeatCount);
-    }
-
-    public Action createActivityAction(WorldModel world,
-                                       ImageStore imageStore)
-    {
-        return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
-    }
-
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
@@ -72,7 +61,7 @@ public class Ore_Blob implements Entity{
         }
 
         scheduler.scheduleEvent(this,
-                this.createActivityAction(world, imageStore),
+                Create.createActivityAction(world, this, imageStore),
                 nextPeriod);
     }
 

@@ -10,7 +10,6 @@ public class MinerFull implements Entity
 
     private static final Random rand = new Random();
 
-    private EntityKind kind;
     private String id;
     private Point position;
     private List<PImage> images;
@@ -44,12 +43,6 @@ public class MinerFull implements Entity
     }
 
 
-    public Action createActivityAction(WorldModel world, ImageStore imageStore)
-    {
-        return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
-    }
-
-
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
         Optional<Entity> fullTarget = world.findNearest(position,
@@ -63,7 +56,7 @@ public class MinerFull implements Entity
         else
         {
             scheduler.scheduleEvent(this,
-                    this.createActivityAction(world, imageStore),
+                    Create.createActivityAction(world, this, imageStore),
                     this.actionPeriod);
         }
     }
