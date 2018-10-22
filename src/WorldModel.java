@@ -110,7 +110,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
                  Integer.parseInt(properties[MINER_ROW]));
-         Entity entity = Entity.createMinerNotFull(properties[MINER_ID],
+         Entity entity = Create.createMinerNotFull(properties[MINER_ID],
                  Integer.parseInt(properties[MINER_LIMIT]),
                  pt,
                  Integer.parseInt(properties[MINER_ACTION_PERIOD]),
@@ -130,7 +130,7 @@ final class WorldModel
          Point pt = new Point(
                  Integer.parseInt(properties[OBSTACLE_COL]),
                  Integer.parseInt(properties[OBSTACLE_ROW]));
-         Entity entity = createObstacle(properties[OBSTACLE_ID],
+         Entity entity = Create.createObstacle(properties[OBSTACLE_ID],
                  pt, imageStore.getImageList(OBSTACLE_KEY));
          tryAddEntity(entity);
       }
@@ -145,7 +145,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[ORE_COL]),
                  Integer.parseInt(properties[ORE_ROW]));
-         Entity entity = createOre(properties[ORE_ID],
+         Entity entity = Create.createOre(properties[ORE_ID],
                  pt, Integer.parseInt(properties[ORE_ACTION_PERIOD]),
                  imageStore.getImageList(ORE_KEY));
          tryAddEntity(entity);
@@ -161,7 +161,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
                  Integer.parseInt(properties[SMITH_ROW]));
-         Entity entity = createBlacksmith(properties[SMITH_ID],
+         Entity entity = Create.createBlacksmith(properties[SMITH_ID],
                  pt, imageStore.getImageList(SMITH_KEY));
          tryAddEntity(entity);
       }
@@ -176,7 +176,7 @@ final class WorldModel
       {
          Point pt = new Point(Integer.parseInt(properties[VEIN_COL]),
                  Integer.parseInt(properties[VEIN_ROW]));
-         Entity entity = createVein(properties[VEIN_ID],
+         Entity entity = Create.createVein(properties[VEIN_ID],
                  pt,
                  Integer.parseInt(properties[VEIN_ACTION_PERIOD]),
                  imageStore.getImageList(VEIN_KEY));
@@ -296,48 +296,8 @@ final class WorldModel
         this.background[pos.getY()][pos.getX()] = background;
     }
 
-    private static Entity createBlacksmith(String id, Point position,
-                                          List<PImage> images)
-    {
-        return new Entity(EntityKind.BLACKSMITH, id, position, images,
-                0, 0, 0, 0);
-    }
 
-    private static Entity createObstacle(String id, Point position,
-                                        List<PImage> images)
-    {
-        return new Entity(EntityKind.OBSTACLE, id, position, images,
-                0, 0, 0, 0);
-    }
-
-    public static Entity createOre(String id, Point position, int actionPeriod,
-                                   List<PImage> images)
-    {
-        return new Entity(EntityKind.ORE, id, position, images, 0, 0,
-                actionPeriod, 0);
-    }
-
-    public static Entity createOreBlob(String id, Point position,
-                                       int actionPeriod, int animationPeriod, List<PImage> images)
-    {
-        return new Entity(EntityKind.ORE_BLOB, id, position, images,
-                0, 0, actionPeriod, animationPeriod);
-    }
-
-    public static Entity createQuake(Point position, List<PImage> images)
-    {
-        return new Entity(EntityKind.QUAKE, QUAKE_ID, position, images,
-                0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
-    }
-
-    private static Entity createVein(String id, Point position, int actionPeriod,
-                                    List<PImage> images)
-    {
-        return new Entity(EntityKind.VEIN, id, position, images, 0, 0,
-                actionPeriod, 0);
-    }
-
-    private void addEntity(Entity entity)
+    public void addEntity(Entity entity)
     {
         if (this.withinBounds(entity.getPosition()))
         {
@@ -345,6 +305,21 @@ final class WorldModel
             this.entities.add(entity);
         }
     }
+
+    public Optional<Entity> findNearest(Point pos, Class kind)
+    {
+        List<Entity> ofType = new LinkedList<>();
+        for (Entity entity : this.getEntities())
+        {
+            if (kind.isInstance(entity))
+            {
+                ofType.add(entity);
+            }
+        }
+
+        return pos.nearestEntity(ofType);
+    }
+
 
     public Set<Entity> getEntities() {
        return this.entities;

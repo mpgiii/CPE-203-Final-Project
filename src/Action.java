@@ -37,49 +37,14 @@ final class Action
       if (repeatCount != 1)
       {
          scheduler.scheduleEvent(entity,
-                 entity.createAnimationAction(Math.max(repeatCount - 1, 0)),
+              Create.createAnimationAction(entity, Math.max(repeatCount - 1, 0)),
                  entity.getAnimationPeriod());
       }
    }
 
    private void executeActivityAction(EventScheduler scheduler)
    {
-      switch (entity.getKind())
-      {
-         case MINER_FULL:
-            entity.executeMinerFullActivity(world,
-                    imageStore, scheduler);
-            break;
-
-         case MINER_NOT_FULL:
-            entity.executeMinerNotFullActivity(world,
-                    imageStore, scheduler);
-            break;
-
-         case ORE:
-            entity.executeOreActivity(world, imageStore,
-                    scheduler);
-            break;
-
-         case ORE_BLOB:
-            entity.executeOreBlobActivity(world,
-                    imageStore, scheduler);
-            break;
-
-         case QUAKE:
-            entity.executeQuakeActivity(world, imageStore,
-                    scheduler);
-            break;
-
-         case VEIN:
-            entity.executeVeinActivity(world, imageStore,
-                    scheduler);
-            break;
-
-         default:
-            throw new UnsupportedOperationException(
-                    String.format("executeActivityAction not supported for %s",
-                            entity.getKind()));
-      }
+      entity.executeActivity(world, imageStore, scheduler);
    }
+
 }
