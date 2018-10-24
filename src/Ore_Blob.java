@@ -15,6 +15,9 @@ public class Ore_Blob implements Entity{
     private int animationPeriod;
 
     private static final String QUAKE_KEY = "quake";
+    private static final String QUAKE_ID = "quake";
+    private static final int QUAKE_ACTION_PERIOD = 1100;
+    private static final int QUAKE_ANIMATION_PERIOD = 100;
 
     public Ore_Blob(String id, Point position,
                   List<PImage> images, int resourceLimit, int resourceCount,
@@ -51,8 +54,9 @@ public class Ore_Blob implements Entity{
 
             if (this.moveToOreBlob(world, blobTarget.get(), scheduler))
             {
-                Entity quake = Create.createQuake(tgtPos,
-                        imageStore.getImageList(QUAKE_KEY));
+                Entity quake = new Quake(QUAKE_ID, tgtPos,
+                        imageStore.getImageList(QUAKE_KEY),
+                        0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
 
                 world.addEntity(quake);
                 nextPeriod += this.actionPeriod;
@@ -61,7 +65,7 @@ public class Ore_Blob implements Entity{
         }
 
         scheduler.scheduleEvent(this,
-                Create.createActivityAction(world, this, imageStore),
+                new Activity(this, world, imageStore, 0),
                 nextPeriod);
     }
 

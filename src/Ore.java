@@ -54,11 +54,11 @@ public class Ore implements Entity{
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
 
-        Entity blob = Create.createOreBlob(id + BLOB_ID_SUFFIX,
-                pos, actionPeriod / BLOB_PERIOD_SCALE,
-                BLOB_ANIMATION_MIN +
-                        rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN),
-                imageStore.getImageList(BLOB_KEY));
+        Entity blob = new Ore_Blob(id + BLOB_ID_SUFFIX,
+                pos, imageStore.getImageList(BLOB_KEY), 0, 0,
+                actionPeriod / BLOB_PERIOD_SCALE, BLOB_ANIMATION_MIN +
+                rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN)
+        );
 
         world.addEntity(blob);
         scheduler.scheduleActions(blob, world, imageStore);

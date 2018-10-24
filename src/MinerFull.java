@@ -55,7 +55,7 @@ public class MinerFull implements Entity
         else
         {
             scheduler.scheduleEvent(this,
-                    Create.createActivityAction(world, this, imageStore),
+                    new Activity(this, world, imageStore, 0),
                     this.actionPeriod);
         }
     }
@@ -63,9 +63,8 @@ public class MinerFull implements Entity
 
     public void transformFull(WorldModel world,
                               EventScheduler scheduler, ImageStore imageStore) {
-        Entity miner = Create.createMinerNotFull(id, resourceLimit,
-                position, actionPeriod, animationPeriod,
-                images);
+        Entity miner = new MinerNotFull(id, position, images, resourceLimit,
+                0, actionPeriod, animationPeriod);
 
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);

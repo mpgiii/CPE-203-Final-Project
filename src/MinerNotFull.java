@@ -48,7 +48,7 @@ public class MinerNotFull implements Entity
                 !this.transformNotFull(world, scheduler, imageStore))
         {
             scheduler.scheduleEvent(this,
-                    Create.createActivityAction(world, this, imageStore),
+                    new Activity(this, world, imageStore, 0),
                     this.actionPeriod);
         }
     }
@@ -58,9 +58,8 @@ public class MinerNotFull implements Entity
     {
         if (resourceCount >= resourceLimit)
         {
-            Entity miner = Create.createMinerFull(id, resourceLimit,
-                    position, actionPeriod, animationPeriod,
-                    images);
+            Entity miner = new MinerFull(id, position, images, resourceLimit,
+                    resourceLimit, actionPeriod, animationPeriod);
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);

@@ -20,7 +20,7 @@ public class Animation implements Action{
         if (repeatCount != 1)
         {
             scheduler.scheduleEvent(entity,
-                    Create.createAnimationAction(entity, Math.max(repeatCount - 1, 0)),
+                    new Animation(entity, null, null, Math.max(repeatCount - 1, 0)),
                     entity.getAnimationPeriod());
         }
     }

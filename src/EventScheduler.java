@@ -32,8 +32,8 @@ final class EventScheduler
     {
         if (!((entity instanceof Blacksmith) | (entity instanceof Obstacle)))
         {
-            this.scheduleEvent(entity, Create.createActivityAction(world, entity, imageStore), entity.getActionPeriod());
-            this.scheduleEvent(entity, Create.createAnimationAction(entity, 0), entity.getAnimationPeriod());
+            this.scheduleEvent(entity, new Activity(entity, world, imageStore, 0), entity.getActionPeriod());
+            this.scheduleEvent(entity, new Animation(entity, null, null, 0), entity.getAnimationPeriod());
 
         }
     }

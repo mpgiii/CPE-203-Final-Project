@@ -52,16 +52,17 @@ public class Vein implements Entity{
 
         if (openPt.isPresent())
         {
-            Entity ore = Create.createOre(ORE_ID_PREFIX + id,
-                    openPt.get(), ORE_CORRUPT_MIN +
-                            rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
-                    imageStore.getImageList(ORE_KEY));
+            Entity ore = new Ore(ORE_ID_PREFIX + id,
+                    openPt.get(), imageStore.getImageList(ORE_KEY), 0, 0,
+                    ORE_CORRUPT_MIN + rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
+                    0
+                    );
             world.addEntity(ore);
             scheduler.scheduleActions(ore, world, imageStore);
         }
 
         scheduler.scheduleEvent(this,
-                Create.createActivityAction(world, this, imageStore),
+                new Activity(this, world, imageStore, 0),
                 actionPeriod);
     }
 
