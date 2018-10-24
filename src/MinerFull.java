@@ -5,7 +5,7 @@ import java.util.Random;
 
 import processing.core.PImage;
 
-public class MinerFull implements Entity
+public class MinerFull implements MovableEntity
 {
 
     private static final Random rand = new Random();
@@ -46,22 +46,22 @@ public class MinerFull implements Entity
                 Blacksmith.class);
 
         if (fullTarget.isPresent() &&
-                this.moveToFull(world, fullTarget.get(), scheduler))
+                this.moveTo(world, fullTarget.get(), scheduler))
         {
-            this.transformFull(world, scheduler, imageStore);
+            this.transform(world, scheduler, imageStore);
         }
         else
         {
             scheduler.scheduleEvent(this,
-                    new Activity(this, world, imageStore, 0),
+                    new Activity(this, world, imageStore),
                     this.actionPeriod);
         }
     }
 
 
-    public void transformFull(WorldModel world,
+    public void transform(WorldModel world,
                               EventScheduler scheduler, ImageStore imageStore) {
-        Entity miner = new MinerNotFull(id, position, images, resourceLimit,
+        MovableEntity miner = new MinerNotFull(id, position, images, resourceLimit,
                 0, actionPeriod, animationPeriod);
 
         world.removeEntity(this);
@@ -71,7 +71,7 @@ public class MinerFull implements Entity
         scheduler.scheduleActions(miner, world, imageStore);
     }
 
-    public boolean moveToFull(WorldModel world,
+    public boolean moveTo(WorldModel world,
                               Entity target, EventScheduler scheduler)
     {
         if (this.position.adjacent(target.getPosition()))
@@ -80,7 +80,7 @@ public class MinerFull implements Entity
         }
         else
         {
-            Point nextPos = this.nextPositionMiner(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition());
 
             if (!this.position.equals(nextPos))
             {
@@ -97,7 +97,7 @@ public class MinerFull implements Entity
     }
 
 
-    public Point nextPositionMiner(WorldModel world,
+    public Point nextPosition(WorldModel world,
                                    Point destPos)
     {
         int horiz = Integer.signum(destPos.getX() - position.getX());

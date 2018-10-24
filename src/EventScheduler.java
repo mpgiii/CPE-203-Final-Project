@@ -27,15 +27,13 @@ final class EventScheduler
       pendingEvents.put(entity, pending);
    }
 
-    public void scheduleActions(Entity entity,
+    public void scheduleActions(ActiveEntity entity,
                                 WorldModel world, ImageStore imageStore)
     {
-        if (!((entity instanceof Blacksmith) | (entity instanceof Obstacle)))
-        {
-            this.scheduleEvent(entity, new Activity(entity, world, imageStore, 0), entity.getActionPeriod());
-            this.scheduleEvent(entity, new Animation(entity, null, null, 0), entity.getAnimationPeriod());
+        this.scheduleEvent(entity, new Activity(entity, world, imageStore), entity.getActionPeriod());
+        if (entity instanceof AnimatedEntity)
+            this.scheduleEvent(entity, new Animation((AnimatedEntity)entity, 0), ((AnimatedEntity)entity).getAnimationPeriod());
 
-        }
     }
 
     public void unscheduleAllEvents(Entity entity)

@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class MinerNotFull implements Entity
+public class MinerNotFull implements MovableEntity
 {
     private String id;
     private Point position;
@@ -44,21 +44,21 @@ public class MinerNotFull implements Entity
                 Ore.class);
 
         if (!notFullTarget.isPresent() ||
-                !this.moveToNotFull(world, notFullTarget.get(), scheduler) ||
-                !this.transformNotFull(world, scheduler, imageStore))
+                !this.moveTo(world, notFullTarget.get(), scheduler) ||
+                !this.transform(world, scheduler, imageStore))
         {
             scheduler.scheduleEvent(this,
-                    new Activity(this, world, imageStore, 0),
+                    new Activity(this, world, imageStore),
                     this.actionPeriod);
         }
     }
 
-    public boolean transformNotFull(WorldModel world,
+    public boolean transform(WorldModel world,
                                     EventScheduler scheduler, ImageStore imageStore)
     {
         if (resourceCount >= resourceLimit)
         {
-            Entity miner = new MinerFull(id, position, images,
+            MovableEntity miner = new MinerFull(id, position, images,
                     resourceLimit, actionPeriod, animationPeriod);
 
             world.removeEntity(this);
@@ -74,7 +74,7 @@ public class MinerNotFull implements Entity
     }
 
 
-    public boolean moveToNotFull(WorldModel world,
+    public boolean moveTo(WorldModel world,
                                  Entity target, EventScheduler scheduler)
     {
         if (this.position.adjacent(target.getPosition()))
@@ -87,7 +87,7 @@ public class MinerNotFull implements Entity
         }
         else
         {
-            Point nextPos = this.nextPositionMiner(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition());
 
             if (!this.position.equals(nextPos))
             {
@@ -104,7 +104,7 @@ public class MinerNotFull implements Entity
     }
 
 
-    public Point nextPositionMiner(WorldModel world,
+    public Point nextPosition(WorldModel world,
                                    Point destPos)
     {
         int horiz = Integer.signum(destPos.getX() - position.getX());

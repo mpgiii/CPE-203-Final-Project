@@ -13,8 +13,5 @@ public interface Entity
     String getId();
     Point getPosition();
     List<PImage> getImages();
-    int getAnimationPeriod();
     int getActionPeriod();
-    void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler);
-
 }

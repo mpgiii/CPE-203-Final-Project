@@ -21,13 +21,6 @@ final class Blacksmith implements Entity
         this.actionPeriod = actionPeriod;
     }
 
-    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-    }
-
-    public int getAnimationPeriod() {
-        return 0;
-    }
-
     public void nextImage()
     {
         imageIndex = (imageIndex + 1) % images.size();

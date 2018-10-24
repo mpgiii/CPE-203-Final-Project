@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Quake implements Entity{
+public class Quake implements AnimatedEntity{
 
     private String id;
     private Point position;

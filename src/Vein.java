@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class Vein implements Entity{
+public class Vein implements ActiveEntity{
 
     private static final Random rand = new Random();
 
@@ -35,17 +35,13 @@ public class Vein implements Entity{
         imageIndex = (imageIndex + 1) % images.size();
     }
 
-    public int getAnimationPeriod() {
-        return 0;
-    }
-
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
         Optional<Point> openPt = world.findOpenAround(position);
 
         if (openPt.isPresent())
         {
-            Entity ore = new Ore(ORE_ID_PREFIX + id,
+            ActiveEntity ore = new Ore(ORE_ID_PREFIX + id,
                     openPt.get(), imageStore.getImageList(ORE_KEY),
                     ORE_CORRUPT_MIN + rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN));
             world.addEntity(ore);
@@ -53,7 +49,7 @@ public class Vein implements Entity{
         }
 
         scheduler.scheduleEvent(this,
-                new Activity(this, world, imageStore, 0),
+                new Activity(this, world, imageStore),
                 actionPeriod);
     }
 

@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Random;
 
-public class Ore implements Entity{
+public class Ore implements ActiveEntity{
 
     private static final Random rand = new Random();
 
@@ -35,12 +35,6 @@ public class Ore implements Entity{
         imageIndex = (imageIndex + 1) % images.size();
     }
 
-
-    public int getAnimationPeriod() {
-        return 0;
-    }
-
-
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
         Point pos = position;  // store current position before removing
@@ -48,7 +42,7 @@ public class Ore implements Entity{
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
 
-        Entity blob = new Ore_Blob(id + BLOB_ID_SUFFIX,
+        AnimatedEntity blob = new Ore_Blob(id + BLOB_ID_SUFFIX,
                 pos, imageStore.getImageList(BLOB_KEY),
                 actionPeriod / BLOB_PERIOD_SCALE, BLOB_ANIMATION_MIN +
                 rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN)
