@@ -12,10 +12,7 @@ public class Vein implements Entity{
     private Point position;
     private List<PImage> images;
     private int imageIndex;
-    private int resourceLimit;
-    private int resourceCount;
     private int actionPeriod;
-    private int animationPeriod;
 
     private static final String ORE_ID_PREFIX = "ore -- ";
     private static final int ORE_CORRUPT_MIN = 20000;
@@ -24,17 +21,13 @@ public class Vein implements Entity{
     private static final String ORE_KEY = "ore";
 
     public Vein(String id, Point position,
-                  List<PImage> images, int resourceLimit, int resourceCount,
-                  int actionPeriod, int animationPeriod)
+                  List<PImage> images, int actionPeriod)
     {
         this.id = id;
         this.position = position;
         this.images = images;
         this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
     }
 
     public void nextImage()
@@ -53,10 +46,8 @@ public class Vein implements Entity{
         if (openPt.isPresent())
         {
             Entity ore = new Ore(ORE_ID_PREFIX + id,
-                    openPt.get(), imageStore.getImageList(ORE_KEY), 0, 0,
-                    ORE_CORRUPT_MIN + rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
-                    0
-                    );
+                    openPt.get(), imageStore.getImageList(ORE_KEY),
+                    ORE_CORRUPT_MIN + rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN));
             world.addEntity(ore);
             scheduler.scheduleActions(ore, world, imageStore);
         }

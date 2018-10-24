@@ -11,10 +11,7 @@ public class Ore implements Entity{
     private Point position;
     private List<PImage> images;
     private int imageIndex;
-    private int resourceLimit;
-    private int resourceCount;
     private int actionPeriod;
-    private int animationPeriod;
 
     private static final String BLOB_KEY = "blob";
     private static final String BLOB_ID_SUFFIX = " -- blob";
@@ -23,17 +20,14 @@ public class Ore implements Entity{
     private static final int BLOB_ANIMATION_MAX = 150;
 
     public Ore(String id, Point position,
-                  List<PImage> images, int resourceLimit, int resourceCount,
-                  int actionPeriod, int animationPeriod)
+                  List<PImage> images,
+                  int actionPeriod)
     {
         this.id = id;
         this.position = position;
         this.images = images;
         this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
     }
 
     public void nextImage()
@@ -55,7 +49,7 @@ public class Ore implements Entity{
         scheduler.unscheduleAllEvents(this);
 
         Entity blob = new Ore_Blob(id + BLOB_ID_SUFFIX,
-                pos, imageStore.getImageList(BLOB_KEY), 0, 0,
+                pos, imageStore.getImageList(BLOB_KEY),
                 actionPeriod / BLOB_PERIOD_SCALE, BLOB_ANIMATION_MIN +
                 rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN)
         );

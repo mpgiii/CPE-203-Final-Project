@@ -15,12 +15,11 @@ public class MinerFull implements Entity
     private List<PImage> images;
     private int imageIndex;
     private int resourceLimit;
-    private int resourceCount;
     private int actionPeriod;
     private int animationPeriod;
 
     public MinerFull(String id, Point position,
-                  List<PImage> images, int resourceLimit, int resourceCount,
+                  List<PImage> images, int resourceLimit,
                   int actionPeriod, int animationPeriod)
     {
         this.id = id;
@@ -28,7 +27,6 @@ public class MinerFull implements Entity
         this.images = images;
         this.imageIndex = 0;
         this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
     }

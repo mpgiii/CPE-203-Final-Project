@@ -58,7 +58,7 @@ public class MinerNotFull implements Entity
     {
         if (resourceCount >= resourceLimit)
         {
-            Entity miner = new MinerFull(id, position, images, resourceLimit,
+            Entity miner = new MinerFull(id, position, images,
                     resourceLimit, actionPeriod, animationPeriod);
 
             world.removeEntity(this);

@@ -9,8 +9,6 @@ public class Ore_Blob implements Entity{
     private Point position;
     private List<PImage> images;
     private int imageIndex;
-    private int resourceLimit;
-    private int resourceCount;
     private int actionPeriod;
     private int animationPeriod;
 
@@ -20,15 +18,13 @@ public class Ore_Blob implements Entity{
     private static final int QUAKE_ANIMATION_PERIOD = 100;
 
     public Ore_Blob(String id, Point position,
-                  List<PImage> images, int resourceLimit, int resourceCount,
+                  List<PImage> images,
                   int actionPeriod, int animationPeriod)
     {
         this.id = id;
         this.position = position;
         this.images = images;
         this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
     }
@@ -56,7 +52,7 @@ public class Ore_Blob implements Entity{
             {
                 Entity quake = new Quake(QUAKE_ID, tgtPos,
                         imageStore.getImageList(QUAKE_KEY),
-                        0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
+                        QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
 
                 world.addEntity(quake);
                 nextPeriod += this.actionPeriod;

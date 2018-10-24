@@ -129,7 +129,7 @@ final class WorldModel
                  Integer.parseInt(properties[OBSTACLE_COL]),
                  Integer.parseInt(properties[OBSTACLE_ROW]));
          Entity entity = new Obstacle(properties[OBSTACLE_ID],
-                 pt, imageStore.getImageList(OBSTACLE_KEY), 0, 0, 0, 0);
+                 pt, imageStore.getImageList(OBSTACLE_KEY), 0);
          tryAddEntity(entity);
       }
 
@@ -144,8 +144,7 @@ final class WorldModel
          Point pt = new Point(Integer.parseInt(properties[ORE_COL]),
                  Integer.parseInt(properties[ORE_ROW]));
          Entity entity = new Ore(properties[ORE_ID],
-                 pt, imageStore.getImageList(ORE_KEY),
-                 0, 0, Integer.parseInt(properties[ORE_ACTION_PERIOD]), 0);
+                 pt, imageStore.getImageList(ORE_KEY), Integer.parseInt(properties[ORE_ACTION_PERIOD]));
          tryAddEntity(entity);
       }
 
@@ -160,7 +159,7 @@ final class WorldModel
          Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
                  Integer.parseInt(properties[SMITH_ROW]));
          Entity entity = new Blacksmith(properties[SMITH_ID],
-                 pt, imageStore.getImageList(SMITH_KEY), 0, 0, 0, 0);
+                 pt, imageStore.getImageList(SMITH_KEY), 0);
          tryAddEntity(entity);
       }
 
@@ -177,10 +176,7 @@ final class WorldModel
          Entity entity = new Vein(properties[VEIN_ID],
                  pt,
                  imageStore.getImageList(VEIN_KEY),
-                 0,
-                 0,
-                 Integer.parseInt(properties[VEIN_ACTION_PERIOD]),
-                 0
+                 Integer.parseInt(properties[VEIN_ACTION_PERIOD])
                  );
          tryAddEntity(entity);
       }
