@@ -3,14 +3,7 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class Ore_Blob implements MovableEntity{
-
-    private String id;
-    private Point position;
-    private List<PImage> images;
-    private int imageIndex;
-    private int actionPeriod;
-    private int animationPeriod;
+public class Ore_Blob extends MovableEntity{
 
     private static final String QUAKE_KEY = "quake";
     private static final String QUAKE_ID = "quake";
@@ -21,28 +14,13 @@ public class Ore_Blob implements MovableEntity{
                   List<PImage> images,
                   int actionPeriod, int animationPeriod)
     {
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.imageIndex = 0;
-        this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
+        super(id, position, images, actionPeriod, animationPeriod);
     }
-    public int getAnimationPeriod()
-    {
-        return animationPeriod;
-    }
-
-    public void nextImage()
-    {
-        imageIndex = (imageIndex + 1) % images.size();
-    }
-
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Entity> blobTarget = world.findNearest(position, Vein.class);
-        long nextPeriod = actionPeriod;
+        Optional<Entity> blobTarget = world.findNearest(getPosition(), Vein.class);
+        long nextPeriod = getActionPeriod();
 
         if (blobTarget.isPresent())
         {
@@ -55,7 +33,7 @@ public class Ore_Blob implements MovableEntity{
                         QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
 
                 world.addEntity(quake);
-                nextPeriod += this.actionPeriod;
+                nextPeriod += getActionPeriod();
                 scheduler.scheduleActions(quake, world, imageStore);
             }
         }
@@ -68,7 +46,7 @@ public class Ore_Blob implements MovableEntity{
     public boolean moveTo(WorldModel world,
                                  Entity target, EventScheduler scheduler)
     {
-        if (this.position.adjacent(target.getPosition()))
+        if (this.getPosition().adjacent(target.getPosition()))
         {
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
@@ -78,7 +56,7 @@ public class Ore_Blob implements MovableEntity{
         {
             Point nextPos = this.nextPosition(world, target.getPosition());
 
-            if (!this.position.equals(nextPos))
+            if (!this.getPosition().equals(nextPos))
             {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent())
@@ -95,48 +73,28 @@ public class Ore_Blob implements MovableEntity{
     public Point nextPosition(WorldModel world,
                                      Point destPos)
     {
-        int horiz = Integer.signum(destPos.getX() - position.getX());
-        Point newPos = new Point(position.getX() + horiz,
-                position.getY());
+        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
+        Point newPos = new Point(getPosition().getX() + horiz,
+                getPosition().getY());
 
         Optional<Entity> occupant = world.getOccupant(newPos);
 
         if (horiz == 0 ||
                 (occupant.isPresent() && !(occupant.get() instanceof Ore)))
         {
-            int vert = Integer.signum(destPos.getY() - position.getY());
-            newPos = new Point(position.getX(), position.getY() + vert);
+            int vert = Integer.signum(destPos.getY() - getPosition().getY());
+            newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
             occupant = world.getOccupant(newPos);
 
             if (vert == 0 ||
                     (occupant.isPresent() && !(occupant.get() instanceof Ore)))
             {
-                newPos = position;
+                newPos = getPosition();
             }
         }
 
         return newPos;
     }
 
-    public PImage getCurrentImage()
-    {
-        return (images.get(imageIndex));
-    }
-
-    public String getId() {
-        return id;
-    }
-    public Point getPosition() {
-        return position;
-    }
-    public void setPosition(Point p) {
-        position = p;
-    }
-    public List<PImage> getImages() {
-        return images;
-    }
-    public int getActionPeriod() {
-        return actionPeriod;
-    }
 
 }

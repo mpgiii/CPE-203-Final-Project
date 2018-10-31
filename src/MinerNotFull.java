@@ -3,44 +3,24 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class MinerNotFull implements MovableEntity
+public class MinerNotFull extends MovableEntity
 {
-    private String id;
-    private Point position;
-    private List<PImage> images;
-    private int imageIndex;
-    private int resourceLimit;
     private int resourceCount;
-    private int actionPeriod;
-    private int animationPeriod;
-
+    private int resourceLimit;
 
     public MinerNotFull(String id, Point position,
                   List<PImage> images, int resourceLimit, int resourceCount,
                   int actionPeriod, int animationPeriod)
     {
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.imageIndex = 0;
+        super(id, position, images, actionPeriod, animationPeriod);
+
         this.resourceLimit = resourceLimit;
         this.resourceCount = resourceCount;
-        this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
-    }
-    public int getAnimationPeriod()
-    {
-        return animationPeriod;
-    }
-
-    public void nextImage()
-    {
-        imageIndex = (imageIndex + 1) % images.size();
     }
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Entity> notFullTarget = world.findNearest(position,
+        Optional<Entity> notFullTarget = world.findNearest(getPosition(),
                 Ore.class);
 
         if (!notFullTarget.isPresent() ||
@@ -49,7 +29,7 @@ public class MinerNotFull implements MovableEntity
         {
             scheduler.scheduleEvent(this,
                     new Activity(this, world, imageStore),
-                    this.actionPeriod);
+                    this.getActionPeriod());
         }
     }
 
@@ -58,8 +38,8 @@ public class MinerNotFull implements MovableEntity
     {
         if (resourceCount >= resourceLimit)
         {
-            MovableEntity miner = new MinerFull(id, position, images,
-                    resourceLimit, actionPeriod, animationPeriod);
+            MovableEntity miner = new MinerFull(getId(), getPosition(), getImages(),
+                    resourceLimit, getActionPeriod(), getAnimationPeriod());
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
@@ -77,7 +57,7 @@ public class MinerNotFull implements MovableEntity
     public boolean moveTo(WorldModel world,
                                  Entity target, EventScheduler scheduler)
     {
-        if (this.position.adjacent(target.getPosition()))
+        if (this.getPosition().adjacent(target.getPosition()))
         {
             this.resourceCount += 1;
             world.removeEntity(target);
@@ -89,7 +69,7 @@ public class MinerNotFull implements MovableEntity
         {
             Point nextPos = this.nextPosition(world, target.getPosition());
 
-            if (!this.position.equals(nextPos))
+            if (!this.getPosition().equals(nextPos))
             {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent())
@@ -107,45 +87,23 @@ public class MinerNotFull implements MovableEntity
     public Point nextPosition(WorldModel world,
                                    Point destPos)
     {
-        int horiz = Integer.signum(destPos.getX() - position.getX());
-        Point newPos = new Point(position.getX() + horiz,
-                position.getY());
+        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
+        Point newPos = new Point(getPosition().getX() + horiz,
+                getPosition().getY());
 
         if (horiz == 0 || world.isOccupied(newPos))
         {
-            int vert = Integer.signum(destPos.getY() - position.getY());
-            newPos = new Point(position.getX(),
-                    position.getY() + vert);
+            int vert = Integer.signum(destPos.getY() - getPosition().getY());
+            newPos = new Point(getPosition().getX(),
+                    getPosition().getY() + vert);
 
             if (vert == 0 || world.isOccupied(newPos))
             {
-                newPos = position;
+                newPos = getPosition();
             }
         }
 
         return newPos;
-    }
-
-
-    public PImage getCurrentImage()
-    {
-        return (images.get(imageIndex));
-    }
-
-    public String getId() {
-        return id;
-    }
-    public Point getPosition() {
-        return position;
-    }
-    public void setPosition(Point p) {
-        position = p;
-    }
-    public List<PImage> getImages() {
-        return images;
-    }
-    public int getActionPeriod() {
-        return actionPeriod;
     }
 
 }
