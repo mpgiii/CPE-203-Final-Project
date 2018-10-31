@@ -52,31 +52,9 @@ public class MinerFull extends MovableEntity
         scheduler.scheduleActions(miner, world, imageStore);
     }
 
-    public boolean moveTo(WorldModel world,
-                              Entity target, EventScheduler scheduler)
-    {
-        if (this.getPosition().adjacent(target.getPosition()))
-        {
-            return true;
-        }
-        else
-        {
-            Point nextPos = this.nextPosition(world, target.getPosition());
-
-            if (!this.getPosition().equals(nextPos))
-            {
-                Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent())
-                {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
-
-                world.moveEntity(this, nextPos);
-            }
-            return false;
-        }
+    public void _moveToHelper (WorldModel world, Entity target, EventScheduler scheduler) {
+        // left blank intentionally
     }
-
 
     public Point nextPosition(WorldModel world,
                                    Point destPos)

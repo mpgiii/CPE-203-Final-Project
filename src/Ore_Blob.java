@@ -43,31 +43,10 @@ public class Ore_Blob extends MovableEntity{
                 nextPeriod);
     }
 
-    public boolean moveTo(WorldModel world,
-                                 Entity target, EventScheduler scheduler)
-    {
-        if (this.getPosition().adjacent(target.getPosition()))
-        {
-            world.removeEntity(target);
-            scheduler.unscheduleAllEvents(target);
-            return true;
-        }
-        else
-        {
-            Point nextPos = this.nextPosition(world, target.getPosition());
 
-            if (!this.getPosition().equals(nextPos))
-            {
-                Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent())
-                {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
-
-                world.moveEntity(this, nextPos);
-            }
-            return false;
-        }
+    public void _moveToHelper(WorldModel world, Entity target, EventScheduler scheduler) {
+        world.removeEntity(target);
+        scheduler.unscheduleAllEvents(target);
     }
 
     public Point nextPosition(WorldModel world,
