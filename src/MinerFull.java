@@ -33,7 +33,7 @@ public class MinerFull extends MovableEntity
         }
         else
         {
-            scheduler.scheduleEvent(this,
+            scheduleEvent(scheduler,
                     new Activity(this, world, imageStore),
                     this.getActionPeriod());
         }

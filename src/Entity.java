@@ -11,16 +11,14 @@ public abstract class Entity
     private Point position;
     private List<PImage> images;
     private int imageIndex;
-    private int actionPeriod;
 
     public Entity(String id, Point position,
-                      List<PImage> images, int actionPeriod)
+                      List<PImage> images)
     {
         this.id = id;
         this.position = position;
         this.images = images;
         this.imageIndex = 0;
-        this.actionPeriod = actionPeriod;
     }
 
     public void nextImage()
@@ -44,8 +42,5 @@ public abstract class Entity
     }
     public List<PImage> getImages() {
         return images;
-    }
-    public int getActionPeriod() {
-        return actionPeriod;
     }
 }

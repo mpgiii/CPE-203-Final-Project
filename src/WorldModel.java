@@ -129,7 +129,7 @@ final class WorldModel
                  Integer.parseInt(properties[OBSTACLE_COL]),
                  Integer.parseInt(properties[OBSTACLE_ROW]));
          Entity entity = new Obstacle(properties[OBSTACLE_ID],
-                 pt, imageStore.getImageList(OBSTACLE_KEY), 0);
+                 pt, imageStore.getImageList(OBSTACLE_KEY));
          tryAddEntity(entity);
       }
 
@@ -159,7 +159,7 @@ final class WorldModel
          Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
                  Integer.parseInt(properties[SMITH_ROW]));
          Entity entity = new Blacksmith(properties[SMITH_ID],
-                 pt, imageStore.getImageList(SMITH_KEY), 0);
+                 pt, imageStore.getImageList(SMITH_KEY));
          tryAddEntity(entity);
       }
 

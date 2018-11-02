@@ -6,9 +6,9 @@ final class Blacksmith extends Entity
 {
 
     public Blacksmith(String id, Point position,
-                  List<PImage> images, int actionPeriod)
+                  List<PImage> images)
     {
-        super(id, position, images, actionPeriod);
+        super(id, position, images);
     }
 
 }

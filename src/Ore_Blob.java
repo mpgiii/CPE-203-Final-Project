@@ -38,7 +38,7 @@ public class Ore_Blob extends MovableEntity{
             }
         }
 
-        scheduler.scheduleEvent(this,
+        scheduleEvent(scheduler,
                 new Activity(this, world, imageStore),
                 nextPeriod);
     }

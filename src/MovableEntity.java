@@ -15,9 +15,9 @@ public abstract class MovableEntity extends AnimatedEntity {
                           Entity target, EventScheduler scheduler)
     {
         if (this.getPosition().adjacent(target.getPosition()))
-        {
-            _moveToHelper(world, target, scheduler);
-            return true;
+            {
+                _moveToHelper(world, target, scheduler);
+                return true;
         }
         else
         {

@@ -27,7 +27,7 @@ public class MinerNotFull extends MovableEntity
                 !this.moveTo(world, notFullTarget.get(), scheduler) ||
                 !this.transform(world, scheduler, imageStore))
         {
-            scheduler.scheduleEvent(this,
+            scheduleEvent(scheduler,
                     new Activity(this, world, imageStore),
                     this.getActionPeriod());
         }

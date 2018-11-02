@@ -12,27 +12,13 @@ final class EventScheduler
       this.pendingEvents = new HashMap<>();
       this.timeScale = timeScale;
    }
-   public void scheduleEvent(Entity entity, Action action, long afterPeriod)
-   {
-      long time = System.currentTimeMillis() +
-              (long)(afterPeriod * timeScale);
-      Event event = new Event(action, time, entity);
-
-      eventQueue.add(event);
-
-      // update list of pending events for the given entity
-      List<Event> pending = pendingEvents.getOrDefault(entity,
-              new LinkedList<>());
-      pending.add(event);
-      pendingEvents.put(entity, pending);
-   }
 
     public void scheduleActions(ActiveEntity entity,
                                 WorldModel world, ImageStore imageStore)
     {
-        this.scheduleEvent(entity, new Activity(entity, world, imageStore), entity.getActionPeriod());
+        entity.scheduleEvent(this, new Activity(entity, world, imageStore), entity.getActionPeriod());
         if (entity instanceof AnimatedEntity)
-            this.scheduleEvent(entity, new Animation((AnimatedEntity)entity, 0), ((AnimatedEntity)entity).getAnimationPeriod());
+            entity.scheduleEvent(this, new Animation((AnimatedEntity)entity, 0), ((AnimatedEntity)entity).getAnimationPeriod());
 
     }
 
@@ -70,5 +56,21 @@ final class EventScheduler
 
             next.getAction().executeAction(this);
         }
+    }
+
+    public PriorityQueue<Event> getEventQueue() {
+       return eventQueue;
+    }
+    public void addToEventQueue(Event event) {
+       eventQueue.add(event);
+    }
+    public Map<Entity, List<Event>> getPendingEvents() {
+       return pendingEvents;
+    }
+    public void putInPendingEvents(ActiveEntity entity, List<Event> pending) {
+       pendingEvents.put(entity, pending);
+    }
+    public double getTimeScale() {
+       return timeScale;
     }
 }

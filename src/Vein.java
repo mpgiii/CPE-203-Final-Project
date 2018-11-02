@@ -33,7 +33,7 @@ public class Vein extends ActiveEntity{
             scheduler.scheduleActions(ore, world, imageStore);
         }
 
-        scheduler.scheduleEvent(this,
+        scheduleEvent(scheduler,
                 new Activity(this, world, imageStore),
                 getActionPeriod());
     }
