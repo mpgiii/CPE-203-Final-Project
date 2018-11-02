@@ -11,7 +11,7 @@ public abstract class MovableEntity extends AnimatedEntity {
         super(id, position, images, actionPeriod, animationPeriod);
     }
 
-    public boolean moveTo(WorldModel world,
+    protected boolean moveTo(WorldModel world,
                           Entity target, EventScheduler scheduler)
     {
         if (this.getPosition().adjacent(target.getPosition()))

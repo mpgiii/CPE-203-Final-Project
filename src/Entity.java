@@ -1,7 +1,4 @@
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 import processing.core.PImage;
 
@@ -21,26 +18,22 @@ public abstract class Entity
         this.imageIndex = 0;
     }
 
-    public void nextImage()
-    {
-        imageIndex = (imageIndex + 1) % images.size();
-    }
-
-    public PImage getCurrentImage()
+    protected PImage getCurrentImage()
     {
         return (images.get(imageIndex));
     }
-
-    public String getId() {
+    protected int getImageIndex() { return imageIndex; }
+    protected void setImageIndex(int newIndex) { imageIndex = newIndex; }
+    protected String getId() {
         return id;
     }
-    public Point getPosition() {
+    protected Point getPosition() {
         return position;
     }
-    public void setPosition(Point p) {
+    protected void setPosition(Point p) {
         position = p;
     }
-    public List<PImage> getImages() {
+    protected List<PImage> getImages() {
         return images;
     }
 }

@@ -16,11 +16,11 @@ public abstract class ActiveEntity extends Entity {
 
     abstract void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler);
 
-    public int getActionPeriod() {
+    protected int getActionPeriod() {
         return actionPeriod;
     }
 
-    public void scheduleEvent(EventScheduler scheduler, Action action, long afterPeriod)
+    protected void scheduleEvent(EventScheduler scheduler, Action action, long afterPeriod)
     {
         long time = System.currentTimeMillis() +
                 (long)(afterPeriod * scheduler.getTimeScale());
