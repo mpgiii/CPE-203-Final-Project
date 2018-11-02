@@ -1,5 +1,4 @@
 import processing.core.PImage;
-
 import java.util.List;
 
 public abstract class AnimatedEntity extends ActiveEntity {
