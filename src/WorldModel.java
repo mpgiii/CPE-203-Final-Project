@@ -2,9 +2,8 @@ import processing.core.PImage;
 
 import java.util.*;
 
-final class WorldModel
-{
-   private int numRows;
+final class WorldModel {
+    private int numRows;
     private int numCols;
     private Background background[][];
     private Entity occupancy[][];
@@ -53,166 +52,142 @@ final class WorldModel
     private static final int VEIN_ROW = 3;
     private static final int VEIN_ACTION_PERIOD = 4;
 
-   public WorldModel(int numRows, int numCols, Background defaultBackground)
-   {
-      this.numRows = numRows;
-      this.numCols = numCols;
-      this.background = new Background[numRows][numCols];
-      this.occupancy = new Entity[numRows][numCols];
-      this.entities = new HashSet<>();
+    public WorldModel(int numRows, int numCols, Background defaultBackground) {
+        this.numRows = numRows;
+        this.numCols = numCols;
+        this.background = new Background[numRows][numCols];
+        this.occupancy = new Entity[numRows][numCols];
+        this.entities = new HashSet<>();
 
-      for (int row = 0; row < numRows; row++)
-      {
-         Arrays.fill(this.background[row], defaultBackground);
-      }
-   }
+        for (int row = 0; row < numRows; row++) {
+            Arrays.fill(this.background[row], defaultBackground);
+        }
+    }
 
-   public Optional<Point> findOpenAround(Point pos)
-   {
-      for (int dy = -ORE_REACH; dy <= ORE_REACH; dy++)
-      {
-         for (int dx = -ORE_REACH; dx <= ORE_REACH; dx++)
-         {
-            Point newPt = new Point(pos.getX() + dx, pos.getY() + dy);
-            if (this.withinBounds(newPt) &&
-                    !this.isOccupied(newPt))
-            {
-               return Optional.of(newPt);
+    public Optional<Point> findOpenAround(Point pos) {
+        for (int dy = -ORE_REACH; dy <= ORE_REACH; dy++) {
+            for (int dx = -ORE_REACH; dx <= ORE_REACH; dx++) {
+                Point newPt = new Point(pos.getX() + dx, pos.getY() + dy);
+                if (this.withinBounds(newPt) &&
+                        !this.isOccupied(newPt)) {
+                    return Optional.of(newPt);
+                }
             }
-         }
-      }
+        }
 
-      return Optional.empty();
-   }
+        return Optional.empty();
+    }
 
-   public boolean parseBackground(String [] properties,
-                                         ImageStore imageStore)
-   {
-      if (properties.length == BGND_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[BGND_COL]),
-                 Integer.parseInt(properties[BGND_ROW]));
-         String id = properties[BGND_ID];
-         this.setBackground(pt,
-                 new Background(id, imageStore.getImageList(id)));
-      }
+    public boolean parseBackground(String[] properties,
+                                   ImageStore imageStore) {
+        if (properties.length == BGND_NUM_PROPERTIES) {
+            Point pt = new Point(Integer.parseInt(properties[BGND_COL]),
+                    Integer.parseInt(properties[BGND_ROW]));
+            String id = properties[BGND_ID];
+            this.setBackground(pt,
+                    new Background(id, imageStore.getImageList(id)));
+        }
 
-      return properties.length == BGND_NUM_PROPERTIES;
-   }
+        return properties.length == BGND_NUM_PROPERTIES;
+    }
 
-   public boolean parseMiner(String [] properties,
-                                    ImageStore imageStore)
-   {
-      if (properties.length == MINER_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
-                 Integer.parseInt(properties[MINER_ROW]));
-         Entity entity = new MinerNotFull(properties[MINER_ID],
-                 pt,
-                 imageStore.getImageList(MINER_KEY),
-                 Integer.parseInt(properties[MINER_LIMIT]),
-                 0,
-                 Integer.parseInt(properties[MINER_ACTION_PERIOD]),
-                 Integer.parseInt(properties[MINER_ANIMATION_PERIOD]));
-         tryAddEntity(entity);
-      }
+    public boolean parseMiner(String[] properties,
+                              ImageStore imageStore) {
+        if (properties.length == MINER_NUM_PROPERTIES) {
+            Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
+                    Integer.parseInt(properties[MINER_ROW]));
+            Entity entity = new MinerNotFull(properties[MINER_ID],
+                    pt,
+                    imageStore.getImageList(MINER_KEY),
+                    Integer.parseInt(properties[MINER_LIMIT]),
+                    0,
+                    Integer.parseInt(properties[MINER_ACTION_PERIOD]),
+                    Integer.parseInt(properties[MINER_ANIMATION_PERIOD]));
+            tryAddEntity(entity);
+        }
 
-      return properties.length == MINER_NUM_PROPERTIES;
-   }
+        return properties.length == MINER_NUM_PROPERTIES;
+    }
 
-   public boolean parseObstacle(String [] properties,
-                                       ImageStore imageStore)
-   {
-      if (properties.length == OBSTACLE_NUM_PROPERTIES)
-      {
-         Point pt = new Point(
-                 Integer.parseInt(properties[OBSTACLE_COL]),
-                 Integer.parseInt(properties[OBSTACLE_ROW]));
-         Entity entity = new Obstacle(properties[OBSTACLE_ID],
-                 pt, imageStore.getImageList(OBSTACLE_KEY));
-         tryAddEntity(entity);
-      }
+    public boolean parseObstacle(String[] properties,
+                                 ImageStore imageStore) {
+        if (properties.length == OBSTACLE_NUM_PROPERTIES) {
+            Point pt = new Point(
+                    Integer.parseInt(properties[OBSTACLE_COL]),
+                    Integer.parseInt(properties[OBSTACLE_ROW]));
+            Entity entity = new Obstacle(properties[OBSTACLE_ID],
+                    pt, imageStore.getImageList(OBSTACLE_KEY));
+            tryAddEntity(entity);
+        }
 
-      return properties.length == OBSTACLE_NUM_PROPERTIES;
-   }
+        return properties.length == OBSTACLE_NUM_PROPERTIES;
+    }
 
-   public boolean parseOre(String [] properties,
-                                  ImageStore imageStore)
-   {
-      if (properties.length == ORE_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[ORE_COL]),
-                 Integer.parseInt(properties[ORE_ROW]));
-         Entity entity = new Ore(properties[ORE_ID],
-                 pt, imageStore.getImageList(ORE_KEY), Integer.parseInt(properties[ORE_ACTION_PERIOD]));
-         tryAddEntity(entity);
-      }
+    public boolean parseOre(String[] properties,
+                            ImageStore imageStore) {
+        if (properties.length == ORE_NUM_PROPERTIES) {
+            Point pt = new Point(Integer.parseInt(properties[ORE_COL]),
+                    Integer.parseInt(properties[ORE_ROW]));
+            Entity entity = new Ore(properties[ORE_ID],
+                    pt, imageStore.getImageList(ORE_KEY), Integer.parseInt(properties[ORE_ACTION_PERIOD]));
+            tryAddEntity(entity);
+        }
 
-      return properties.length == ORE_NUM_PROPERTIES;
-   }
+        return properties.length == ORE_NUM_PROPERTIES;
+    }
 
-   public boolean parseSmith(String [] properties,
-                                    ImageStore imageStore)
-   {
-      if (properties.length == SMITH_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
-                 Integer.parseInt(properties[SMITH_ROW]));
-         Entity entity = new Blacksmith(properties[SMITH_ID],
-                 pt, imageStore.getImageList(SMITH_KEY));
-         tryAddEntity(entity);
-      }
+    public boolean parseSmith(String[] properties,
+                              ImageStore imageStore) {
+        if (properties.length == SMITH_NUM_PROPERTIES) {
+            Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
+                    Integer.parseInt(properties[SMITH_ROW]));
+            Entity entity = new Blacksmith(properties[SMITH_ID],
+                    pt, imageStore.getImageList(SMITH_KEY));
+            tryAddEntity(entity);
+        }
 
-      return properties.length == SMITH_NUM_PROPERTIES;
-   }
+        return properties.length == SMITH_NUM_PROPERTIES;
+    }
 
-   public boolean parseVein(String [] properties,
-                                   ImageStore imageStore)
-   {
-      if (properties.length == VEIN_NUM_PROPERTIES)
-      {
-         Point pt = new Point(Integer.parseInt(properties[VEIN_COL]),
-                 Integer.parseInt(properties[VEIN_ROW]));
-         Entity entity = new Vein(properties[VEIN_ID],
-                 pt,
-                 imageStore.getImageList(VEIN_KEY),
-                 Integer.parseInt(properties[VEIN_ACTION_PERIOD])
-                 );
-         tryAddEntity(entity);
-      }
+    public boolean parseVein(String[] properties,
+                             ImageStore imageStore) {
+        if (properties.length == VEIN_NUM_PROPERTIES) {
+            Point pt = new Point(Integer.parseInt(properties[VEIN_COL]),
+                    Integer.parseInt(properties[VEIN_ROW]));
+            Entity entity = new Vein(properties[VEIN_ID],
+                    pt,
+                    imageStore.getImageList(VEIN_KEY),
+                    Integer.parseInt(properties[VEIN_ACTION_PERIOD])
+            );
+            tryAddEntity(entity);
+        }
 
-      return properties.length == VEIN_NUM_PROPERTIES;
-   }
+        return properties.length == VEIN_NUM_PROPERTIES;
+    }
 
-   private void tryAddEntity(Entity entity)
-   {
-      if (this.isOccupied(entity.getPosition()))
-      {
-         // arguably the wrong type of exception, but we are not
-         // defining our own exceptions yet
-         throw new IllegalArgumentException("position occupied");
-      }
+    private void tryAddEntity(Entity entity) {
+        if (this.isOccupied(entity.getPosition())) {
+            // arguably the wrong type of exception, but we are not
+            // defining our own exceptions yet
+            throw new IllegalArgumentException("position occupied");
+        }
 
-      this.addEntity(entity);
-   }
+        this.addEntity(entity);
+    }
 
-   public boolean withinBounds(Point pos)
-   {
-      return pos.getY() >= 0 && pos.getY() < this.numRows &&
-              pos.getX() >= 0 && pos.getX() < this.numCols;
-   }
+    public boolean withinBounds(Point pos) {
+        return pos.getY() >= 0 && pos.getY() < this.numRows &&
+                pos.getX() >= 0 && pos.getX() < this.numCols;
+    }
 
-   public boolean isOccupied(Point pos)
-   {
-      return withinBounds(pos) &&
-              this.getOccupancyCell(pos) != null;
-   }
+    public boolean isOccupied(Point pos) {
+        return withinBounds(pos) &&
+                this.getOccupancyCell(pos) != null;
+    }
 
-    public void moveEntity(Entity entity, Point pos)
-    {
+    public void moveEntity(Entity entity, Point pos) {
         Point oldPos = entity.getPosition();
-        if (this.withinBounds(pos) && !pos.equals(oldPos))
-        {
+        if (this.withinBounds(pos) && !pos.equals(oldPos)) {
             this.setOccupancyCell(oldPos, null);
             this.removeEntityAt(pos);
             this.setOccupancyCell(pos, entity);
@@ -220,16 +195,13 @@ final class WorldModel
         }
     }
 
-    public void removeEntity(Entity entity)
-    {
+    public void removeEntity(Entity entity) {
         this.removeEntityAt(entity.getPosition());
     }
 
-    public void removeEntityAt(Point pos)
-    {
+    public void removeEntityAt(Point pos) {
         if (this.withinBounds(pos)
-                && this.getOccupancyCell(pos) != null)
-        {
+                && this.getOccupancyCell(pos) != null) {
             Entity entity = this.getOccupancyCell(pos);
 
          /* this moves the entity just outside of the grid for
@@ -240,77 +212,58 @@ final class WorldModel
         }
     }
 
-    public Optional<PImage> getBackgroundImage(Point pos)
-    {
-        if (this.withinBounds(pos))
-        {
+    public Optional<PImage> getBackgroundImage(Point pos) {
+        if (this.withinBounds(pos)) {
             return Optional.of(getBackgroundCell(pos).getCurrentImage());
-        }
-        else
-        {
+        } else {
             return Optional.empty();
         }
     }
 
     private void setBackground(Point pos,
-                                     Background background)
-    {
-        if (this.withinBounds(pos))
-        {
+                               Background background) {
+        if (this.withinBounds(pos)) {
             this.setBackgroundCell(pos, background);
         }
     }
 
-    public Optional<Entity> getOccupant(Point pos)
-    {
-        if (this.isOccupied(pos))
-        {
+    public Optional<Entity> getOccupant(Point pos) {
+        if (this.isOccupied(pos)) {
             return Optional.of(this.getOccupancyCell(pos));
-        }
-        else
-        {
+        } else {
             return Optional.empty();
         }
     }
 
-    private Entity getOccupancyCell(Point pos)
-    {
+    private Entity getOccupancyCell(Point pos) {
         return this.occupancy[pos.getY()][pos.getX()];
     }
 
-    public void setOccupancyCell(Point pos, Entity entity)
-    {
+    public void setOccupancyCell(Point pos, Entity entity) {
         this.occupancy[pos.getY()][pos.getX()] = entity;
     }
 
-    private Background getBackgroundCell(Point pos)
-    {
+    private Background getBackgroundCell(Point pos) {
         return this.background[pos.getY()][pos.getX()];
     }
 
     private void setBackgroundCell(Point pos,
-                                         Background background)
-    {
+                                   Background background) {
         this.background[pos.getY()][pos.getX()] = background;
     }
 
 
-    public void addEntity(Entity entity)
-    {
-        if (this.withinBounds(entity.getPosition()))
-        {
+    public void addEntity(Entity entity) {
+        if (this.withinBounds(entity.getPosition())) {
             this.setOccupancyCell(entity.getPosition(), entity);
             this.entities.add(entity);
         }
     }
 
-    public Optional<Entity> findNearest(Point pos, Class kind)
-    {
+    public Optional<Entity> findNearest(Point pos, Class kind) {
         List<Entity> ofType = new LinkedList<>();
-        for (Entity entity : this.getEntities())
-        {
-            if (kind.isInstance(entity))
-            {
+        for (Entity entity : this.getEntities()) {
+            if (kind.isInstance(entity)) {
                 ofType.add(entity);
             }
         }
@@ -320,18 +273,18 @@ final class WorldModel
 
 
     public Set<Entity> getEntities() {
-       return this.entities;
+        return this.entities;
     }
 
     public int getNumRows() {
-       return this.numRows;
+        return this.numRows;
     }
 
     public int getNumCols() {
-       return this.numCols;
+        return this.numCols;
     }
 
     public void addEntities(Entity entity) {
-       this.entities.add(entity);
+        this.entities.add(entity);
     }
 }

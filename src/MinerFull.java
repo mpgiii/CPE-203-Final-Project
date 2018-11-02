@@ -1,38 +1,31 @@
-import java.util.LinkedList;
+import processing.core.PImage;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import processing.core.PImage;
-
-public class MinerFull extends MovableEntity
-{
+public class MinerFull extends MovableEntity {
 
     private static final Random rand = new Random();
 
     private int resourceLimit;
 
     public MinerFull(String id, Point position,
-                  List<PImage> images, int resourceLimit,
-                  int actionPeriod, int animationPeriod)
-    {
+                     List<PImage> images, int resourceLimit,
+                     int actionPeriod, int animationPeriod) {
         super(id, position, images, actionPeriod, animationPeriod);
 
         this.resourceLimit = resourceLimit;
     }
 
-    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
-    {
+    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> fullTarget = world.findNearest(getPosition(),
                 Blacksmith.class);
 
         if (fullTarget.isPresent() &&
-                this.moveTo(world, fullTarget.get(), scheduler))
-        {
+                this.moveTo(world, fullTarget.get(), scheduler)) {
             this.transform(world, scheduler, imageStore);
-        }
-        else
-        {
+        } else {
             scheduleEvent(scheduler,
                     new Activity(this, world, imageStore),
                     this.getActionPeriod());
@@ -41,7 +34,7 @@ public class MinerFull extends MovableEntity
 
 
     public void transform(WorldModel world,
-                              EventScheduler scheduler, ImageStore imageStore) {
+                          EventScheduler scheduler, ImageStore imageStore) {
         MovableEntity miner = new MinerNotFull(getId(), getPosition(), getImages(), resourceLimit,
                 0, getActionPeriod(), getAnimationPeriod());
 
@@ -52,7 +45,7 @@ public class MinerFull extends MovableEntity
         scheduler.scheduleActions(miner, world, imageStore);
     }
 
-    public void _moveToHelper (WorldModel world, Entity target, EventScheduler scheduler) {
+    public void _moveToHelper(WorldModel world, Entity target, EventScheduler scheduler) {
         // left blank intentionally
         // when MinerNotFull and Ore_Blob want to call moveTo,
         // they have two or three additional lines of code. This one does not.
@@ -64,20 +57,17 @@ public class MinerFull extends MovableEntity
     }
 
     public Point nextPosition(WorldModel world,
-                                   Point destPos)
-    {
+                              Point destPos) {
         int horiz = Integer.signum(destPos.getX() - getPosition().getX());
         Point newPos = new Point(getPosition().getX() + horiz,
                 getPosition().getY());
 
-        if (horiz == 0 || world.isOccupied(newPos))
-        {
+        if (horiz == 0 || world.isOccupied(newPos)) {
             int vert = Integer.signum(destPos.getY() - getPosition().getY());
             newPos = new Point(getPosition().getX(),
                     getPosition().getY() + vert);
 
-            if (vert == 0 || world.isOccupied(newPos))
-            {
+            if (vert == 0 || world.isOccupied(newPos)) {
                 newPos = getPosition();
             }
         }

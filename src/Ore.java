@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Random;
 
-public class Ore extends ActiveEntity{
+public class Ore extends ActiveEntity {
 
     private static final Random rand = new Random();
 
@@ -14,14 +14,12 @@ public class Ore extends ActiveEntity{
     private static final int BLOB_ANIMATION_MAX = 150;
 
     public Ore(String id, Point position,
-                  List<PImage> images,
-                  int actionPeriod)
-    {
+               List<PImage> images,
+               int actionPeriod) {
         super(id, position, images, actionPeriod);
     }
 
-    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
-    {
+    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Point pos = getPosition();  // store current position before removing
 
         world.removeEntity(this);

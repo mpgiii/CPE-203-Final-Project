@@ -3,30 +3,26 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class MinerNotFull extends MovableEntity
-{
+public class MinerNotFull extends MovableEntity {
     private int resourceCount;
     private int resourceLimit;
 
     public MinerNotFull(String id, Point position,
-                  List<PImage> images, int resourceLimit, int resourceCount,
-                  int actionPeriod, int animationPeriod)
-    {
+                        List<PImage> images, int resourceLimit, int resourceCount,
+                        int actionPeriod, int animationPeriod) {
         super(id, position, images, actionPeriod, animationPeriod);
 
         this.resourceLimit = resourceLimit;
         this.resourceCount = resourceCount;
     }
 
-    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
-    {
+    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
         Optional<Entity> notFullTarget = world.findNearest(getPosition(),
                 Ore.class);
 
         if (!notFullTarget.isPresent() ||
                 !this.moveTo(world, notFullTarget.get(), scheduler) ||
-                !this.transform(world, scheduler, imageStore))
-        {
+                !this.transform(world, scheduler, imageStore)) {
             scheduleEvent(scheduler,
                     new Activity(this, world, imageStore),
                     this.getActionPeriod());
@@ -34,10 +30,8 @@ public class MinerNotFull extends MovableEntity
     }
 
     public boolean transform(WorldModel world,
-                                    EventScheduler scheduler, ImageStore imageStore)
-    {
-        if (resourceCount >= resourceLimit)
-        {
+                             EventScheduler scheduler, ImageStore imageStore) {
+        if (resourceCount >= resourceLimit) {
             MovableEntity miner = new MinerFull(getId(), getPosition(), getImages(),
                     resourceLimit, getActionPeriod(), getAnimationPeriod());
 
@@ -62,20 +56,17 @@ public class MinerNotFull extends MovableEntity
 
 
     public Point nextPosition(WorldModel world,
-                                   Point destPos)
-    {
+                              Point destPos) {
         int horiz = Integer.signum(destPos.getX() - getPosition().getX());
         Point newPos = new Point(getPosition().getX() + horiz,
                 getPosition().getY());
 
-        if (horiz == 0 || world.isOccupied(newPos))
-        {
+        if (horiz == 0 || world.isOccupied(newPos)) {
             int vert = Integer.signum(destPos.getY() - getPosition().getY());
             newPos = new Point(getPosition().getX(),
                     getPosition().getY() + vert);
 
-            if (vert == 0 || world.isOccupied(newPos))
-            {
+            if (vert == 0 || world.isOccupied(newPos)) {
                 newPos = getPosition();
             }
         }

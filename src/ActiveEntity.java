@@ -8,8 +8,7 @@ public abstract class ActiveEntity extends Entity {
     private int actionPeriod;
 
     public ActiveEntity(String id, Point position,
-                  List<PImage> images, int actionPeriod)
-    {
+                        List<PImage> images, int actionPeriod) {
         super(id, position, images);
         this.actionPeriod = actionPeriod;
     }
@@ -20,10 +19,9 @@ public abstract class ActiveEntity extends Entity {
         return actionPeriod;
     }
 
-    protected void scheduleEvent(EventScheduler scheduler, Action action, long afterPeriod)
-    {
+    protected void scheduleEvent(EventScheduler scheduler, Action action, long afterPeriod) {
         long time = System.currentTimeMillis() +
-                (long)(afterPeriod * scheduler.getTimeScale());
+                (long) (afterPeriod * scheduler.getTimeScale());
         Event event = new Event(action, time, this);
 
         scheduler.addToEventQueue(event);

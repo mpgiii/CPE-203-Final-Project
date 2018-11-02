@@ -6,28 +6,21 @@ import java.util.Optional;
 public abstract class MovableEntity extends AnimatedEntity {
 
     public MovableEntity(String id, Point position,
-                        List<PImage> images, int actionPeriod, int animationPeriod)
-    {
+                         List<PImage> images, int actionPeriod, int animationPeriod) {
         super(id, position, images, actionPeriod, animationPeriod);
     }
 
     protected boolean moveTo(WorldModel world,
-                          Entity target, EventScheduler scheduler)
-    {
-        if (this.getPosition().adjacent(target.getPosition()))
-            {
-                _moveToHelper(world, target, scheduler);
-                return true;
-        }
-        else
-        {
+                             Entity target, EventScheduler scheduler) {
+        if (this.getPosition().adjacent(target.getPosition())) {
+            _moveToHelper(world, target, scheduler);
+            return true;
+        } else {
             Point nextPos = this.nextPosition(world, target.getPosition());
 
-            if (!this.getPosition().equals(nextPos))
-            {
+            if (!this.getPosition().equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent())
-                {
+                if (occupant.isPresent()) {
                     scheduler.unscheduleAllEvents(occupant.get());
                 }
 
