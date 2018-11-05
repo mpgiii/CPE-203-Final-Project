@@ -3,16 +3,14 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class MinerNotFull extends MovableEntity {
+public class MinerNotFull extends MinerEntity {
     private int resourceCount;
-    private int resourceLimit;
 
     public MinerNotFull(String id, Point position,
                         List<PImage> images, int resourceLimit, int resourceCount,
                         int actionPeriod, int animationPeriod) {
-        super(id, position, images, actionPeriod, animationPeriod);
+        super(id, position, images, actionPeriod, animationPeriod, resourceLimit);
 
-        this.resourceLimit = resourceLimit;
         this.resourceCount = resourceCount;
     }
 
@@ -31,9 +29,9 @@ public class MinerNotFull extends MovableEntity {
 
     public boolean transform(WorldModel world,
                              EventScheduler scheduler, ImageStore imageStore) {
-        if (resourceCount >= resourceLimit) {
+        if (resourceCount >= getResourceLimit()) {
             MovableEntity miner = new MinerFull(getId(), getPosition(), getImages(),
-                    resourceLimit, getActionPeriod(), getAnimationPeriod());
+                    getResourceLimit(), getActionPeriod(), getAnimationPeriod());
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
@@ -52,26 +50,6 @@ public class MinerNotFull extends MovableEntity {
         this.resourceCount += 1;
         world.removeEntity(target);
         scheduler.unscheduleAllEvents(target);
-    }
-
-
-    public Point nextPosition(WorldModel world,
-                              Point destPos) {
-        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
-        Point newPos = new Point(getPosition().getX() + horiz,
-                getPosition().getY());
-
-        if (horiz == 0 || world.isOccupied(newPos)) {
-            int vert = Integer.signum(destPos.getY() - getPosition().getY());
-            newPos = new Point(getPosition().getX(),
-                    getPosition().getY() + vert);
-
-            if (vert == 0 || world.isOccupied(newPos)) {
-                newPos = getPosition();
-            }
-        }
-
-        return newPos;
     }
 
 }
