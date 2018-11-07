@@ -12,13 +12,13 @@ public abstract class MovableEntity extends AnimatedEntity {
 
     protected boolean moveTo(WorldModel world,
                              Entity target, EventScheduler scheduler) {
-        if (this.getPosition().adjacent(target.getPosition())) {
+        if (getPosition().adjacent(target.getPosition())) {
             _moveToHelper(world, target, scheduler);
             return true;
         } else {
-            Point nextPos = this.nextPosition(world, target.getPosition());
+            Point nextPos = nextPosition(world, target.getPosition());
 
-            if (!this.getPosition().equals(nextPos)) {
+            if (!getPosition().equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent()) {
                     scheduler.unscheduleAllEvents(occupant.get());

@@ -23,7 +23,7 @@ public class Ore_Blob extends MovableEntity {
         if (blobTarget.isPresent()) {
             Point tgtPos = blobTarget.get().getPosition();
 
-            if (this.moveTo(world, blobTarget.get(), scheduler)) {
+            if (moveTo(world, blobTarget.get(), scheduler)) {
                 AnimatedEntity quake = new Quake(QUAKE_ID, tgtPos,
                         imageStore.getImageList(QUAKE_KEY),
                         QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);

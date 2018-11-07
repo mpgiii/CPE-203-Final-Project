@@ -19,11 +19,11 @@ public class MinerNotFull extends MinerEntity {
                 Ore.class);
 
         if (!notFullTarget.isPresent() ||
-                !this.moveTo(world, notFullTarget.get(), scheduler) ||
-                !this.transform(world, scheduler, imageStore)) {
+                !moveTo(world, notFullTarget.get(), scheduler) ||
+                !transform(world, scheduler, imageStore)) {
             scheduleEvent(scheduler,
                     new Activity(this, world, imageStore),
-                    this.getActionPeriod());
+                    getActionPeriod());
         }
     }
 

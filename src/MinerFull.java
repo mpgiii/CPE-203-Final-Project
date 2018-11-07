@@ -18,13 +18,13 @@ public class MinerFull extends MinerEntity {
         Optional<Entity> fullTarget = world.findNearest(getPosition(),
                 Blacksmith.class);
 
-        if (fullTarget.isPresent() &&
-                this.moveTo(world, fullTarget.get(), scheduler)) {
-            this.transform(world, scheduler, imageStore);
-        } else {
+        if (fullTarget.isPresent() && moveTo(world, fullTarget.get(), scheduler)) {
+            transform(world, scheduler, imageStore);
+        }
+        else {
             scheduleEvent(scheduler,
                     new Activity(this, world, imageStore),
-                    this.getActionPeriod());
+                    getActionPeriod());
         }
     }
 
