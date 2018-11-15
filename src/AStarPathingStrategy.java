@@ -45,7 +45,7 @@ public class AStarPathingStrategy
                     .collect(Collectors.toList());
 
             for (Point neighbor : neighbors) {
-                initG = getHeuristic(neighbor, start);
+                initG = current.getG() + 1;
                 initH = getHeuristic(neighbor, end);
                 initF = initH + initG;
 
@@ -70,24 +70,19 @@ public class AStarPathingStrategy
         }
     }
 
-
-
-
-
-
     private int getHeuristic(Point p1, Point p2) {
-        return Math.abs((p1.getY() - p2.getY()) + (p1.getX() - p2.getX()));
+        return Math.abs((p1.y - p2.y) + (p1.x - p2.x));
     }
 
     private class MyNode {
         private Point position;
-        private double g;
-        private double h;
-        private double f;
+        private int g;
+        private int h;
+        private int f;
         private MyNode prior;
 
 
-        public MyNode(Point position, double g, double h, double f, MyNode prior) {
+        public MyNode(Point position, int g, int h, int f, MyNode prior) {
             this.position = position;
             this.g = g;
             this.h = h;
@@ -96,9 +91,9 @@ public class AStarPathingStrategy
 
         }
 
-        public double getF() { return f; }
-        public double getG() { return g; }
-        public double getH() { return h; }
+        public int getF() { return f; }
+        public int getG() { return g; }
+        public int getH() { return h; }
         public Point getPos() { return position; }
         public MyNode getPrior() { return prior; }
     }
