@@ -10,6 +10,8 @@ public class Ore_Blob extends MovableEntity {
     private static final int QUAKE_ACTION_PERIOD = 1100;
     private static final int QUAKE_ANIMATION_PERIOD = 100;
 
+    private PathingStrategy strategy = new AStarPathingStrategy();
+
     public Ore_Blob(String id, Point position,
                     List<PImage> images,
                     int actionPeriod, int animationPeriod) {

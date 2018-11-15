@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public abstract class MinerEntity extends MovableEntity{
 
-    private PathingStrategy strategy = new SingleStepPathingStrategy();
+    private PathingStrategy strategy = new AStarPathingStrategy();
     private int resourceLimit;
 
     public MinerEntity(String id, Point position,
