@@ -71,7 +71,7 @@ public class AStarPathingStrategy
     }
 
     private int getHeuristic(Point p1, Point p2) {
-        return Math.abs((p1.y - p2.y) + (p1.x - p2.x));
+        return Math.abs((p1.getY() - p2.getY()) + (p1.getX() - p2.getX()));
     }
 
     private class MyNode {
