@@ -51,8 +51,9 @@ public class AStarPathingStrategy
 
                 MyNode neigh = new MyNode(neighbor, initG, initH, initF, current);
 
-                if (!open.contains(neigh))
+                if (!open.contains(neigh)) //WRONG: need to see if it contains a node with that point.
                     open.add(neigh);
+
             }
 
         }
@@ -61,7 +62,7 @@ public class AStarPathingStrategy
 
     }
 
-    public void writePath(List<Point> path, MyNode node) {
+    private void writePath(List<Point> path, MyNode node) {
         if (node.getPrior() == null)
             return;
         path.add(0, node.getPos());
@@ -88,8 +89,18 @@ public class AStarPathingStrategy
             this.h = h;
             this.f = f;
             this.prior = prior;
-
         }
+
+        public boolean equals(Object other) {
+            if (other == null) {
+                return false;
+            }
+            if (other.getClass() != getClass()) {
+                return false;
+            }
+            return ((MyNode)other).position.equals(this.position);
+        }
+
 
         public int getF() { return f; }
         public int getG() { return g; }

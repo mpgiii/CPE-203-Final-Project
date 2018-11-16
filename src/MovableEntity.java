@@ -10,6 +10,8 @@ public abstract class MovableEntity extends AnimatedEntity {
         super(id, position, images, actionPeriod, animationPeriod);
     }
 
+    private PathingStrategy strategy = new AStarPathingStrategy();
+
     protected boolean moveTo(WorldModel world,
                              Entity target, EventScheduler scheduler) {
         if (getPosition().adjacent(target.getPosition())) {
@@ -20,17 +22,24 @@ public abstract class MovableEntity extends AnimatedEntity {
 
             if (!getPosition().equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent()) {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
-
+                occupant.ifPresent(scheduler::unscheduleAllEvents);
                 world.moveEntity(this, nextPos);
             }
             return false;
         }
     }
 
-    abstract Point nextPosition(WorldModel world, Point destPos);
+    protected Point nextPosition(WorldModel world,
+                              Point destPos) {
+        List<Point> points;
+        points = strategy.computePath(getPosition(), destPos,
+                p -> world.withinBounds(p) && !world.isOccupied(p),
+                Point::adjacent,
+                PathingStrategy.CARDINAL_NEIGHBORS);
+        if (points.size() != 0)
+            return points.get(0);
+        return getPosition();
+    }
 
     protected abstract void _moveToHelper(WorldModel world, Entity target, EventScheduler scheduler);
 

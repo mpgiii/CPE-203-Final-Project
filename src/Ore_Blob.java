@@ -49,25 +49,14 @@ public class Ore_Blob extends MovableEntity {
 
     public Point nextPosition(WorldModel world,
                               Point destPos) {
-        int horiz = Integer.signum(destPos.getX() - getPosition().getX());
-        Point newPos = new Point(getPosition().getX() + horiz,
-                getPosition().getY());
-
-        Optional<Entity> occupant = world.getOccupant(newPos);
-
-        if (horiz == 0 ||
-                (occupant.isPresent() && !(occupant.get() instanceof Ore))) {
-            int vert = Integer.signum(destPos.getY() - getPosition().getY());
-            newPos = new Point(getPosition().getX(), getPosition().getY() + vert);
-            occupant = world.getOccupant(newPos);
-
-            if (vert == 0 ||
-                    (occupant.isPresent() && !(occupant.get() instanceof Ore))) {
-                newPos = getPosition();
-            }
-        }
-
-        return newPos;
+        List<Point> points;
+        points = strategy.computePath(getPosition(), destPos,
+                p -> world.withinBounds(p) && !world.isOccupied(p),
+                Point::adjacent,
+                PathingStrategy.CARDINAL_NEIGHBORS);
+        if (points.size() != 0)
+            return points.get(0);
+        return getPosition();
     }
 
 
