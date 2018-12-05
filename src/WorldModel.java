@@ -52,6 +52,20 @@ final class WorldModel {
     private static final int VEIN_ROW = 3;
     private static final int VEIN_ACTION_PERIOD = 4;
 
+    private static final String FSMITH_KEY = "frozenblacksmith";
+    private static final int FSMITH_NUM_PROPERTIES = 4;
+    private static final int FSMITH_ID = 1;
+    private static final int FSMITH_COL = 2;
+    private static final int FSMITH_ROW = 3;
+
+    private static final String SBGND_KEY = "snowbackground";
+    private static final int SBGND_NUM_PROPERTIES = 4;
+    private static final int SBGND_ID = 1;
+    private static final int SBGND_COL = 2;
+    private static final int SBGND_ROW = 3;
+
+    private static final String SMAN_KEY = "snowman";
+
     public WorldModel(int numRows, int numCols, Background defaultBackground) {
         this.numRows = numRows;
         this.numCols = numCols;
@@ -90,6 +104,20 @@ final class WorldModel {
 
         return properties.length == BGND_NUM_PROPERTIES;
     }
+
+    public boolean parseSnowBackground(String[] properties,
+                                   ImageStore imageStore) {
+        if (properties.length == SBGND_NUM_PROPERTIES) {
+            Point pt = new Point(Integer.parseInt(properties[SBGND_COL]),
+                    Integer.parseInt(properties[SBGND_ROW]));
+            String id = properties[SBGND_ID];
+            this.setBackground(pt,
+                    new SnowBackground(id, imageStore.getImageList(id)));
+        }
+
+        return properties.length == BGND_NUM_PROPERTIES;
+    }
+
 
     public boolean parseMiner(String[] properties,
                               ImageStore imageStore) {
@@ -220,7 +248,7 @@ final class WorldModel {
         }
     }
 
-    private void setBackground(Point pos,
+    public void setBackground(Point pos,
                                Background background) {
         if (this.withinBounds(pos)) {
             this.setBackgroundCell(pos, background);
@@ -243,11 +271,11 @@ final class WorldModel {
         this.occupancy[pos.getY()][pos.getX()] = entity;
     }
 
-    private Background getBackgroundCell(Point pos) {
+    public Background getBackgroundCell(Point pos) {
         return this.background[pos.getY()][pos.getX()];
     }
 
-    private void setBackgroundCell(Point pos,
+    public void setBackgroundCell(Point pos,
                                    Background background) {
         this.background[pos.getY()][pos.getX()] = background;
     }

@@ -11,12 +11,18 @@ blob images/blob9.bmp 255 255 255 0
 blob images/blob10.bmp 255 255 255 0
 blob images/blob11.bmp 255 255 255 0
 blob images/blob12.bmp 255 255 255 0
+frozenblacksmith images/frozenblacksmith.bmp
 grass images/grass.bmp
 miner images/miner1.bmp 252 252 252 0
 miner images/miner2.bmp 252 252 252 0
 miner images/miner3.bmp 252 252 252 0
 miner images/miner4.bmp 252 252 252 0
 miner images/miner5.bmp 252 252 252 0
+frozenminer images/frozenminer1.bmp 252 252 252 0
+frozenminer images/frozenminer2.bmp 252 252 252 0
+frozenminer images/frozenminer3.bmp 252 252 252 0
+frozenminer images/frozenminer4.bmp 252 252 252 0
+frozenminer images/frozenminer5.bmp 252 252 252 0
 obstacle images/obstacle.bmp
 ore images/ore.bmp 201 26 26 0
 quake images/quake1.bmp 255 255 255 0
@@ -26,5 +32,8 @@ quake images/quake4.bmp 255 255 255 0
 quake images/quake5.bmp 255 255 255 0
 quake images/quake6.bmp 255 255 255 0
 rocks images/rock.bmp
+snowbackground images/snow.bmp
+snowman images/snowman1.bmp 0 0 255 0
+snowman images/snowman2.bmp 0 0 255 0
 vein images/vein.bmp
 background_default images/none.bmp

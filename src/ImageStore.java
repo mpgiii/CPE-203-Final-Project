@@ -17,6 +17,10 @@ final class ImageStore {
     private static final String SMITH_KEY = "blacksmith";
     private static final String VEIN_KEY = "vein";
 
+    private static final String FSMITH_KEY = "frozenblacksmith";
+    private static final String SBGND_KEY = "snowbackground";
+    private static final String SMAN_KEY = "snowman";
+
 
     public ImageStore(PImage defaultImage) {
         this.images = new HashMap<>();
@@ -86,6 +90,12 @@ final class ImageStore {
                     return world.parseSmith(properties, this);
                 case VEIN_KEY:
                     return world.parseVein(properties, this);
+//                case FSMITH_KEY:
+//                    return world.parseFrozenSmith(properties, this);
+                case SBGND_KEY:
+                    return world.parseSnowBackground(properties, this);
+//                case SMAN_KEY:
+//                    return world.parseSnowman(properties, this);
             }
         }
 

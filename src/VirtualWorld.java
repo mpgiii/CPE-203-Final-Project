@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Scanner;
 
 public final class VirtualWorld
@@ -105,6 +106,37 @@ public final class VirtualWorld
             }
             view.shiftView(dx, dy);
         }
+    }
+
+    public void mousePressed()
+    {
+        Point location = mouseToPoint();
+        Snowman newSnowman = new Snowman("snowman", location, imageStore.getImageList("snowman"), 5000, 100);
+        world.addEntity(newSnowman);
+        scheduler.scheduleActions(newSnowman, world, imageStore);
+
+        for (int i = location.x - 1; i < location.x + 2; i++) {
+            for (int j = location.y - 1; j < location.y + 2; j++) {
+                world.setBackgroundCell(new Point(i, j), new SnowBackground("snowbackground", imageStore.getImageList("snowbackground")));
+            }
+        }
+
+        Optional<Entity> warmMiner = world.findNearest(location, MinerEntity.class);
+        if (warmMiner.isPresent()) {
+            MinerEntity realWarmMiner = ((MinerEntity)(warmMiner.get()));
+            MovableEntity miner = new ColdMiner("frozenminer", realWarmMiner.getPosition(), imageStore.getImageList("frozenminer"), realWarmMiner.getResourceLimit(),
+                    realWarmMiner.getResourceCount(), realWarmMiner.getActionPeriod() / 2, realWarmMiner.getAnimationPeriod() / 2);
+            world.removeEntity(realWarmMiner);
+            scheduler.unscheduleAllEvents(realWarmMiner);
+
+            world.addEntity(miner);
+        }
+
+    }
+
+    private Point mouseToPoint()
+    {
+        return new Point(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT);
     }
 
     private static Background createDefaultBackground(ImageStore imageStore) {

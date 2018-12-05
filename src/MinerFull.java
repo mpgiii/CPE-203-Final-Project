@@ -41,15 +41,11 @@ public class MinerFull extends MinerEntity {
         scheduler.scheduleActions(miner, world, imageStore);
     }
 
+    public int getResourceCount() {
+        return 0;
+    }
+
     public void _moveToHelper(WorldModel world, Entity target, EventScheduler scheduler) {
-        // left blank intentionally
-        // when MinerNotFull and Ore_Blob want to call moveTo,
-        // they have two or three additional lines of code. This one does not.
-        // Thus, I moved the code to the parent abstract class and put
-        // those two or three lines into the _moveToHelper function in
-        // those other two classes. To allow it to work, I left this function
-        // in this class blank. Please don't take off points, Hatalsky
-        // told me in lab that this way works just fine. :)
     }
 
 }
