@@ -1,0 +1,11 @@
+1. How To Trigger The Event
+    A mouse click will cause a blizzard to occur so quickly that the user can't see it. After the blizzard abruptly ends, a square of snow will be left around where the mouse click occurred and a snowman will spawn at the point the mouse was clicked.
+
+2. What Should Happen When The Event Is Triggered
+    A square of snow should appear around where the user clicked. The closest miner will be turned into a Cold Miner, which will be described in part 3. Inside of the snow patch, a snowman is spawned, which will be described in part 4.
+
+3. What The Affected Entities Should Do
+    The affected entity is the closest miner to the event. This miner will (obviously) get cold because it was so close to a blizzard that caused a snow patch to appear in their world. Because it is cold, it will animate at one tenth the speed as a normal miner would. It will move in place until it has warmed, which is after a set amount of time.
+
+4. What The New Entity Is And How It Should Behave
+    The new entity is a snowman. The snowman will go towards the nearest blacksmith and freeze it. It also will leave a trail of snow in its path. However, because it is sunny, it can only move 25 spaces before it melts and disappears.

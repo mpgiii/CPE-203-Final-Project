@@ -5,23 +5,18 @@ import java.util.Optional;
 
 public class Snowman extends MovableEntity {
 
-    private static final String QUAKE_KEY = "quake";
-    private static final String QUAKE_ID = "quake";
-    private static final int QUAKE_ACTION_PERIOD = 1100;
-    private static final int QUAKE_ANIMATION_PERIOD = 100;
 
     private static final String FSMITH_KEY = "frozenblacksmith";
-    private static final int FSMITH_NUM_PROPERTIES = 4;
-    private static final int FSMITH_ID = 1;
-    private static final int FSMITH_COL = 2;
-    private static final int FSMITH_ROW = 3;
 
     private PathingStrategy strategy = new AStarPathingStrategy();
+
+    private int steps;
 
     public Snowman(String id, Point position,
                     List<PImage> images,
                     int actionPeriod, int animationPeriod) {
         super(id, position, images, actionPeriod, animationPeriod);
+        this.steps = 0;
     }
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
@@ -59,10 +54,20 @@ public class Snowman extends MovableEntity {
                 p -> world.withinBounds(p) && !world.isOccupied(p),
                 Point::adjacent,
                 PathingStrategy.CARDINAL_NEIGHBORS);
-        if (points.size() != 0)
+        incrementStep(world);
+        if (points.size() != 0) {
+            world.setBackground(points.get(0), world.getBackgroundCell(getPosition()));
             return points.get(0);
+        }
         return getPosition();
     }
 
+    private void incrementStep(WorldModel world) {
+        if (steps > 25) {
+            world.removeEntity(this);
+        }
+        else
+            steps += 1;
+    }
 
 }

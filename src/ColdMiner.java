@@ -3,57 +3,48 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class ColdMiner extends MinerEntity {
-    private int resourceCount;
+public class ColdMiner extends MovableEntity {
+    private int steps;
+    private ActiveEntity previousMiner;
+
+    private PathingStrategy strategy = new SingleStepPathingStrategy();
 
     public ColdMiner(String id, Point position,
-                        List<PImage> images, int resourceLimit, int resourceCount,
-                        int actionPeriod, int animationPeriod) {
-        super(id, position, images, actionPeriod, animationPeriod, resourceLimit);
+                    List<PImage> images,
+                    int actionPeriod, int animationPeriod, ActiveEntity previousMiner) {
+        super(id, position, images, actionPeriod, animationPeriod);
 
-        this.resourceCount = resourceCount;
+        this.previousMiner = previousMiner;
+        this.steps = 0;
     }
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-        Optional<Entity> notFullTarget = world.findNearest(getPosition(),
-                Ore.class);
+        world.removeEntity(this);
+        scheduler.unscheduleAllEvents(this);
+        world.addEntity(previousMiner);
+        scheduler.scheduleActions(previousMiner, world, imageStore);
 
-        if (!notFullTarget.isPresent() ||
-                !moveTo(world, notFullTarget.get(), scheduler) ||
-                !transform(world, scheduler, imageStore)) {
-            scheduleEvent(scheduler,
-                    new Activity(this, world, imageStore),
-                    getActionPeriod());
-        }
-    }
-
-    public boolean transform(WorldModel world,
-                             EventScheduler scheduler, ImageStore imageStore) {
-        if (resourceCount >= getResourceLimit()) {
-            MovableEntity miner = new MinerFull(getId(), getPosition(), getImages(),
-                    getResourceLimit(), getActionPeriod(), getAnimationPeriod());
-
-            world.removeEntity(this);
-            scheduler.unscheduleAllEvents(this);
-
-            world.addEntity(miner);
-            scheduler.scheduleActions(miner, world, imageStore);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public int getResourceCount() {
-        return resourceCount;
     }
 
 
     public void _moveToHelper(WorldModel world, Entity target, EventScheduler scheduler) {
-        this.resourceCount += 1;
         world.removeEntity(target);
         scheduler.unscheduleAllEvents(target);
     }
+
+    public Point nextPosition(WorldModel world,
+                              Point destPos) {
+        List<Point> points;
+        points = strategy.computePath(getPosition(), destPos,
+                p -> world.withinBounds(p) && !world.isOccupied(p),
+                Point::adjacent,
+                PathingStrategy.CARDINAL_NEIGHBORS);
+        if (points.size() != 0) {
+            world.setBackground(points.get(0), world.getBackgroundCell(getPosition()));
+            return points.get(0);
+        }
+        return getPosition();
+    }
+
 
 }

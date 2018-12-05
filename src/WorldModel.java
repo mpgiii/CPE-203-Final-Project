@@ -232,9 +232,6 @@ final class WorldModel {
                 && this.getOccupancyCell(pos) != null) {
             Entity entity = this.getOccupancyCell(pos);
 
-         /* this moves the entity just outside of the grid for
-            debugging purposes */
-            entity.setPosition(new Point(-1, -1));
             this.entities.remove(entity);
             this.setOccupancyCell(pos, null);
         }

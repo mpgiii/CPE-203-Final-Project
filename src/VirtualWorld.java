@@ -124,10 +124,10 @@ public final class VirtualWorld
         Optional<Entity> warmMiner = world.findNearest(location, MinerEntity.class);
         if (warmMiner.isPresent()) {
             MinerEntity realWarmMiner = ((MinerEntity)(warmMiner.get()));
-            MovableEntity miner = new ColdMiner("frozenminer", realWarmMiner.getPosition(), imageStore.getImageList("frozenminer"), realWarmMiner.getResourceLimit(),
-                    realWarmMiner.getResourceCount(), realWarmMiner.getActionPeriod() / 2, realWarmMiner.getAnimationPeriod() / 2);
+            MovableEntity miner = new ColdMiner("frozenminer", realWarmMiner.getPosition(), imageStore.getImageList("frozenminer"),realWarmMiner.getActionPeriod() * 20, realWarmMiner.getAnimationPeriod() * 10, realWarmMiner);
             world.removeEntity(realWarmMiner);
             scheduler.unscheduleAllEvents(realWarmMiner);
+            scheduler.scheduleActions(miner, world, imageStore);
 
             world.addEntity(miner);
         }
