@@ -19,6 +19,8 @@ final class WorldView {
         this.viewport = new Viewport(numRows, numCols);
     }
 
+    public Viewport getViewport() {return viewport;}
+
     private static int clamp(int value, int low, int high) {
         return Math.min(high, Math.max(value, low));
     }

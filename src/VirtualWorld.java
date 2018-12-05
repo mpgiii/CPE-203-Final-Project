@@ -112,12 +112,15 @@ public final class VirtualWorld
     {
         Point location = mouseToPoint();
         Snowman newSnowman = new Snowman("snowman", location, imageStore.getImageList("snowman"), 5000, 100);
-        world.addEntity(newSnowman);
-        scheduler.scheduleActions(newSnowman, world, imageStore);
+        if (!(world.isOccupied(location))) {
+            world.addEntity(newSnowman);
+            scheduler.scheduleActions(newSnowman, world, imageStore);
+        }
 
         for (int i = location.x - 1; i < location.x + 2; i++) {
             for (int j = location.y - 1; j < location.y + 2; j++) {
-                world.setBackgroundCell(new Point(i, j), new SnowBackground("snowbackground", imageStore.getImageList("snowbackground")));
+                if (world.withinBounds(new Point(i, j)))
+                    world.setBackgroundCell(new Point(i, j), new SnowBackground("snowbackground", imageStore.getImageList("snowbackground")));
             }
         }
 
@@ -136,12 +139,12 @@ public final class VirtualWorld
 
     private Point mouseToPoint()
     {
-        return new Point(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT);
+        return view.getViewport().viewportToWorld(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT);
     }
 
     private static Background createDefaultBackground(ImageStore imageStore) {
         return new Background(DEFAULT_IMAGE_NAME,
-                imageStore.getImageList(DEFAULT_IMAGE_NAME));
+                              imageStore.getImageList(DEFAULT_IMAGE_NAME));
     }
 
     private static PImage createImageColored(int width, int height, int color) {
