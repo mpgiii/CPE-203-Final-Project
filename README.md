@@ -1,10 +1,10 @@
 # CPE 203 Final Project
 "A virtual world with vein and ore and miners, oh my!"
-  - Julie Workman
+  \- Julie Workman
 "Instant classic"
-  - Paul Hatalsky
+  \- Paul Hatalsky
 "Wadu hek"
-  - John Mocettini
+  \- John Mocettini
 
 This is the final project for CPE 203 at Cal Poly with Professor Hatalsky. It was a quarter long project with five parts.
 1. Move all static methods into classes that they fit better in.
